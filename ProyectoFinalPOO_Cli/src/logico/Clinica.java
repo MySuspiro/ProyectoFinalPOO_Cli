@@ -10,6 +10,7 @@ public class Clinica {
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Historial> misHistoriales;
 	private ArrayList<CitaMedica> misCitas;
+	static int histCod = 1000;
 	
 	public Clinica() {
 		super();

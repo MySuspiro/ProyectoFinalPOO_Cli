@@ -8,9 +8,13 @@ public class Paciente extends Persona {
 	private Historial hist;
 	private ArrayList<Consulta> misConsultas;
 
-	public Paciente(String cedula, String nombre, String dir, String codigo, String telefono, String sexo) {
+	public Paciente(String cedula, String nombre, String dir, String codigo, String telefono, String sexo,
+			String seguro, ArrayList<Consulta> misConsultas) {
 		super(cedula, nombre, dir, codigo, telefono, sexo);
-		// TODO Auto-generated constructor stub
+		Seguro = seguro;
+		hist = new Historial("H-"+Clinica.histCod, cedula);
+		Clinica.histCod ++;
+		this.misConsultas = misConsultas;
 	}
 
 }

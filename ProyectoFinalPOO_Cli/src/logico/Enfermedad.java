@@ -4,13 +4,13 @@ public class Enfermedad {
 
 	private String Codigo;
 	private String Nombre;
-	private String tipo;
+	private String Status;
 	private String descripcion;
-	public Enfermedad(String codigo, String nombre, String tipo, String descripcion) {
+	public Enfermedad(String codigo, String nombre, String status, String descripcion) {
 		super();
 		Codigo = codigo;
 		Nombre = nombre;
-		this.tipo = tipo;
+		this.Status = status;
 		this.descripcion = descripcion;
 	}
 	public String getCodigo() {
@@ -25,17 +25,18 @@ public class Enfermedad {
 	public void setNombre(String nombre) {
 		Nombre = nombre;
 	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+	
 	public String getDescripcion() {
 		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	public String getStatus() {
+		return Status;
+	}
+	public void setStatus(String status) {
+		Status = status;
 	}
 	
 	

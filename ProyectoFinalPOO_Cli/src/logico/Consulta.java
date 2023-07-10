@@ -23,15 +23,11 @@ public class Consulta {
 	public String getCodigoConsulta() {
 		return codigoConsulta;
 	}
-	public void setCodigoConsulta(String codigoConsulta) {
-		this.codigoConsulta = codigoConsulta;
-	}
+
 	public Date getFechaConsulta() {
 		return fechaConsulta;
 	}
-	public void setFechaConsulta(Date fechaConsulta) {
-		this.fechaConsulta = fechaConsulta;
-	}
+
 	public String getDiagnostico() {
 		return diagnostico;
 	}
@@ -47,15 +43,11 @@ public class Consulta {
 	public Paciente getPaciente() {
 		return paciente;
 	}
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
+
 	public Doctor getDoctor() {
 		return doctor;
 	}
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
+
 
     
     
