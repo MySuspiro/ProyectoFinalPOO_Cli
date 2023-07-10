@@ -6,17 +6,16 @@ import java.util.ArrayList;
 public class Historial {
 
 	private String codigo;
-	private String paciente;
+	private String cedPaciente;
 	private ArrayList<Enfermedad> misEnfermedades;
 	private ArrayList<Vacuna> misVacunas;
 	private ArrayList<Consulta> misConsultas;
 	
-	public Historial(String paciente) {
+	public Historial(String cedPaciente) {
 		super();
 		this.codigo = "H-" + Clinica.histCod;
 		Clinica.histCod++;
-		this.paciente = paciente;
-		this.misEnfermedades = new ArrayList<Enfermedad>();
+		this.cedPaciente = cedPaciente;
 		this.misVacunas = new ArrayList<Vacuna>();
 		this.misConsultas = new ArrayList<Consulta>();
 	}
@@ -25,8 +24,8 @@ public class Historial {
 		return codigo;
 	}
 
-	public String getPaciente() {
-		return paciente;
+	public String getcedPaciente() {
+		return cedPaciente;
 	}
 
 	public ArrayList<Enfermedad> getMisEnfermedades() {
