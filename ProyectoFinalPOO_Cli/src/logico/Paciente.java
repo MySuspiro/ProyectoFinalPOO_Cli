@@ -12,8 +12,7 @@ public class Paciente extends Persona {
 			String seguro, ArrayList<Consulta> misConsultas) {
 		super(cedula, nombre, dir, codigo, telefono, sexo);
 		Seguro = seguro;
-		hist = new Historial("H-"+Clinica.histCod, cedula);
-		Clinica.histCod ++;
+		hist = new Historial(cedula);
 		this.misConsultas = misConsultas;
 	}
 

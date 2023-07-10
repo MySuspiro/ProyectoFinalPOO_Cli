@@ -11,6 +11,13 @@ public class Clinica {
 	private ArrayList<Historial> misHistoriales;
 	private ArrayList<CitaMedica> misCitas;
 	static int histCod = 1000;
+	static int citCod = 1000;
+	static int conCod = 1000;
+	static int enfCod = 1000;
+	static int vacCod = 1000;
+
+
+	
 	
 	public Clinica() {
 		super();

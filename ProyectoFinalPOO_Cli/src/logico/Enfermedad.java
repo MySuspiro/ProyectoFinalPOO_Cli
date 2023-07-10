@@ -8,7 +8,8 @@ public class Enfermedad {
 	private String descripcion;
 	public Enfermedad(String codigo, String nombre, String status, String descripcion) {
 		super();
-		Codigo = codigo;
+		Codigo = "E-"+Clinica.enfCod;
+		Clinica.enfCod++;
 		Nombre = nombre;
 		this.Status = status;
 		this.descripcion = descripcion;

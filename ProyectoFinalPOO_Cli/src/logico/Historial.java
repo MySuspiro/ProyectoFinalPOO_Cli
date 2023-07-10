@@ -11,9 +11,10 @@ public class Historial {
 	private ArrayList<Vacuna> misVacunas;
 	private ArrayList<Consulta> misConsultas;
 	
-	public Historial(String codigo, String paciente) {
+	public Historial(String paciente) {
 		super();
-		this.codigo = codigo;
+		this.codigo = "H-" + Clinica.histCod;
+		Clinica.histCod++;
 		this.paciente = paciente;
 		this.misEnfermedades = new ArrayList<Enfermedad>();
 		this.misVacunas = new ArrayList<Vacuna>();

@@ -9,7 +9,8 @@ public class Vacuna {
 	private Enfermedad enf;
 	public Vacuna(String codigo, String nombre, String descripcion, int cant, Enfermedad enf) {
 		super();
-		this.codigo = codigo;
+		this.codigo = "V+"+Clinica.vacCod;
+		Clinica.vacCod++;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.cant = cant;

@@ -11,7 +11,8 @@ public class CitaMedica {
 	private String hora;
 	public CitaMedica(String codigo, Persona persona, Doctor doctor, String hora) {
 		super();
-		this.codigo = codigo;
+		this.codigo = "CM-" + Clinica.citCod;
+		Clinica.citCod++;
 		this.persona = persona;
 		this.doctor = doctor;
 		this.hora = hora;
