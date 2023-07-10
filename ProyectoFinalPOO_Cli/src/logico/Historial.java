@@ -7,7 +7,6 @@ public class Historial {
 
 	private String codigo;
 	private String cedPaciente;
-	private ArrayList<Enfermedad> misEnfermedades;
 	private ArrayList<Vacuna> misVacunas;
 	private ArrayList<Consulta> misConsultas;
 	
@@ -26,14 +25,6 @@ public class Historial {
 
 	public String getcedPaciente() {
 		return cedPaciente;
-	}
-
-	public ArrayList<Enfermedad> getMisEnfermedades() {
-		return misEnfermedades;
-	}
-	
-	public void addMisEnfermedades(Enfermedad enf) {
-		this.misEnfermedades.add(enf);
 	}
 
 	public ArrayList<Vacuna> getMisVacunas() {
