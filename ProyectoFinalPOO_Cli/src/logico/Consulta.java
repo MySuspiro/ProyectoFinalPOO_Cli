@@ -4,31 +4,34 @@ import java.util.Date;
 
 public class Consulta {
 	
-	private String codigo;
+	private String codigoConsulta;
 	private Date fechaConsulta;
 	private String diagnostico;
     private  Enfermedad enfermedad;
     private Paciente paciente;
     private Doctor doctor;
-	public Consulta(String diagnostico, Enfermedad enfermedad,
+	public Consulta(String codigoConsulta, String diagnostico, Enfermedad enfermedad,
 			Paciente paciente, Doctor doctor) {
 		super();
-		this.codigo = "CO-"+Clinica.conCod;
-		Clinica.conCod++;
-		this.fechaConsulta =  new Date();
+		this.codigoConsulta = codigoConsulta;
+		this.fechaConsulta = new Date();
 		this.diagnostico = diagnostico;
 		this.enfermedad = enfermedad;
 		this.paciente = paciente;
 		this.doctor = doctor;
 	}
 	public String getCodigoConsulta() {
-		return codigo;
+		return codigoConsulta;
 	}
-
+	public void setCodigoConsulta(String codigoConsulta) {
+		this.codigoConsulta = codigoConsulta;
+	}
 	public Date getFechaConsulta() {
 		return fechaConsulta;
 	}
-
+	public void setFechaConsulta(Date fechaConsulta) {
+		this.fechaConsulta = fechaConsulta;
+	}
 	public String getDiagnostico() {
 		return diagnostico;
 	}
@@ -44,11 +47,15 @@ public class Consulta {
 	public Paciente getPaciente() {
 		return paciente;
 	}
-
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
 	public Doctor getDoctor() {
 		return doctor;
 	}
-
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
 
     
     
