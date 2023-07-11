@@ -2,6 +2,7 @@ package logico;
 
 import java.util.ArrayList;
 
+
 public class Clinica {
 
 	private ArrayList<Enfermedad> misEnfermedades;
@@ -10,16 +11,18 @@ public class Clinica {
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Historial> misHistoriales;
 	private ArrayList<CitaMedica> misCitas;
-	static int histCod = 1000;
-	static int citCod = 1000;
-	static int conCod = 1000;
-	static int enfCod = 1000;
-	static int vacCod = 1000;
+	private static Clinica clinica=null;
+	public static int histCod = 1000;
+	public static int citCod = 1000;
+	public static int conCod = 1000;
+	public static int enfCod = 1000;
+	public static int vacCod = 1000;
+	public static int codigoPersona=1000;
 
 
 	
 	
-	public Clinica() {
+	private Clinica() {
 		super();
 		this.misEnfermedades = new ArrayList<Enfermedad>();
 		this.misVacunas = new ArrayList<Vacuna>();
@@ -27,6 +30,14 @@ public class Clinica {
 		this.misPersonas = new ArrayList<Persona>();
 		this.misHistoriales = new ArrayList<Historial>();
 		this.misCitas = new ArrayList<CitaMedica>();
+		
+	}
+	
+	public static Clinica getInstance() {
+		
+		if (clinica==null)
+			clinica = new Clinica();
+		return clinica;
 		
 	}
 
@@ -79,7 +90,27 @@ public class Clinica {
 	}
 	
 	
+	public void agregarPersona(Persona persona) {
+        misPersonas.add(persona);
+        codigoPersona++;
+    }
 	
+	public void agregarVacuna(Vacuna vacuna) {
+        misVacunas.add(vacuna);
+    }
 	
+	public void agregarEnfermedad(Enfermedad enfermedad) {
+        misEnfermedades.add(enfermedad);
+    }
+	public void agregarCita (CitaMedica cita) {
+        misCitas.add(cita);
+    }
+	public void agregarConsulta(Consulta consulta) {
+        misConsultas.add(consulta);
+    }
+	
+	public void agregarHistorial(Historial historial) {
+        misHistoriales.add(historial);
+    }
 
 }

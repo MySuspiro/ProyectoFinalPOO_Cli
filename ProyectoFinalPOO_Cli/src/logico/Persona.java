@@ -7,8 +7,8 @@ public class Persona {
 	private String dir;
 	private String codigo;
 	private String telefono;
-	private String sexo;
-	public Persona(String cedula, String nombre, String dir, String codigo, String telefono, String sexo) {
+	private char sexo;
+	public Persona(String cedula, String nombre, String dir, String codigo, String telefono, char sexo) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -48,10 +48,10 @@ public class Persona {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public String getSexo() {
+	public char getSexo() {
 		return sexo;
 	}
-	public void setSexo(String sexo) {
+	public void setSexo(char sexo) {
 		this.sexo = sexo;
 	}
 
