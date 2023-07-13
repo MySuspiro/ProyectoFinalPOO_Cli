@@ -65,9 +65,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		/*		FabricarQueso fabricQueso= new FabricarQueso(null);
-				fabricQueso.setModal(true);
-				fabricQueso.setVisible(true);*/
+				ListarPaciente listPaciente= new ListarPaciente();
+				listPaciente.setModal(true);
+				listPaciente.setVisible(true);
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem);
@@ -75,13 +75,23 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Historial");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			/*	ListarQueso listQueso= new ListarQueso();
-				listQueso.setModal(true);
-				listQueso.setVisible(true);*/
+				PacienteHistorial paH= new PacienteHistorial();
+				paH.setModal(true);
+				paH.setVisible(true);
 				
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_13 = new JMenuItem("Registrar(prueba)");
+		mntmNewMenuItem_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegPaciente rp= new RegPaciente(null);
+				rp.setModal(true);
+				rp.setVisible(true);
+			}
+		});
+		mnNewMenu_2.add(mntmNewMenuItem_13);
 		
 		JMenu mnNewMenu = new JMenu("Doctor");
 		menuBar.add(mnNewMenu);
@@ -99,9 +109,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Listar");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*FacturaPorCliente factCliente= new FacturaPorCliente();
-				factCliente.setModal(true);
-				factCliente.setVisible(true);*/
+				ListarDoctor listDoc= new ListarDoctor();
+				listDoc.setModal(true);
+				listDoc.setVisible(true);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_2);

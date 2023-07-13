@@ -2,7 +2,6 @@ package logico;
 
 import java.util.ArrayList;
 
-
 public class Clinica {
 
 	private ArrayList<Enfermedad> misEnfermedades;
@@ -24,12 +23,12 @@ public class Clinica {
 	
 	private Clinica() {
 		super();
-		this.misEnfermedades = new ArrayList<Enfermedad>();
-		this.misVacunas = new ArrayList<Vacuna>();
-		this.misConsultas = new ArrayList<Consulta>();
-		this.misPersonas = new ArrayList<Persona>();
-		this.misHistoriales = new ArrayList<Historial>();
-		this.misCitas = new ArrayList<CitaMedica>();
+		misEnfermedades = new ArrayList<Enfermedad>();
+		misVacunas = new ArrayList<Vacuna>();
+		misConsultas = new ArrayList<Consulta>();
+		misPersonas = new ArrayList<Persona>();
+		misHistoriales = new ArrayList<Historial>();
+		misCitas = new ArrayList<CitaMedica>();
 		
 	}
 	
@@ -112,5 +111,74 @@ public class Clinica {
 	public void agregarHistorial(Historial historial) {
         misHistoriales.add(historial);
     }
+	
+	public Persona buscarPersonaByCodigo(String codigoPersona) {
+		Persona aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misPersonas.size()) {
+			if(misPersonas.get(i).getCodigo().equalsIgnoreCase(codigoPersona)){
+				aux = misPersonas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	public Historial buscarHistorialByCedula(String cedula) {
+		Historial aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misHistoriales.size()) {
+			if(misHistoriales.get(i).getCodigo().equalsIgnoreCase(cedula)){
+				aux = misHistoriales.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	public Persona buscarPersonaByCedula(String cedula) {
+		Persona aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misPersonas.size()) {
+			if(misPersonas.get(i).getCodigo().equalsIgnoreCase(cedula)){
+				aux = misPersonas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	public void eliminarPersona(logico.Persona selected) {
+		misPersonas.remove(selected);
+	}
+	public void modificarPersona(Persona miPersona) {
+		int index= buscarIndexPersonaByCode(miPersona);
+		misPersonas.set(index,miPersona);	
+		
+	}
+	
+	private int buscarIndexPersonaByCode(Persona miPersona) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misPersonas.size()) {
+			if(misPersonas.get(i).getCodigo().equalsIgnoreCase(miPersona.getCodigo())){
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
 
 }

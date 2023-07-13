@@ -11,6 +11,8 @@ import javax.swing.border.TitledBorder;
 
 import logico.Clinica;
 import logico.Doctor;
+import logico.Historial;
+import logico.Paciente;
 import logico.Persona;
 
 import javax.swing.JLabel;
@@ -24,7 +26,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class RegDoctor extends JDialog {
+public class RegPaciente extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCodigo;
@@ -32,9 +34,9 @@ public class RegDoctor extends JDialog {
 	private JTextArea txtDireccion;
 	private JComboBox<String> cbSexo;
 	private JTextField txtCedula;
-	private Doctor miDoctor=null;
+	private Paciente miPaciente=null;
 	private JTextField txtTelefono;
-	private JTextField txtEspecialidad;
+	private JTextField txtSeguro;
 
 	/**
 	 * Launch the application.
@@ -43,16 +45,16 @@ public class RegDoctor extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegDoctor(Doctor doctor) {
-		miDoctor=doctor;
+	public RegPaciente(Paciente paciente) {
+		miPaciente=paciente;
 		setResizable(false);
-		if (miDoctor!=null) 
+		if (miPaciente!=null) 
 		{
-			setTitle("Modificar Doctor");
+			setTitle("Modificar Paciente");
 			
 		}else 
 		{
-			setTitle("Registrar Doctor");
+			setTitle("Registrar Paciente");
 		}
 		setBounds(100, 100, 474, 528);
 		setLocationRelativeTo(null);
@@ -72,7 +74,7 @@ public class RegDoctor extends JDialog {
 			{
 				txtCodigo = new JTextField();
 				txtCodigo.setEditable(false);
-				txtCodigo.setText("D-"+Clinica.getInstance().codigoPersona);
+				txtCodigo.setText("P-"+Clinica.getInstance().codigoPersona);
 				txtCodigo.setColumns(10);
 				txtCodigo.setBounds(12, 44, 267, 22);
 				panel.add(txtCodigo);
@@ -168,12 +170,12 @@ public class RegDoctor extends JDialog {
 			txtTelefono.setBounds(12, 242, 267, 22);
 			panel.add(txtTelefono);
 			
-			JLabel lblLmiteDeCrdito = new JLabel("Especialidad:");
+			JLabel lblLmiteDeCrdito = new JLabel("Seguro:");
 			lblLmiteDeCrdito.setBounds(12, 278, 129, 16);
 			panel.add(lblLmiteDeCrdito);
 			
-			txtEspecialidad = new JTextField();
-			txtEspecialidad.addKeyListener(new KeyAdapter() {
+			txtSeguro = new JTextField();
+			txtSeguro.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					 // Obtener la tecla presionada
@@ -185,9 +187,9 @@ public class RegDoctor extends JDialog {
 	                }
 				}
 			});
-			txtEspecialidad.setColumns(10);
-			txtEspecialidad.setBounds(12, 308, 267, 22);
-			panel.add(txtEspecialidad);
+			txtSeguro.setColumns(10);
+			txtSeguro.setBounds(12, 308, 267, 22);
+			panel.add(txtSeguro);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -196,7 +198,7 @@ public class RegDoctor extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
-				if (miDoctor!=null) {
+				if (miPaciente!=null) {
 
 					okButton.setText("Modificar");
 				}
@@ -206,7 +208,7 @@ public class RegDoctor extends JDialog {
 						//if(verificarCedulaRepetida()==true) {
 						//
 						
-						if (miDoctor==null)
+						if (miPaciente==null)
 						{
 							if (checkFields()==true){
 								
@@ -225,8 +227,13 @@ public class RegDoctor extends JDialog {
 									sexo='M';
 									}
 									
-									Persona persona = new Doctor(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtEspecialidad.getText());
-									Clinica.getInstance().agregarPersona(persona);
+									Paciente paciente = new Paciente(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtSeguro.getText());
+									Clinica.getInstance().agregarPersona(paciente);
+								
+									Historial hist = new Historial(txtCedula.getText());
+									paciente.setHist(hist);
+									
+									Clinica.getInstance().agregarHistorial(hist);
 									
 									JOptionPane.showMessageDialog(null,"Operación satisfactoria","Registro", JOptionPane.INFORMATION_MESSAGE);
 									//dispose();
@@ -246,11 +253,11 @@ public class RegDoctor extends JDialog {
 						
 						}else
 						{
-							miDoctor.setDir(txtDireccion.getText());
-							miDoctor.setNombre(txtNombre.getText());
-							miDoctor.setCedula(txtCedula.getText());
-							miDoctor.setEspecialidad(txtEspecialidad.getText());
-							miDoctor.setTelefono(txtTelefono.getText());
+							miPaciente.setDir(txtDireccion.getText());
+							miPaciente.setNombre(txtNombre.getText());
+							miPaciente.setCedula(txtCedula.getText());
+							miPaciente.setSeguro(txtSeguro.getText());
+							miPaciente.setTelefono(txtTelefono.getText());
 							char sexo;
 							String sexoSeleccionado = (String) cbSexo.getSelectedItem();
 							if (sexoSeleccionado.equals("Femenino"))
@@ -261,12 +268,12 @@ public class RegDoctor extends JDialog {
 							{
 							sexo='M';
 							}
-							miDoctor.setSexo(sexo);
+							miPaciente.setSexo(sexo);
 							if (checkFields()==true)
 							{
-							Clinica.getInstance().modificarPersona(miDoctor);
+							Clinica.getInstance().modificarPersona(miPaciente);
 							dispose();
-							ListarDoctor.loadDoctores();
+							ListarPaciente.loadPacientes();
 							}
 							else
 							{
@@ -297,17 +304,17 @@ public class RegDoctor extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		loadDoctor();
+		loadPaciente();
 	}
 	
-	private void loadDoctor() {
-		if (miDoctor!=null) {
-			txtCodigo.setText(miDoctor.getCodigo());
-			txtCedula.setText(miDoctor.getCedula());
-			txtNombre.setText(miDoctor.getNombre());
-			txtTelefono.setText(miDoctor.getTelefono());
-			txtEspecialidad.setText(miDoctor.getEspecialidad());
-			char sexo=miDoctor.getSexo();
+	private void loadPaciente() {
+		if (miPaciente!=null) {
+			txtCodigo.setText(miPaciente.getCodigo());
+			txtCedula.setText(miPaciente.getCedula());
+			txtNombre.setText(miPaciente.getNombre());
+			txtTelefono.setText(miPaciente.getTelefono());
+			txtSeguro.setText(miPaciente.getSeguro());
+			char sexo=miPaciente.getSexo();
 			if (sexo=='F')
 			{
 				cbSexo.setSelectedIndex(0);
@@ -315,27 +322,28 @@ public class RegDoctor extends JDialog {
 			else {
 				cbSexo.setSelectedIndex(1);
 			}
-			txtDireccion.setText(miDoctor.getDir());
+			txtDireccion.setText(miPaciente.getDir());
 			
 			
 		}
 		
 	}
+	
 
 	private void clean() {
 		txtNombre.setText("");
 		txtCedula.setText("");
 		txtDireccion.setText("");
 		txtTelefono.setText("");
-		txtEspecialidad.setText("");
+		txtSeguro.setText("");
 		cbSexo.setSelectedIndex(-1);
-		txtCodigo.setText("D-"+Clinica.getInstance().codigoPersona);
+		txtCodigo.setText("P-"+Clinica.getInstance().codigoPersona);
 		
 	}
 	
 	private boolean checkFields() {
 		
-		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtTelefono.getText().equals("") || txtEspecialidad.getText().equals("") ||  cbSexo.getSelectedIndex()==-1)
+		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtSeguro.getText().equals("")|| txtTelefono.getText().equals("")  ||  cbSexo.getSelectedIndex()==-1)
 		{
 			return false;
 			
@@ -357,3 +365,4 @@ public class RegDoctor extends JDialog {
 	    return true; //no se repite
 	}
 }
+

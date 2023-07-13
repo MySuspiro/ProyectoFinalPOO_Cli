@@ -15,8 +15,8 @@ public class Historial {
 		this.codigo = "H-" + Clinica.histCod;
 		Clinica.histCod++;
 		this.cedPaciente = cedPaciente;
-		this.misVacunas = new ArrayList<Vacuna>();
-		this.misConsultas = new ArrayList<Consulta>();
+		misVacunas = new ArrayList<Vacuna>();
+		misConsultas = new ArrayList<Consulta>();
 	}
 
 	public String getCodigo() {
