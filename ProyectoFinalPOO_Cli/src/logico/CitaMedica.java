@@ -26,6 +26,7 @@ public class CitaMedica {
 		return fecha;
 	}
 	
+	
 	public String getPersona() {
 		return persona;
 	}
