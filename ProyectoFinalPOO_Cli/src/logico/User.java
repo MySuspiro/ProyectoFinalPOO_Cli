@@ -11,7 +11,7 @@ public class User implements Serializable{
 	private String tipo;
 	private String userName;
 	private String pass;
-	
+	private Persona persona;
 	
 	public User(String tipo, String userName, String pass) {
 		super();
