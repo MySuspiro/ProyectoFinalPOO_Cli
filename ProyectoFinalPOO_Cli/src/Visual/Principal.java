@@ -12,7 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
 
-
+import logico.Control;
 
 import java.awt.FlowLayout;
 import javax.swing.border.SoftBevelBorder;
@@ -22,11 +22,18 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private Dimension dim;
+	private JMenu mnAdministracion;
 
 	/**
 	 * Launch the application.
@@ -48,8 +55,28 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				//NUEVO CAROLINA PROBANDO
+				FileOutputStream empresa2;
+				ObjectOutputStream empresaWrite;
+				try {
+					empresa2 = new  FileOutputStream("clinica.dat");
+					empresaWrite = new ObjectOutputStream(empresa2);
+					empresaWrite.writeObject(Control.getInstance());
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		setResizable(false);
-		setTitle("Complejo L\u00E1cteo");
+		setTitle("Cl\u00EDnica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		dim=getToolkit().getScreenSize();
@@ -58,6 +85,20 @@ public class Principal extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu_6 = new JMenu("Cliente");
+		menuBar.add(mnNewMenu_6);
+		
+		JMenuItem mntmNewMenuItem_14 = new JMenuItem("Registrar");
+		mntmNewMenuItem_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//PROBANDO CAROLINA
+				RegUser users = new RegUser();
+				users.setModal(true);
+				users.setVisible(true);
+			}
+		});
+		mnNewMenu_6.add(mntmNewMenuItem_14);
 		
 		JMenu mnNewMenu_2 = new JMenu("Paciente");
 		menuBar.add(mnNewMenu_2);
@@ -125,9 +166,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			/*	RegistrarFactura regFactura= new RegistrarFactura();
-				regFactura.setModal(true);
-				regFactura.setVisible(true);*/
+			RegConsulta regConsul= new RegConsulta();
+			regConsul.setModal(true);
+			regConsul.setVisible(true);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_4);
@@ -148,9 +189,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			/*	Admin ad= new Admin();
-				ad.setModal(true);
-				ad.setVisible(true);*/
+				RegCita regCita= new RegCita();
+				regCita.setModal(true);
+				regCita.setVisible(true);
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_6);
@@ -160,9 +201,6 @@ public class Principal extends JFrame {
 		
 		JMenu mnNewMenu_4 = new JMenu("Enfermedad");
 		menuBar.add(mnNewMenu_4);
-		
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Registrar");
-		mnNewMenu_4.add(mntmNewMenuItem_9);
 		
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Listar");
 		mnNewMenu_4.add(mntmNewMenuItem_10);
@@ -175,6 +213,47 @@ public class Principal extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Listar");
 		mnNewMenu_5.add(mntmNewMenuItem_12);
+		
+		mnAdministracion = new JMenu("Administraci\u00F3n");
+		
+		if(!Control.getLoginUser().getTipo().equalsIgnoreCase("Administrador")){
+			mnAdministracion.setEnabled(false);
+		}
+		menuBar.add(mnAdministracion);
+		
+		JMenu mnNewMenu_8 = new JMenu("Enfermedad");
+		mnAdministracion.add(mnNewMenu_8);
+		
+		JMenuItem mntmNewMenuItem_15 = new JMenuItem("Registrar");
+		mntmNewMenuItem_15.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegEnf regEnf= new RegEnf();
+				regEnf.setModal(true);
+				regEnf.setVisible(true);	
+			}
+		});
+		mnNewMenu_8.add(mntmNewMenuItem_15);
+		
+		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Listar");
+		mnNewMenu_8.add(mntmNewMenuItem_16);
+		
+		JMenu mnNewMenu_9 = new JMenu("Vacuna");
+		mnAdministracion.add(mnNewMenu_9);
+		
+		JMenuItem mntmNewMenuItem_17 = new JMenuItem("Registrar");
+		mnNewMenu_9.add(mntmNewMenuItem_17);
+		
+		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Listar");
+		mnNewMenu_9.add(mntmNewMenuItem_18);
+		
+		JMenu mnNewMenu_10 = new JMenu("Doctor");
+		mnAdministracion.add(mnNewMenu_10);
+		
+		JMenuItem mntmNewMenuItem_19 = new JMenuItem("Registrar");
+		mnNewMenu_10.add(mntmNewMenuItem_19);
+		
+		JMenuItem mntmNewMenuItem_20 = new JMenuItem("Listar");
+		mnNewMenu_10.add(mntmNewMenuItem_20);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
