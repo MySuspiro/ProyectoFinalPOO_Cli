@@ -8,18 +8,29 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
+
+import logico.CitaMedica;
+import logico.Clinica;
+import logico.Enfermedad;
+
 import javax.swing.JRadioButton;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Date;
 
 public class RegEnf extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtCodigo;
+	private JTextField txtNombre;
+	private JTextArea txtDescripcion;
+	private JRadioButton rdbVig;
 
 	/**
 	 * Launch the application.
@@ -64,43 +75,76 @@ public class RegEnf extends JDialog {
 			panel.setBounds(242, 80, 149, 60);
 			contentPanel.add(panel);
 			{
-				JRadioButton rdbtnNewRadioButton = new JRadioButton("Bajo Vigilancia");
-				panel.add(rdbtnNewRadioButton);
+				rdbVig = new JRadioButton("Bajo Vigilancia");
+				panel.add(rdbVig);
 			}
 		}
 		{
-			textField = new JTextField();
-			textField.setBounds(42, 44, 156, 22);
-			contentPanel.add(textField);
-			textField.setColumns(10);
+			txtCodigo = new JTextField();
+			txtCodigo.setEditable(false);
+			txtCodigo.setBounds(42, 44, 156, 22);
+			contentPanel.add(txtCodigo);
+			txtCodigo.setColumns(10);
+			txtCodigo.setText("E-"+Clinica.enfCod);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setBounds(242, 44, 149, 22);
-			contentPanel.add(textField_1);
-			textField_1.setColumns(10);
+			txtNombre = new JTextField();
+			txtNombre.setBounds(242, 44, 149, 22);
+			contentPanel.add(txtNombre);
+			txtNombre.setColumns(10);
 		}
 		{
-			JTextArea textArea = new JTextArea();
-			textArea.setBounds(42, 154, 349, 60);
-			contentPanel.add(textArea);
+			txtDescripcion = new JTextArea();
+			txtDescripcion.setBounds(42, 154, 349, 60);
+			contentPanel.add(txtDescripcion);
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Registrar");
+				okButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						String status;
+						if(rdbVig.isSelected() == true) {
+							status = "vigilancia";
+						}else {
+							status = "Normal";
+						}
+						Enfermedad enf = new Enfermedad(txtCodigo.getText(), txtNombre.getText(), status, txtDescripcion.getText());
+						Clinica.getInstance().agregarEnfermedad(enf);
+						JOptionPane.showMessageDialog(null, "Enfermedad registrada correcta", "Enfermedad", JOptionPane.INFORMATION_MESSAGE);
+						Clean();
+						
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		
 	}
+	private void Clean() {
+		txtCodigo.setText("E-" + Clinica.enfCod);
+		txtDescripcion.setText("");
+		txtNombre.setText("");
+		rdbVig.setSelected(false);
+		
+	}
+	
 
 }
