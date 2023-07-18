@@ -180,5 +180,22 @@ public class Clinica {
 		
 		return aux;
 	}
+	
+	public Enfermedad buscarEnfermedadByCode(String Code) {
+		Enfermedad aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misEnfermedades.size()) {
+			if(misPersonas.get(i).getCodigo().equalsIgnoreCase(Code)){
+				aux = misEnfermedades.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	
 
 }

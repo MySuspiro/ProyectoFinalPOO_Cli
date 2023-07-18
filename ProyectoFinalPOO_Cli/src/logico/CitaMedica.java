@@ -6,14 +6,16 @@ public class CitaMedica {
 
 	private String codigo;
 	private Date fecha;
-	private String persona;
+	private String cedPaciente;
+	private String nomPaciente;
 	private Doctor doctor;
 	private String hora;
-	public CitaMedica(String codigo, String persona, Doctor doctor, String hora, Date fecha) {
+	public CitaMedica(String codigo, String cedPaciente, String nomPaciente, Doctor doctor, String hora, Date fecha) {
 		super();
 		this.codigo = "CM-" + Clinica.citCod;
 		Clinica.citCod++;
-		this.persona = persona;
+		this.cedPaciente = cedPaciente;
+		this.nomPaciente = nomPaciente;
 		this.doctor = doctor;
 		this.hora = hora;
 		this.fecha =  fecha;
@@ -26,17 +28,18 @@ public class CitaMedica {
 		return fecha;
 	}
 	
-	
-	public String getPersona() {
-		return persona;
-	}
-	
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
 	public String getHora() {
 		return hora;
+	}
+	public String getCedPaciente() {
+		return cedPaciente;
+	}
+	public String getNomPaciente() {
+		return nomPaciente;
 	}
 	
 	
