@@ -31,25 +31,29 @@ public class RegEnf extends JDialog {
 	private JTextField txtNombre;
 	private JTextArea txtDescripcion;
 	private JRadioButton rdbVig;
+	private Enfermedad miEnf=null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			RegEnf dialog = new RegEnf();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegEnf() {
+	public RegEnf(Enfermedad enf) {
+		miEnf=enf;
+		setResizable(false);
+		if (miEnf!=null) 
+		{
+			setTitle("Modificar Enfermedad");
+			
+		}else 
+		{
+			setTitle("Registrar Enfermedad");
+		}
 		setBounds(100, 100, 450, 313);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -104,19 +108,52 @@ public class RegEnf extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
+				if (miEnf!=null) {
+
+					okButton.setText("Modificar");
+				}
+
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						String status;
-						if(rdbVig.isSelected() == true) {
-							status = "vigilancia";
-						}else {
-							status = "Normal";
-						}
-						Enfermedad enf = new Enfermedad(txtCodigo.getText(), txtNombre.getText(), status, txtDescripcion.getText());
-						Clinica.getInstance().agregarEnfermedad(enf);
-						JOptionPane.showMessageDialog(null, "Enfermedad registrada correcta", "Enfermedad", JOptionPane.INFORMATION_MESSAGE);
-						Clean();
+						if (checkFields()==true)
+						{
+							if (miEnf==null)
+							{
+								
+								String status;
+								if(rdbVig.isSelected() == true) {
+									status = "Vigilancia";
+								}else {
+									status = "Normal";
+								}
+								Enfermedad enf = new Enfermedad(txtCodigo.getText(), txtNombre.getText(), status, txtDescripcion.getText());
+								Clinica.getInstance().agregarEnfermedad(enf);
+								JOptionPane.showMessageDialog(null, "Enfermedad registrada correcta", "Enfermedad", JOptionPane.INFORMATION_MESSAGE);
+								Clean();
+								
+							}else
+							{
+								miEnf.setDescripcion(txtDescripcion.getText());
+								miEnf.setCodigo(txtCodigo.getText());
+								miEnf.setNombre(txtNombre.getText());
+								if(rdbVig.isSelected() == true) {
+									miEnf.setStatus("Vigilancia");
+								}else {
+									miEnf.setStatus("Normal");
+								}
+								
+								Clinica.getInstance().modificarEnfermedad(miEnf);
+								dispose();
+								ListarEnf.loadEnfermedades();
+								
+							}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null,"Todos los campos deben estar llenos");
+						
+					}
 						
 					}
 				});
@@ -136,8 +173,9 @@ public class RegEnf extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+	loadEnf();	
 	}
+	
 	private void Clean() {
 		txtCodigo.setText("E-" + Clinica.enfCod);
 		txtDescripcion.setText("");
@@ -146,5 +184,36 @@ public class RegEnf extends JDialog {
 		
 	}
 	
+	private void loadEnf() {
+		if (miEnf!=null) {
+			txtCodigo.setText(miEnf.getCodigo());
+			txtDescripcion.setText(miEnf.getDescripcion());
+			txtNombre.setText(miEnf.getNombre());
+			if(miEnf.getStatus().equalsIgnoreCase("Vigilancia"))
+			{
+				rdbVig.setSelected(true);
+				
+			}
+			else
+			{
+				rdbVig.setSelected(false);
+			}
+		
+		}
+	}
+	
+private boolean checkFields() {
+		
+		if (txtNombre.getText().equals("") || txtDescripcion.getText().equals(""))
+		{
+			return false;
+			
+		}
+		else 
+		{
+			return true;
+		}
+
+	}
 
 }

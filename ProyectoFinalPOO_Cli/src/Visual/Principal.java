@@ -137,26 +137,6 @@ public class Principal extends JFrame {
 		JMenu mnNewMenu = new JMenu("Doctor");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			RegDoctor regDoc= new RegDoctor(null);
-				regDoc.setModal(true);
-				regDoc.setVisible(true);
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_3);
-		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Listar");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ListarDoctor listDoc= new ListarDoctor();
-				listDoc.setModal(true);
-				listDoc.setVisible(true);
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_2);
-		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Agenda Citas");
 		mnNewMenu.add(mntmNewMenuItem_7);
 		
@@ -203,6 +183,13 @@ public class Principal extends JFrame {
 		menuBar.add(mnNewMenu_4);
 		
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Listar");
+		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarEnf listEnf= new ListarEnf();
+				listEnf.setModal(true);
+				listEnf.setVisible(true);
+			}
+		});
 		mnNewMenu_4.add(mntmNewMenuItem_10);
 		
 		JMenu mnNewMenu_5 = new JMenu("Vacuna");
@@ -227,7 +214,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_15 = new JMenuItem("Registrar");
 		mntmNewMenuItem_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEnf regEnf= new RegEnf();
+				RegEnf regEnf= new RegEnf(null);
 				regEnf.setModal(true);
 				regEnf.setVisible(true);	
 			}
@@ -235,6 +222,13 @@ public class Principal extends JFrame {
 		mnNewMenu_8.add(mntmNewMenuItem_15);
 		
 		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Listar");
+		mntmNewMenuItem_16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarEnf listEnf= new ListarEnf();
+				listEnf.setModal(true);
+				listEnf.setVisible(true);
+			}
+		});
 		mnNewMenu_8.add(mntmNewMenuItem_16);
 		
 		JMenu mnNewMenu_9 = new JMenu("Vacuna");
@@ -250,10 +244,47 @@ public class Principal extends JFrame {
 		mnAdministracion.add(mnNewMenu_10);
 		
 		JMenuItem mntmNewMenuItem_19 = new JMenuItem("Registrar");
+		mntmNewMenuItem_19.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegDoctor regDoc= new RegDoctor(null);
+				regDoc.setModal(true);
+				regDoc.setVisible(true);
+			}
+		});
 		mnNewMenu_10.add(mntmNewMenuItem_19);
 		
 		JMenuItem mntmNewMenuItem_20 = new JMenuItem("Listar");
+		mntmNewMenuItem_20.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarDoctor listDoc= new ListarDoctor();
+				listDoc.setModal(true);
+				listDoc.setVisible(true);
+			}
+		});
 		mnNewMenu_10.add(mntmNewMenuItem_20);
+		
+		JMenu mnNewMenu_7 = new JMenu("Empleado");
+		mnAdministracion.add(mnNewMenu_7);
+		
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Registrar");
+		mntmNewMenuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegEmpleado regEmp= new RegEmpleado(null);
+				regEmp.setModal(true);
+				regEmp.setVisible(true);
+			}
+		});
+		mnNewMenu_7.add(mntmNewMenuItem_9);
+		
+		JMenuItem mntmNewMenuItem_21 = new JMenuItem("Listar");
+		mntmNewMenuItem_21.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarEmp listEmp= new ListarEmp();
+				listEmp.setModal(true);
+				listEmp.setVisible(true);
+			}
+		});
+		mnNewMenu_7.add(mntmNewMenuItem_21);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

@@ -10,6 +10,7 @@ public class Clinica {
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Historial> misHistoriales;
 	private ArrayList<CitaMedica> misCitas;
+	private ArrayList<User> misUsers;
 	private static Clinica clinica=null;
 	public static int histCod = 1000;
 	public static int citCod = 1000;
@@ -29,9 +30,18 @@ public class Clinica {
 		misPersonas = new ArrayList<Persona>();
 		misHistoriales = new ArrayList<Historial>();
 		misCitas = new ArrayList<CitaMedica>();
+		misUsers = new ArrayList<User>();
 		
 	}
 	
+	public ArrayList<User> getMisUsers() {
+		return misUsers;
+	}
+
+	public void setMisUsers(ArrayList<User> misUsers) {
+		this.misUsers = misUsers;
+	}
+
 	public static Clinica getInstance() {
 		
 		if (clinica==null)
@@ -186,7 +196,7 @@ public class Clinica {
 		boolean encontrado = false;
 		int i=0;
 		while (!encontrado && i<misEnfermedades.size()) {
-			if(misPersonas.get(i).getCodigo().equalsIgnoreCase(Code)){
+			if(misEnfermedades.get(i).getCodigo().equalsIgnoreCase(Code)){
 				aux = misEnfermedades.get(i);
 				encontrado = true;
 			}
@@ -196,6 +206,81 @@ public class Clinica {
 		return aux;
 	}
 	
+	public void eliminarEnfermedad(logico.Enfermedad selected) {
+		misEnfermedades.remove(selected);
+	}
+	public void modificarEnfermedad(Enfermedad miEnf) {
+		int index= buscarIndexEnfermedadByCode(miEnf);
+		misEnfermedades.set(index,miEnf);	
+		
+	}
+	
+	private int buscarIndexEnfermedadByCode(Enfermedad miEnf) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misEnfermedades.size()) {
+			if(misEnfermedades.get(i).getCodigo().equalsIgnoreCase(miEnf.getCodigo())){
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	public int cantMujeres() {
+		
+		int count=0;
+		
+		for (Persona persona: misPersonas)
+		{
+			if (persona.getSexo()=='F')
+			{
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
+	public int cantHombres() {
+		
+		int count=0;
+		
+		for (Persona persona: misPersonas)
+		{
+			if (persona.getSexo()=='M')
+			{
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
+	public int enfermedadCantPacientes(Enfermedad enf) {
+		
+		int count=0;
+		
+		for (Persona persona: misPersonas)
+		{
+			if (persona instanceof Paciente )
+			{
+				for (Consulta consulta: ((Paciente) persona).getHist().getMisConsultas())
+				{
+					if(consulta.getEnfermedad().getCodigo().equalsIgnoreCase(enf.getCodigo()))
+					{
+						count++;
+					}
+				}
+
+			}
+		}
+		
+		return count;
+	}
 	
 
 }
