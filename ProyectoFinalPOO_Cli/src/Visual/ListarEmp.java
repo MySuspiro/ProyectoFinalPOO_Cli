@@ -15,6 +15,7 @@ import logico.Clinica;
 import logico.Doctor;
 import logico.Empleado;
 import logico.Persona;
+import logico.User;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -119,14 +120,18 @@ public class ListarEmp extends JDialog {
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (selected!=null) {
-							int option = JOptionPane.showConfirmDialog(null, "Está seguro(a) que desea eliminar el Empleado con código: "+ selected.getCodigo(), "Confirmación", JOptionPane.OK_CANCEL_OPTION);
-							if (option== JOptionPane.OK_OPTION  ) {
+							if (verificarEmpUser(selected)==true)
+							{
+								int option = JOptionPane.showConfirmDialog(null, "Está seguro(a) que desea eliminar el Empleado con código: "+ selected.getCodigo(), "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+								if (option== JOptionPane.OK_OPTION  ) {
 
-									Clinica.getInstance().eliminarPersona(selected);
-									btnEliminar.setEnabled(false);
-									btnUpdate.setEnabled(false);
-									loadEmps();
+										Clinica.getInstance().eliminarPersona(selected);
+										btnEliminar.setEnabled(false);
+										btnUpdate.setEnabled(false);
+										loadEmps();
 
+								}
+								
 							}
 						}
 					}
@@ -163,6 +168,21 @@ public class ListarEmp extends JDialog {
 				
 			}
 		}	
+		
+	}
+	
+	public boolean verificarEmpUser(Empleado emp) {
+		
+		
+		for (User user: Clinica.getInstance().getMisUsers()) {
+			if(user.getPersona().getCodigo().equalsIgnoreCase(emp.getCodigo()))
+			{
+				return false;
+				
+			}
+		}
+		
+		return true;
 		
 	}
 

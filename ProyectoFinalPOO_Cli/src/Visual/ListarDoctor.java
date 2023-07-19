@@ -164,6 +164,8 @@ public class ListarDoctor extends JDialog {
 		}	
 		
 	}
+	
+	//verificar que no existan consultas con el doctor y que no existan usuarios con el doctor
 
 
 }

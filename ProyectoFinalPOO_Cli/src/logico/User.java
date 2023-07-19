@@ -43,6 +43,14 @@ public class User implements Serializable{
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
 	
 	
 

@@ -236,7 +236,7 @@ public class Clinica {
 		
 		for (Persona persona: misPersonas)
 		{
-			if (persona.getSexo()=='F')
+			if (persona.getSexo()=='F'&& persona instanceof Paciente)
 			{
 				count++;
 			}
@@ -251,7 +251,7 @@ public class Clinica {
 		
 		for (Persona persona: misPersonas)
 		{
-			if (persona.getSexo()=='M')
+			if (persona.getSexo()=='M' && persona instanceof Paciente)
 			{
 				count++;
 			}
@@ -260,14 +260,17 @@ public class Clinica {
 		return count;
 	}
 	
-	public int enfermedadCantPacientes(Enfermedad enf) {
+	public float enfermedadCantPacientes(Enfermedad enf) {
 		
 		int count=0;
+		float porciento=0;
+		int cantPacientes=0;
 		
 		for (Persona persona: misPersonas)
 		{
 			if (persona instanceof Paciente )
 			{
+				cantPacientes++;
 				for (Consulta consulta: ((Paciente) persona).getHist().getMisConsultas())
 				{
 					if(consulta.getEnfermedad().getCodigo().equalsIgnoreCase(enf.getCodigo()))
@@ -279,7 +282,9 @@ public class Clinica {
 			}
 		}
 		
-		return count;
+		porciento=(count*100)/cantPacientes;
+		
+		return porciento;
 	}
 	
 
