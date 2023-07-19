@@ -284,6 +284,33 @@ public class Clinica {
 		
 		porciento=(count*100)/cantPacientes;
 		
+		return count;
+	}
+	
+	public float vacunaCantPacientes(Vacuna vacuna) {
+		
+		int count=0;
+		float porciento=0;
+		int cantPacientes=0;
+		
+		for (Persona persona: misPersonas)
+		{
+			if (persona instanceof Paciente )
+			{
+				cantPacientes++;
+				for (Vacuna vac: ((Paciente) persona).getHist().getMisVacunas())
+				{
+					if(vac.getCodigo().equalsIgnoreCase(vacuna.getCodigo()))
+					{
+						count++;
+					}
+				}
+
+			}
+		}
+		
+		porciento=(count*100)/cantPacientes;
+		
 		return porciento;
 	}
 	
