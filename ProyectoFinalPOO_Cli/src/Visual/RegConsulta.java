@@ -308,7 +308,7 @@ public class RegConsulta extends JDialog {
 							sex = 'M';
 						}
 						if(txtCedPaciente.getText() != null && txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
-							//pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.codigoPersona, txtTel.getText(), sex, txtSeguro.getText(), txtEmail.getText());
+							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.codigoPersona, txtTel.getText(), sex, txtSeguro.getText(), txtEmail.getText());
 						}
 						
 						
