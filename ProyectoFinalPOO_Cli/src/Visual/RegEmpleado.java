@@ -10,9 +10,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.Clinica;
+import logico.Control;
 import logico.Doctor;
 import logico.Empleado;
 import logico.Persona;
+import logico.User;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,6 +26,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Font;
 
 public class RegEmpleado extends JDialog {
 
@@ -36,6 +39,10 @@ public class RegEmpleado extends JDialog {
 	private Empleado miEmp=null;
 	private JTextField txtTelefono;
 	private JTextField txtPuestoLaboral;
+	private JTextField txtUsername;
+	private JTextField txtContrasena;
+	private JTextField txtConfirm;
+	private JTextField txtCorreoE;
 
 	/**
 	 * Launch the application.
@@ -55,7 +62,7 @@ public class RegEmpleado extends JDialog {
 		{
 			setTitle("Registrar Empleado");
 		}
-		setBounds(100, 100, 474, 528);
+		setBounds(100, 100, 664, 653);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -66,8 +73,20 @@ public class RegEmpleado extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
+				JLabel lblUsuario = new JLabel("Usuario:");
+				lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				lblUsuario.setBounds(23, 398, 97, 16);
+				panel.add(lblUsuario);
+			}
+			{
+				JLabel lblNewLabel = new JLabel("Info. General");
+				lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				lblNewLabel.setBounds(26, 3, 97, 16);
+				panel.add(lblNewLabel);
+			}
+			{
 				JLabel label = new JLabel("C\u00F3digo:");
-				label.setBounds(12, 14, 56, 16);
+				label.setBounds(40, 28, 56, 16);
 				panel.add(label);
 			}
 			{
@@ -75,12 +94,12 @@ public class RegEmpleado extends JDialog {
 				txtCodigo.setEditable(false);
 				txtCodigo.setText("E-"+Clinica.getInstance().codigoPersona);
 				txtCodigo.setColumns(10);
-				txtCodigo.setBounds(12, 44, 267, 22);
+				txtCodigo.setBounds(40, 58, 267, 22);
 				panel.add(txtCodigo);
 			}
 			{
 				JLabel label = new JLabel("Nombre:");
-				label.setBounds(12, 146, 56, 16);
+				label.setBounds(40, 93, 56, 16);
 				panel.add(label);
 			}
 			{
@@ -98,22 +117,22 @@ public class RegEmpleado extends JDialog {
 					}
 				});
 				txtNombre.setColumns(10);
-				txtNombre.setBounds(12, 176, 267, 22);
+				txtNombre.setBounds(40, 123, 267, 22);
 				panel.add(txtNombre);
 			}
 			{
 				JLabel label = new JLabel("Direcci\u00F3n:");
-				label.setBounds(12, 344, 70, 16);
+				label.setBounds(40, 291, 70, 16);
 				panel.add(label);
 			}
 			{
 				txtDireccion = new JTextArea();
-				txtDireccion.setBounds(12, 374, 430, 53);
+				txtDireccion.setBounds(40, 320, 561, 53);
 				panel.add(txtDireccion);
 			}
 			{
 				JLabel lblSexo = new JLabel("Sexo");
-				lblSexo.setBounds(306, 149, 97, 16);
+				lblSexo.setBounds(334, 96, 97, 16);
 				panel.add(lblSexo);
 			}
 			{
@@ -122,12 +141,12 @@ public class RegEmpleado extends JDialog {
 				cbSexo.setSelectedIndex(-1);
 				cbSexo.setMaximumRowCount(2);
 				cbSexo.setToolTipText("");
-				cbSexo.setBounds(306, 176, 107, 22);
+				cbSexo.setBounds(334, 123, 107, 22);
 				panel.add(cbSexo);
 			}
 			{
 				JLabel lblCdula = new JLabel("C\u00E9dula:");
-				lblCdula.setBounds(12, 80, 56, 16);
+				lblCdula.setBounds(334, 28, 56, 16);
 				panel.add(lblCdula);
 			}
 			{
@@ -145,12 +164,12 @@ public class RegEmpleado extends JDialog {
 					}
 				});
 				txtCedula.setColumns(10);
-				txtCedula.setBounds(12, 110, 267, 22);
+				txtCedula.setBounds(334, 58, 267, 22);
 				panel.add(txtCedula);
 			}
 			
 			JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
-			lblTelfono.setBounds(12, 212, 56, 16);
+			lblTelfono.setBounds(40, 162, 56, 16);
 			panel.add(lblTelfono);
 			
 			txtTelefono = new JTextField();
@@ -166,11 +185,11 @@ public class RegEmpleado extends JDialog {
 				}
 			});
 			txtTelefono.setColumns(10);
-			txtTelefono.setBounds(12, 242, 267, 22);
+			txtTelefono.setBounds(40, 192, 267, 22);
 			panel.add(txtTelefono);
 			
 			JLabel lblLmiteDeCrdito = new JLabel("Puesto Laboral:");
-			lblLmiteDeCrdito.setBounds(12, 278, 129, 16);
+			lblLmiteDeCrdito.setBounds(334, 162, 129, 16);
 			panel.add(lblLmiteDeCrdito);
 			
 			txtPuestoLaboral = new JTextField();
@@ -187,8 +206,66 @@ public class RegEmpleado extends JDialog {
 				}
 			});
 			txtPuestoLaboral.setColumns(10);
-			txtPuestoLaboral.setBounds(12, 308, 267, 22);
+			txtPuestoLaboral.setBounds(334, 192, 267, 22);
 			panel.add(txtPuestoLaboral);
+			{
+				JPanel panel_1 = new JPanel();
+				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_1.setBounds(12, 13, 613, 383);
+				panel.add(panel_1);
+				panel_1.setLayout(null);
+				{
+					JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico:");
+					lblCorreoElectrnico.setBounds(27, 213, 192, 16);
+					panel_1.add(lblCorreoElectrnico);
+				}
+				{
+					txtCorreoE = new JTextField();
+					txtCorreoE.setColumns(10);
+					txtCorreoE.setBounds(27, 243, 560, 22);
+					panel_1.add(txtCorreoE);
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_1.setBounds(12, 409, 613, 146);
+				panel.add(panel_1);
+				panel_1.setLayout(null);
+				{
+					JLabel lblNewLabel_1 = new JLabel("Nombre de Usuario:");
+					lblNewLabel_1.setBounds(29, 13, 154, 16);
+					panel_1.add(lblNewLabel_1);
+				}
+				{
+					txtUsername = new JTextField();
+					txtUsername.setColumns(10);
+					txtUsername.setBounds(29, 42, 276, 22);
+					panel_1.add(txtUsername);
+				}
+				{
+					JLabel lblContrase = new JLabel("Contrase\u00F1a:");
+					lblContrase.setBounds(29, 82, 154, 16);
+					panel_1.add(lblContrase);
+				}
+				{
+					txtContrasena = new JTextField();
+					txtContrasena.setColumns(10);
+					txtContrasena.setBounds(29, 111, 276, 22);
+					panel_1.add(txtContrasena);
+				}
+				{
+					JLabel lblConfirmarContrasea = new JLabel("Confirmar Contrase\u00F1a:");
+					lblConfirmarContrasea.setBounds(334, 82, 154, 16);
+					panel_1.add(lblConfirmarContrasea);
+				}
+				{
+					txtConfirm = new JTextField();
+					txtConfirm.setColumns(10);
+					txtConfirm.setBounds(334, 111, 267, 22);
+					panel_1.add(txtConfirm);
+				}
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -206,12 +283,12 @@ public class RegEmpleado extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						//if(verificarCedulaRepetida()==true) {
 						//
-					if (checkFields()==true){
 						
 						if (miEmp==null)
 						{
+							if (checkFields()==true){
 								
-								if(verificarCedulaRepetida()==true) {
+								if(verificarCedulaRepetida()==true && verificarUserRepetido()==true && verificarContrasena()==true) {
 							
 						
 						
@@ -226,8 +303,14 @@ public class RegEmpleado extends JDialog {
 									sexo='M';
 									}
 									
-									Persona persona = new Empleado(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtPuestoLaboral.getText());
+									Persona persona = new Empleado(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtCorreoE.getText(),txtPuestoLaboral.getText());
 									Clinica.getInstance().agregarPersona(persona);
+									
+				
+									User user = new User("Empleado",txtUsername.getText(),txtContrasena.getText(),persona);
+								    Control.getInstance().regUser(user);
+									
+
 									
 									JOptionPane.showMessageDialog(null,"Operación satisfactoria","Registro", JOptionPane.INFORMATION_MESSAGE);
 									//dispose();
@@ -235,9 +318,15 @@ public class RegEmpleado extends JDialog {
 								}
 								else
 								{
-									JOptionPane.showMessageDialog(null,"Existe una Persona con esa Cédula");
+									JOptionPane.showMessageDialog(null,"Ha ocurrido un error, verifique cedula no repetida, username y claves");
 								}
-							    					    
+							    
+							}
+							else
+							{
+								 JOptionPane.showMessageDialog(null,"Todos los campos deben estar llenos");
+							}
+					    
 						
 						}else
 						{
@@ -246,6 +335,8 @@ public class RegEmpleado extends JDialog {
 							miEmp.setCedula(txtCedula.getText());
 							miEmp.setPuestoLaboral(txtPuestoLaboral.getText());
 							miEmp.setTelefono(txtTelefono.getText());
+							miEmp.setCodigo(txtCodigo.getText());
+							miEmp.setCorreoElectronico(txtCorreoE.getText());
 							char sexo;
 							String sexoSeleccionado = (String) cbSexo.getSelectedItem();
 							if (sexoSeleccionado.equals("Femenino"))
@@ -269,11 +360,6 @@ public class RegEmpleado extends JDialog {
 								
 							}
 						}
-					}
-					else
-					{
-						 JOptionPane.showMessageDialog(null,"Todos los campos deben estar llenos");
-					}
 						
 					//}
 						/*else
@@ -307,6 +393,7 @@ public class RegEmpleado extends JDialog {
 			txtNombre.setText(miEmp.getNombre());
 			txtTelefono.setText(miEmp.getTelefono());
 			txtPuestoLaboral.setText(miEmp.getPuestoLaboral());
+			txtCorreoE.setText(miEmp.getCorreoElectronico());
 			char sexo=miEmp.getSexo();
 			if (sexo=='F')
 			{
@@ -328,14 +415,18 @@ public class RegEmpleado extends JDialog {
 		txtDireccion.setText("");
 		txtTelefono.setText("");
 		txtPuestoLaboral.setText("");
+		txtCorreoE.setText("");
 		cbSexo.setSelectedIndex(-1);
-		txtCodigo.setText("D-"+Clinica.getInstance().codigoPersona);
+		txtCodigo.setText("E-"+Clinica.getInstance().codigoPersona);
+		txtUsername.setText("");
+		txtContrasena.setText("");
+		txtConfirm.setText("");
 		
 	}
 	
 	private boolean checkFields() {
 		
-		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtTelefono.getText().equals("") || txtPuestoLaboral.getText().equals("") ||  cbSexo.getSelectedIndex()==-1)
+		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtTelefono.getText().equals("") || txtPuestoLaboral.getText().equals("") || txtCorreoE.getText().equals("") || txtUsername.getText().equals("") ||txtContrasena.getText().equals("") ||txtConfirm.getText().equals("") ||cbSexo.getSelectedIndex()==-1)
 		{
 			return false;
 			
@@ -355,5 +446,26 @@ public class RegEmpleado extends JDialog {
 	        }
 	    }
 	    return true; //no se repite
+	}
+	
+	public boolean verificarUserRepetido() {
+		
+	    for (User user : Clinica.getInstance().getMisUsers()) {
+	        if (user.getUserName().equals(txtUsername.getText())) {
+	            return false;//se repite 
+	        }
+	    }
+	    return true; //no se repite
+	}
+	
+	public boolean verificarContrasena() {
+		if (txtContrasena.getText().equals(txtConfirm.getText()))
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
 	}
 }

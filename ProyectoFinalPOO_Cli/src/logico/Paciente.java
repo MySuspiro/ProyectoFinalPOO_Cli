@@ -7,9 +7,9 @@ public class Paciente extends Persona {
 	private String Seguro;
 	private Historial hist;
 
-	public Paciente(String cedula, String nombre, String dir, String codigo, String telefono, char sexo,
+	public Paciente(String cedula, String nombre, String dir, String codigo, String telefono, char sexo, String correoElectronico,
 			String seguro) {
-		super(cedula, nombre, dir, codigo, telefono, sexo);
+		super(cedula, nombre, dir, codigo, telefono, sexo, correoElectronico);
 		Seguro = seguro;
 		hist = new Historial(cedula);
 

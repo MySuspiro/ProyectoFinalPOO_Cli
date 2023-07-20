@@ -12,8 +12,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Clinica;
+import logico.Consulta;
 import logico.Doctor;
+import logico.Empleado;
 import logico.Persona;
+import logico.User;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -166,6 +169,29 @@ public class ListarDoctor extends JDialog {
 	}
 	
 	//verificar que no existan consultas con el doctor y que no existan usuarios con el doctor
+	
+	public boolean verificarDoc(Doctor doc) {
+		
+		
+		for (User user: Clinica.getInstance().getMisUsers()) {
+			if(user.getPersona().getCodigo().equalsIgnoreCase(doc.getCodigo()))
+			{
+				return false;
+				
+			}
+		}
+		
+		for (Consulta consul: Clinica.getInstance().getMisConsultas()) {
+			if(consul.getDoctor().getCodigo().equalsIgnoreCase(doc.getCodigo()))
+			{
+				return false;
+				
+			}
+		}
+		
+		return true;
+		
+	}
 
 
 }

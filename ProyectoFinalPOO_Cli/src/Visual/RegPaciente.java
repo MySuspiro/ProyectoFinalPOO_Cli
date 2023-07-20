@@ -37,6 +37,7 @@ public class RegPaciente extends JDialog {
 	private Paciente miPaciente=null;
 	private JTextField txtTelefono;
 	private JTextField txtSeguro;
+	private JTextField txtCorreoE;
 
 	/**
 	 * Launch the application.
@@ -56,7 +57,7 @@ public class RegPaciente extends JDialog {
 		{
 			setTitle("Registrar Paciente");
 		}
-		setBounds(100, 100, 474, 528);
+		setBounds(100, 100, 474, 605);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -104,12 +105,12 @@ public class RegPaciente extends JDialog {
 			}
 			{
 				JLabel label = new JLabel("Direcci\u00F3n:");
-				label.setBounds(12, 344, 70, 16);
+				label.setBounds(12, 411, 70, 16);
 				panel.add(label);
 			}
 			{
 				txtDireccion = new JTextArea();
-				txtDireccion.setBounds(12, 374, 430, 53);
+				txtDireccion.setBounds(12, 441, 430, 53);
 				panel.add(txtDireccion);
 			}
 			{
@@ -190,6 +191,17 @@ public class RegPaciente extends JDialog {
 			txtSeguro.setColumns(10);
 			txtSeguro.setBounds(12, 308, 267, 22);
 			panel.add(txtSeguro);
+			{
+				JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico:");
+				lblCorreoElectrnico.setBounds(12, 346, 129, 16);
+				panel.add(lblCorreoElectrnico);
+			}
+			{
+				txtCorreoE = new JTextField();
+				txtCorreoE.setColumns(10);
+				txtCorreoE.setBounds(12, 376, 430, 22);
+				panel.add(txtCorreoE);
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -227,7 +239,7 @@ public class RegPaciente extends JDialog {
 									sexo='M';
 									}
 									
-									Paciente paciente = new Paciente(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtSeguro.getText());
+									Paciente paciente = new Paciente(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtCorreoE.getText(),txtSeguro.getText());
 									Clinica.getInstance().agregarPersona(paciente);
 								
 									Historial hist = new Historial(txtCedula.getText());
@@ -258,6 +270,7 @@ public class RegPaciente extends JDialog {
 							miPaciente.setCedula(txtCedula.getText());
 							miPaciente.setSeguro(txtSeguro.getText());
 							miPaciente.setTelefono(txtTelefono.getText());
+							miPaciente.setCorreoElectronico(txtCorreoE.getText());
 							char sexo;
 							String sexoSeleccionado = (String) cbSexo.getSelectedItem();
 							if (sexoSeleccionado.equals("Femenino"))
@@ -314,6 +327,7 @@ public class RegPaciente extends JDialog {
 			txtNombre.setText(miPaciente.getNombre());
 			txtTelefono.setText(miPaciente.getTelefono());
 			txtSeguro.setText(miPaciente.getSeguro());
+			txtCorreoE.setText(miPaciente.getCorreoElectronico());
 			char sexo=miPaciente.getSexo();
 			if (sexo=='F')
 			{
@@ -336,6 +350,7 @@ public class RegPaciente extends JDialog {
 		txtDireccion.setText("");
 		txtTelefono.setText("");
 		txtSeguro.setText("");
+		txtCorreoE.setText("");
 		cbSexo.setSelectedIndex(-1);
 		txtCodigo.setText("P-"+Clinica.getInstance().codigoPersona);
 		
@@ -343,7 +358,7 @@ public class RegPaciente extends JDialog {
 	
 	private boolean checkFields() {
 		
-		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtSeguro.getText().equals("")|| txtTelefono.getText().equals("")  ||  cbSexo.getSelectedIndex()==-1)
+		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtSeguro.getText().equals("")|| txtTelefono.getText().equals("") || txtCorreoE.getText().equals("")  ||  cbSexo.getSelectedIndex()==-1)
 		{
 			return false;
 			

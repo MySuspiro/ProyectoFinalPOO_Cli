@@ -12,7 +12,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
 
-import logico.CitaMedica;
 import logico.Control;
 
 import java.awt.FlowLayout;
@@ -87,20 +86,6 @@ public class Principal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu_6 = new JMenu("Cliente");
-		menuBar.add(mnNewMenu_6);
-		
-		JMenuItem mntmNewMenuItem_14 = new JMenuItem("Registrar");
-		mntmNewMenuItem_14.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//PROBANDO CAROLINA
-				RegUser users = new RegUser();
-				users.setModal(true);
-				users.setVisible(true);
-			}
-		});
-		mnNewMenu_6.add(mntmNewMenuItem_14);
-		
 		JMenu mnNewMenu_2 = new JMenu("Paciente");
 		menuBar.add(mnNewMenu_2);
 		
@@ -117,7 +102,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Historial");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PacienteHistorial paH= new PacienteHistorial();
+				PacienteHistorial2 paH= new PacienteHistorial2();
 				paH.setModal(true);
 				paH.setVisible(true);
 				
@@ -286,6 +271,22 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_7.add(mntmNewMenuItem_21);
+		
+		JMenu mnNewMenu_11 = new JMenu("Administrador");
+		mnAdministracion.add(mnNewMenu_11);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegUser users = new RegUser();
+				users.setModal(true);
+				users.setVisible(true);
+			}
+		});
+		mnNewMenu_11.add(mntmNewMenuItem_3);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Respaldo");
+		mnAdministracion.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -303,4 +304,3 @@ public class Principal extends JFrame {
 		contentPane.add(panel_1, BorderLayout.SOUTH);
 	}
 }
-

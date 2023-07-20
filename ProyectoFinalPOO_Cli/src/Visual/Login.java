@@ -49,7 +49,7 @@ public class Login extends JFrame {
 					try {
 						empresa2 = new  FileOutputStream("clinica.dat");
 						empresaWrite = new ObjectOutputStream(empresa2);
-						User aux = new User("Administrador", "Admin", "Admin");
+						User aux = new User("Administrador", "Admin", "Admin",null);
 						Control.getInstance().regUser(aux);
 						empresaWrite.writeObject(Control.getInstance());
 						empresa2.close();
