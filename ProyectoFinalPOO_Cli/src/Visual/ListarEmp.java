@@ -120,8 +120,8 @@ public class ListarEmp extends JDialog {
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (selected!=null) {
-							if (verificarEmpUser(selected)==true)
-							{
+							//if (verificarEmpUser(selected)==true)
+							//{
 								int option = JOptionPane.showConfirmDialog(null, "Está seguro(a) que desea eliminar el Empleado con código: "+ selected.getCodigo(), "Confirmación", JOptionPane.OK_CANCEL_OPTION);
 								if (option== JOptionPane.OK_OPTION  ) {
 
@@ -132,7 +132,7 @@ public class ListarEmp extends JDialog {
 
 								}
 								
-							}
+							//}
 						}
 					}
 				});
@@ -171,7 +171,7 @@ public class ListarEmp extends JDialog {
 		
 	}
 	
-	public boolean verificarEmpUser(Empleado emp) {
+	/*public boolean verificarEmpUser(Empleado emp) {
 		
 		
 		for (User user: Clinica.getInstance().getMisUsers()) {
@@ -184,7 +184,7 @@ public class ListarEmp extends JDialog {
 		
 		return true;
 		
-	}
+	}*/
 
 
 }

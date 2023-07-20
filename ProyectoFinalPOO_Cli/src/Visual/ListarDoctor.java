@@ -170,7 +170,7 @@ public class ListarDoctor extends JDialog {
 	
 	//verificar que no existan consultas con el doctor y que no existan usuarios con el doctor
 	
-	public boolean verificarDoc(Doctor doc) {
+	/*public boolean verificarDoc(Doctor doc) {
 		
 		
 		for (User user: Clinica.getInstance().getMisUsers()) {
@@ -191,7 +191,7 @@ public class ListarDoctor extends JDialog {
 		
 		return true;
 		
-	}
+	}*/
 
 
 }

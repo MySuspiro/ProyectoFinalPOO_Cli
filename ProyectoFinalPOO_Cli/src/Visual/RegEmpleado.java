@@ -43,6 +43,7 @@ public class RegEmpleado extends JDialog {
 	private JTextField txtContrasena;
 	private JTextField txtConfirm;
 	private JTextField txtCorreoE;
+	private JPanel panelUser;
 
 	/**
 	 * Launch the application.
@@ -227,43 +228,43 @@ public class RegEmpleado extends JDialog {
 				}
 			}
 			{
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_1.setBounds(12, 409, 613, 146);
-				panel.add(panel_1);
-				panel_1.setLayout(null);
+				panelUser = new JPanel();
+				panelUser.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panelUser.setBounds(12, 409, 613, 146);
+				panel.add(panelUser);
+				panelUser.setLayout(null);
 				{
 					JLabel lblNewLabel_1 = new JLabel("Nombre de Usuario:");
 					lblNewLabel_1.setBounds(29, 13, 154, 16);
-					panel_1.add(lblNewLabel_1);
+					panelUser.add(lblNewLabel_1);
 				}
 				{
 					txtUsername = new JTextField();
 					txtUsername.setColumns(10);
 					txtUsername.setBounds(29, 42, 276, 22);
-					panel_1.add(txtUsername);
+					panelUser.add(txtUsername);
 				}
 				{
 					JLabel lblContrase = new JLabel("Contrase\u00F1a:");
 					lblContrase.setBounds(29, 82, 154, 16);
-					panel_1.add(lblContrase);
+					panelUser.add(lblContrase);
 				}
 				{
 					txtContrasena = new JTextField();
 					txtContrasena.setColumns(10);
 					txtContrasena.setBounds(29, 111, 276, 22);
-					panel_1.add(txtContrasena);
+					panelUser.add(txtContrasena);
 				}
 				{
 					JLabel lblConfirmarContrasea = new JLabel("Confirmar Contrase\u00F1a:");
 					lblConfirmarContrasea.setBounds(334, 82, 154, 16);
-					panel_1.add(lblConfirmarContrasea);
+					panelUser.add(lblConfirmarContrasea);
 				}
 				{
 					txtConfirm = new JTextField();
 					txtConfirm.setColumns(10);
 					txtConfirm.setBounds(334, 111, 267, 22);
-					panel_1.add(txtConfirm);
+					panelUser.add(txtConfirm);
 				}
 			}
 		}
@@ -288,7 +289,7 @@ public class RegEmpleado extends JDialog {
 						{
 							if (checkFields()==true){
 								
-								if(verificarCedulaRepetida()==true && verificarUserRepetido()==true && verificarContrasena()==true) {
+								if(verificarCedulaRepetida()==true/* && verificarUserRepetido()==true */&& verificarContrasena()==true) {
 							
 						
 						
@@ -330,6 +331,7 @@ public class RegEmpleado extends JDialog {
 						
 						}else
 						{
+							panelUser.setVisible(false);
 							miEmp.setDir(txtDireccion.getText());
 							miEmp.setNombre(txtNombre.getText());
 							miEmp.setCedula(txtCedula.getText());
@@ -448,7 +450,7 @@ public class RegEmpleado extends JDialog {
 	    return true; //no se repite
 	}
 	
-	public boolean verificarUserRepetido() {
+	/*public boolean verificarUserRepetido() {
 		
 	    for (User user : Clinica.getInstance().getMisUsers()) {
 	        if (user.getUserName().equals(txtUsername.getText())) {
@@ -456,7 +458,7 @@ public class RegEmpleado extends JDialog {
 	        }
 	    }
 	    return true; //no se repite
-	}
+	}*/
 	
 	public boolean verificarContrasena() {
 		if (txtContrasena.getText().equals(txtConfirm.getText()))

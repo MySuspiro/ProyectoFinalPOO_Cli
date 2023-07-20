@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import logico.User;
 import logico.Control;
+import logico.User;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -39,7 +39,7 @@ public class Login extends JFrame {
 				ObjectInputStream empresaRead;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa = new FileInputStream ("clinica.dat");
+					empresa = new FileInputStream ("empresa.dat");
 					empresaRead = new ObjectInputStream(empresa);
 					Control temp = (Control)empresaRead.readObject();
 					Control.setControl(temp);
@@ -47,7 +47,7 @@ public class Login extends JFrame {
 					empresaRead.close();
 				} catch (FileNotFoundException e) {
 					try {
-						empresa2 = new  FileOutputStream("clinica.dat");
+						empresa2 = new  FileOutputStream("empresa.dat");
 						empresaWrite = new ObjectOutputStream(empresa2);
 						User aux = new User("Administrador", "Admin", "Admin",null);
 						Control.getInstance().regUser(aux);

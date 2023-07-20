@@ -91,8 +91,8 @@ public class RegUser extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if (checkFields()==true)
 						{
-							if (verificarUserRepetido()==true)
-							{
+							//if (/verificarUserRepetido()==true)
+							//{
 								if(verificarContrasena()==true)
 								{
 									User user = new User("Administrador",txtUsername.getText(),txtContrasena.getText(),null);
@@ -107,11 +107,11 @@ public class RegUser extends JDialog {
 									
 								}
 		
-							}
+							/*}
 							else
 							{	
 								JOptionPane.showMessageDialog(null,"Ya existe un Usuario con ese nombre");
-							}
+							}*/
 							
 						}
 						else
@@ -137,7 +137,7 @@ public class RegUser extends JDialog {
 		}
 	}
 	
-	public boolean verificarUserRepetido() {
+	/*public boolean verificarUserRepetido() {
 		
 	    for (User user : Clinica.getInstance().getMisUsers()) {
 	        if (user.getUserName().equals(txtUsername.getText())) {
@@ -145,7 +145,7 @@ public class RegUser extends JDialog {
 	        }
 	    }
 	    return true; //no se repite
-	}
+	}*/
 	
 	public boolean verificarContrasena() {
 		if (txtContrasena.getText().equals(txtConfirm.getText()))
