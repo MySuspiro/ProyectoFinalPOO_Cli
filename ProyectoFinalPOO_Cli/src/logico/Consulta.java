@@ -10,8 +10,9 @@ public class Consulta {
     private  Enfermedad enfermedad;
     private Paciente paciente;
     private Doctor doctor;
+    private String status;
 	public Consulta(String codigoConsulta, String diagnostico, Enfermedad enfermedad,
-			Paciente paciente, Doctor doctor) {
+			Paciente paciente, Doctor doctor, String status) {
 		super();
 		this.codigoConsulta = codigoConsulta;
 		this.fechaConsulta = new Date();
@@ -19,6 +20,7 @@ public class Consulta {
 		this.enfermedad = enfermedad;
 		this.paciente = paciente;
 		this.doctor = doctor;
+		this.status = status;
 	}
 	public String getCodigoConsulta() {
 		return codigoConsulta;

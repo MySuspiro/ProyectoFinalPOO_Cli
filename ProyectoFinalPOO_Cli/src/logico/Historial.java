@@ -9,6 +9,7 @@ public class Historial {
 	private String cedPaciente;
 	private ArrayList<Vacuna> misVacunas;
 	private ArrayList<Consulta> misConsultas;
+	private ArrayList<Enfermedad> misEnfermedades;
 	
 	public Historial(String cedPaciente) {
 		super();
@@ -17,14 +18,11 @@ public class Historial {
 		this.cedPaciente = cedPaciente;
 		misVacunas = new ArrayList<Vacuna>();
 		misConsultas = new ArrayList<Consulta>();
+		misEnfermedades = new ArrayList<Enfermedad>();
 	}
 
 	public String getCodigo() {
 		return codigo;
-	}
-
-	public String getcedPaciente() {
-		return cedPaciente;
 	}
 
 	public ArrayList<Vacuna> getMisVacunas() {
@@ -43,6 +41,26 @@ public class Historial {
 	public void addMisConsultas(Consulta con) {
 		this.misConsultas.add(con);
 	}
+
+	public String getCedPaciente() {
+		return cedPaciente;
+	}
+
+	public ArrayList<Enfermedad> getMisEnfermedades() {
+		return misEnfermedades;
+	}
+	
+	public void addMisEnfermedades(Enfermedad aux) {
+		this.misEnfermedades.add(aux);
+	}
+	
+	public void eliminarMisEnfermedades(Enfermedad aux) {
+		this.misEnfermedades.remove(aux);
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -205,15 +205,55 @@ public class Clinica {
 		
 		return aux;
 	}
+	public CitaMedica buscarCitaByCode(String Code) {
+		CitaMedica aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misCitas.size()) {
+			if(misCitas.get(i).getCodigo().equalsIgnoreCase(Code)){
+				aux = misCitas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
 	
 	public void eliminarEnfermedad(logico.Enfermedad selected) {
 		misEnfermedades.remove(selected);
+	}
+	public void eliminarCitas(CitaMedica cita) {
+		misCitas.remove(cita);
 	}
 	public void modificarEnfermedad(Enfermedad miEnf) {
 		int index= buscarIndexEnfermedadByCode(miEnf);
 		misEnfermedades.set(index,miEnf);	
 		
 	}
+	
+	public void modificarCita(CitaMedica cit) {
+		int index = buscarIndexCitaByCode(cit);
+		misCitas.set(index,cit);
+	}
+	
+	
+	
+	private int buscarIndexCitaByCode(CitaMedica cit) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misCitas.size()) {
+			if(misCitas.get(i).getCodigo().equalsIgnoreCase(cit.getCodigo())){
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+
 	
 	private int buscarIndexEnfermedadByCode(Enfermedad miEnf) {
 		int aux = -1;
@@ -313,6 +353,8 @@ public class Clinica {
 		
 		return porciento;
 	}
+	
+	
 	
 
 }

@@ -17,6 +17,7 @@ import logico.Doctor;
 import logico.Enfermedad;
 import logico.Paciente;
 import logico.Persona;
+import logico.Vacuna;
 
 import javax.swing.UIManager;
 import java.awt.Color;
@@ -34,7 +35,7 @@ public class RegConsulta extends JDialog {
 	private JTextField txtTel;
 	private JTextField txtNom;
 	private JTextField txtSeguro;
-	private JTextField txtCodigoPac;
+	private JTextField txtEmail;
 	private JTextField txtCodigoCons;
 	private JTextArea txtDir;
 	private JRadioButton rdbHombre;
@@ -43,6 +44,13 @@ public class RegConsulta extends JDialog {
 	private JComboBox<String> cmbEnf;
 	private JTextArea txtDiag;
 	private boolean encontrado = false;
+	Paciente pac = null;
+	private JRadioButton rdbVacuna;
+	private JPanel panelVac;
+	private JComboBox<String> cmbVac;
+	private JRadioButton rdbEnf;
+	private JRadioButton rdbSano;
+	private JPanel PanEnf;
 
 	/**
 	 * Launch the application.
@@ -87,10 +95,12 @@ public class RegConsulta extends JDialog {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Paciente pac = null;
 				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 				if(pac != null) {
 					encontrado = true;
+					JOptionPane.showMessageDialog(null, "Cliente encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Cliente no encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -98,7 +108,7 @@ public class RegConsulta extends JDialog {
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre");
-		lblNewLabel_1.setBounds(47, 132, 56, 16);
+		lblNewLabel_1.setBounds(47, 64, 56, 16);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Direccion:");
@@ -109,8 +119,8 @@ public class RegConsulta extends JDialog {
 		lblNewLabel_3.setBounds(291, 64, 78, 16);
 		panel.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_4 = new JLabel("Codigo");
-		lblNewLabel_4.setBounds(47, 64, 56, 16);
+		JLabel lblNewLabel_4 = new JLabel("Email:");
+		lblNewLabel_4.setBounds(47, 132, 56, 16);
 		panel.add(lblNewLabel_4);
 		
 		JPanel panel_1 = new JPanel();
@@ -144,7 +154,7 @@ public class RegConsulta extends JDialog {
 		txtTel.setColumns(10);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(47, 165, 196, 22);
+		txtNom.setBounds(47, 97, 196, 22);
 		panel.add(txtNom);
 		txtNom.setColumns(10);
 		
@@ -157,11 +167,10 @@ public class RegConsulta extends JDialog {
 		panel.add(txtSeguro);
 		txtSeguro.setColumns(10);
 		
-		txtCodigoPac = new JTextField();
-		txtCodigoPac.setEditable(false);
-		txtCodigoPac.setBounds(47, 97, 196, 22);
-		panel.add(txtCodigoPac);
-		txtCodigoPac.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setBounds(47, 165, 196, 22);
+		panel.add(txtEmail);
+		txtEmail.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Consulta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -169,16 +178,28 @@ public class RegConsulta extends JDialog {
 		contentPanel.add(panel_2);
 		panel_2.setLayout(null);
 		
+		PanEnf = new JPanel();
+		PanEnf.setBorder(new TitledBorder(null, "Enferma", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanEnf.setBounds(36, 89, 226, 74);
+		panel_2.add(PanEnf);
+		PanEnf.setLayout(null);
+		PanEnf.setVisible(false);
+		
+		cmbEnf = new JComboBox<>();
+		cmbEnf.setBounds(14, 27, 196, 22);
+		PanEnf.add(cmbEnf);
+		cmbEnf.addItem("<Seleccione>");
+		
 		JLabel lblNewLabel_6 = new JLabel("Codigo:");
-		lblNewLabel_6.setBounds(50, 32, 56, 16);
+		lblNewLabel_6.setBounds(50, 17, 56, 16);
 		panel_2.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("Doctor:");
-		lblNewLabel_7.setBounds(292, 69, 56, 16);
+		lblNewLabel_7.setBounds(292, 17, 56, 16);
 		panel_2.add(lblNewLabel_7);
 		
 		cmbDoc = new JComboBox<>();
-		cmbDoc.setBounds(292, 98, 196, 22);
+		cmbDoc.setBounds(292, 50, 196, 22);
 		panel_2.add(cmbDoc);
 		cmbDoc.addItem("<Seleccione>");
 		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
@@ -192,31 +213,80 @@ public class RegConsulta extends JDialog {
 		txtCodigoCons = new JTextField();
 		txtCodigoCons.setEditable(false);
 		txtCodigoCons.setColumns(10);
-		txtCodigoCons.setBounds(118, 29, 370, 22);
+		txtCodigoCons.setBounds(50, 50, 196, 22);
 		panel_2.add(txtCodigoCons);
-		
-		cmbEnf = new JComboBox<>();
-		cmbEnf.setBounds(50, 98, 196, 22);
-		panel_2.add(cmbEnf);
-		cmbEnf.addItem("<Seleccione>");
-		for (Enfermedad aux : Clinica.getInstance().getMisEnfermedades()) {
-			if(aux != null) {
-				cmbEnf.addItem(aux.getNombre());
-			}	
-		}
-		
-		
-		JLabel lblNewLabel_8 = new JLabel("Enfermedades");
-		lblNewLabel_8.setBounds(50, 69, 120, 16);
-		panel_2.add(lblNewLabel_8);
+		txtCodigoCons.setText("C-"+Clinica.conCod);
 		
 		JLabel lblNewLabel_9 = new JLabel("Diagnostico:");
-		lblNewLabel_9.setBounds(50, 133, 120, 16);
+		lblNewLabel_9.setBounds(50, 165, 120, 16);
 		panel_2.add(lblNewLabel_9);
 		
 		txtDiag = new JTextArea();
-		txtDiag.setBounds(50, 162, 438, 83);
+		txtDiag.setBounds(50, 194, 438, 64);
 		panel_2.add(txtDiag);
+		
+		panelVac = new JPanel();
+		panelVac.setBorder(new TitledBorder(null, "Vacuna", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelVac.setBounds(274, 89, 226, 74);
+		panel_2.add(panelVac);
+		panelVac.setLayout(null);
+		panelVac.setVisible(false);
+		
+		cmbVac = new JComboBox<>();
+		cmbVac.setBounds(18, 27, 196, 22);
+		panelVac.add(cmbVac);
+		cmbVac.addItem("<Seleccione>");
+		for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
+			cmbVac.addItem(aux.getNombre());
+		}
+		
+		rdbVacuna = new JRadioButton("Vacunado");
+		rdbVacuna.setBounds(292, 121, 196, 25);
+		panel_2.add(rdbVacuna);
+		
+		rdbEnf = new JRadioButton("Esta Enfermo");
+		rdbEnf.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rdbSano.setVisible(false);
+				rdbEnf.setVisible(false);
+				PanEnf.setVisible(true);
+				for (Enfermedad aux : Clinica.getInstance().getMisEnfermedades()) {
+					if(aux != null) {
+						cmbEnf.addItem(aux.getNombre());
+					}	
+				}
+				
+			}
+		});
+		rdbEnf.setBounds(50, 85, 127, 25);
+		panel_2.add(rdbEnf);
+		
+		rdbSano = new JRadioButton("Esta Sano");
+		rdbSano.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rdbSano.setVisible(false);
+				rdbEnf.setVisible(false);
+				PanEnf.setVisible(true);
+				Paciente pac = (Paciente)Clinica.getInstance().buscarPersonaByCodigo(txtCedPaciente.getText());
+				for (Enfermedad aux : pac.getHist().getMisEnfermedades()){
+					if(aux != null) {
+						cmbEnf.addItem(aux.getNombre());
+					}	
+				}
+				
+			}
+		});
+		rdbSano.setBounds(50, 121, 127, 25);
+		panel_2.add(rdbSano);
+		rdbVacuna.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				panelVac.setVisible(true);
+				rdbVacuna.setVisible(false);
+			}
+		});
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -227,19 +297,44 @@ public class RegConsulta extends JDialog {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						Doctor doc = null;
+						String status = "Investigando";
 						Enfermedad enf = null;
-						Paciente pac = null;
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByCedula(cmbDoc.getSelectedItem().toString());
-						pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 						enf = (Enfermedad)Clinica.getInstance().buscarEnfermedadByCode(cmbEnf.getSelectedItem().toString());
-						if(!encontrado) {
+						char sex = 0;
+						if(rdbHombre.isSelected()) {
+							sex = 'H';
+						} else if (rdbMujer.isSelected()) {
+							sex = 'M';
+						}
+						if(txtCedPaciente.getText() != null && txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
+							//pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.codigoPersona, txtTel.getText(), sex, txtSeguro.getText(), txtEmail.getText());
+						}
+						
+						
+						if(enf != null) {
+							if(rdbEnf.isSelected()) {
+								status = "Enfermo";
+								pac.getHist().addMisEnfermedades(enf);;
+							} else if (rdbSano.isSelected()) {
+								status = "Sano";
+								pac.getHist().eliminarMisEnfermedades(enf);
+							}
+
+						}
+						
+						if(!encontrado && sex != 0) {
 							Clinica.getInstance().agregarPersona(pac);
+						} else {
+							Clinica.getInstance().modificarPersona(pac);
 						}
 						if(doc != null && enf != null && pac != null) {
-							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc);
+							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status);
 							Clinica.getInstance().agregarConsulta(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
+						}else {// enfermedades cmbx donde agregarlas o quitarlas dependiendo
+							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada :(", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
 					}
@@ -250,6 +345,12 @@ public class RegConsulta extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -258,8 +359,8 @@ public class RegConsulta extends JDialog {
 
 	private void Clean() {
 		txtCedPaciente.setText("");
-		txtCodigoCons.setText("");
-		txtCodigoPac.setText("");
+		txtCodigoCons.setText("C-"+Clinica.conCod);
+		txtEmail.setText("");
 		txtDiag.setText("");
 		txtDir.setText("");
 		txtNom.setText("");
@@ -269,6 +370,14 @@ public class RegConsulta extends JDialog {
 		rdbMujer.setSelected(false);
 		cmbDoc.setSelectedIndex(0);
 		cmbEnf.setSelectedIndex(0);
+		rdbSano.setVisible(true);
+		rdbSano.setSelected(false);
+		rdbEnf.setVisible(true);
+		rdbEnf.setSelected(false);
+		rdbVacuna.setVisible(true);
+		rdbVacuna.setSelected(false);
+		panelVac.setVisible(false);
+		PanEnf.setVisible(false);
 		
 	}
 }

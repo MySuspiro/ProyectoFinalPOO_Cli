@@ -12,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
 
+import logico.CitaMedica;
 import logico.Control;
 
 import java.awt.FlowLayout;
@@ -169,7 +170,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegCita regCita= new RegCita();
+				RegCita regCita= new RegCita(null);
 				regCita.setModal(true);
 				regCita.setVisible(true);
 			}

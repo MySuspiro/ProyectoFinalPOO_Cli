@@ -38,26 +38,22 @@ public class RegCita extends JDialog {
     DateFormatter df = new DateFormatter(format);
     private JTextField txtCedPaciente;
     private JTextField txtNomPaciente;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RegCita jdialog = new RegCita();
-			jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			jdialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private CitaMedica miCita= null;
+    private JButton btnReg;
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegCita() {
-		setTitle("Registro de Cita");
+	public RegCita(CitaMedica cit) {
+		miCita = cit;
+		setResizable(false);
+		if(miCita == null) {
+			setTitle("Registro de Cita");
+		} else {
+			setTitle("Modificar Cita");
+		}
 		setBounds(100, 100, 376, 314);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -99,8 +95,12 @@ public class RegCita extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registrar");
-				okButton.addMouseListener(new MouseAdapter() {
+				if(miCita != null) {
+					btnReg = new JButton("Registrar");
+				} else {
+					btnReg = new JButton("Modificar");
+				}				
+				btnReg.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						Doctor doc = null;
@@ -112,17 +112,22 @@ public class RegCita extends JDialog {
 							e1.printStackTrace();
 						}
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByCedula(cbxDoc.getSelectedItem().toString());
-						if(cbxDoc.getSelectedIndex() != 0) {
+						if(cbxDoc.getSelectedIndex() != 0 && miCita == null) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, txtHora.getText(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							JOptionPane.showMessageDialog(null, "Cita Agendada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
+						} else if (cbxDoc.getSelectedIndex() != 0 && miCita != null) {
+							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, txtHora.getText(), fech);
+							Clinica.getInstance().modificarCita(cita);
+							JOptionPane.showMessageDialog(null, "Cita Modificada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
 						}
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnReg.setActionCommand("OK");
+				buttonPane.add(btnReg);
+				getRootPane().setDefaultButton(btnReg);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
