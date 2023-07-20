@@ -171,8 +171,10 @@ public class Clinica {
 		misPersonas.remove(selected);
 	}
 	public void modificarPersona(Persona miPersona) {
-		int index= buscarIndexPersonaByCode(miPersona);
-		misPersonas.set(index,miPersona);	
+		int index = buscarIndexPersonaByCode(miPersona);
+		if(misPersonas != null) {
+			misPersonas.set(index,miPersona);	
+		}
 		
 	}
 	
@@ -205,6 +207,22 @@ public class Clinica {
 		
 		return aux;
 	}
+	
+	public Enfermedad buscarEnfermedadByNom(String nom) {
+		Enfermedad aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misEnfermedades.size()) {
+			if(misEnfermedades.get(i).getNombre().equalsIgnoreCase(nom)){
+				aux = misEnfermedades.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
 	public CitaMedica buscarCitaByCode(String Code) {
 		CitaMedica aux = null;
 		boolean encontrado = false;
@@ -219,6 +237,23 @@ public class Clinica {
 		
 		return aux;
 	}
+	
+	public Persona buscarPersonaByNom(String nom) {
+		Persona aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misPersonas.size()) {
+			if(misPersonas.get(i).getNombre().equalsIgnoreCase(nom)){
+				aux = misPersonas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	
 	
 	public void eliminarEnfermedad(logico.Enfermedad selected) {
 		misEnfermedades.remove(selected);

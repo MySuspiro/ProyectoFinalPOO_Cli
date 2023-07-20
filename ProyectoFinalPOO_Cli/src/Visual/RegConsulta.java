@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
+import com.sun.org.apache.bcel.internal.generic.LoadClass;
+import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
+
 import logico.Clinica;
 import logico.Consulta;
 import logico.Doctor;
@@ -99,6 +102,7 @@ public class RegConsulta extends JDialog {
 				if(pac != null) {
 					encontrado = true;
 					JOptionPane.showMessageDialog(null, "Cliente encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
+					loadPaciente(pac);
 				} else {
 					JOptionPane.showMessageDialog(null, "Cliente no encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -299,15 +303,16 @@ public class RegConsulta extends JDialog {
 						Doctor doc = null;
 						String status = "Investigando";
 						Enfermedad enf = null;
-						doc = (Doctor)Clinica.getInstance().buscarPersonaByCedula(cmbDoc.getSelectedItem().toString());
-						enf = (Enfermedad)Clinica.getInstance().buscarEnfermedadByCode(cmbEnf.getSelectedItem().toString());
 						char sex = 0;
+						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
+						enf = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+						
 						if(rdbHombre.isSelected()) {
 							sex = 'H';
 						} else if (rdbMujer.isSelected()) {
 							sex = 'M';
 						}
-						if(txtCedPaciente.getText() != null && txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
+						if(txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
 							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.codigoPersona, txtTel.getText(), sex, txtSeguro.getText(), txtEmail.getText());
 						}
 						
@@ -328,13 +333,14 @@ public class RegConsulta extends JDialog {
 						} else {
 							Clinica.getInstance().modificarPersona(pac);
 						}
+						
 						if(doc != null && enf != null && pac != null) {
 							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status);
 							Clinica.getInstance().agregarConsulta(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-						}else {// enfermedades cmbx donde agregarlas o quitarlas dependiendo
-							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada :(", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
 					}
@@ -355,6 +361,26 @@ public class RegConsulta extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	protected void loadPaciente(Paciente pac) {
+		// TODO Auto-generated method stub
+		txtCedPaciente.setText(pac.getCedula());
+		txtEmail.setText(pac.getCorreoElectronico());
+		txtDir.setText(pac.getDir());
+		txtNom.setText(pac.getNombre());
+		txtTel.setText(pac.getTelefono());
+		if(pac.getSeguro() != null) {
+			txtSeguro.setText(pac.getSeguro());
+		}
+		if(pac.getSexo() == 'H') {
+			rdbHombre.setSelected(true);
+			rdbMujer.setSelected(false);
+		} else {
+			rdbHombre.setSelected(false);
+			rdbMujer.setSelected(true);
+		}
+		
 	}
 
 	private void Clean() {
