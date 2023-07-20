@@ -334,7 +334,7 @@ public class RegConsulta extends JDialog {
 							Clinica.getInstance().modificarPersona(pac);
 						}
 						
-						if(doc != null && enf != null && pac != null) {
+						if(doc != null && pac != null) {
 							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status);
 							Clinica.getInstance().agregarConsulta(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
