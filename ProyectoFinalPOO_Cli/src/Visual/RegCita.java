@@ -26,6 +26,9 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class RegCita extends JDialog {
 
@@ -40,6 +43,7 @@ public class RegCita extends JDialog {
     private JTextField txtNomPaciente;
     private CitaMedica miCita= null;
     private JButton btnReg;
+    MaskFormatter mask = null;
 
 	/**
 	 * Create the dialog.
@@ -52,44 +56,12 @@ public class RegCita extends JDialog {
 		} else {
 			setTitle("Modificar Cita");
 		}
-		setBounds(100, 100, 376, 314);
+		setBounds(100, 100, 501, 314);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Codigo:");
-		lblNewLabel.setBounds(42, 16, 56, 16);
-		contentPanel.add(lblNewLabel);
-		{
-			txtCod = new JTextField();
-			txtCod.setEditable(false);
-			txtCod.setBounds(42, 48, 116, 22);
-			contentPanel.add(txtCod);
-			txtCod.setColumns(10);
-			txtCod.setText("CM-" + Clinica.citCod);
-		}
-		{
-			JLabel lblNewLabel_1 = new JLabel("Fecha:");
-			lblNewLabel_1.setBounds(42, 86, 56, 16);
-			contentPanel.add(lblNewLabel_1);
-		}
-		{
-			JLabel lblNewLabel_2 = new JLabel("Nombre del Paciente:");
-			lblNewLabel_2.setBounds(200, 86, 128, 16);
-			contentPanel.add(lblNewLabel_2);
-		}
-		{
-			JLabel lblNewLabel_3 = new JLabel("Hora:");
-			lblNewLabel_3.setBounds(42, 156, 56, 16);
-			contentPanel.add(lblNewLabel_3);
-		}
-		{
-			JLabel lblNewLabel_4 = new JLabel("Doctor:");
-			lblNewLabel_4.setBounds(200, 156, 56, 16);
-			contentPanel.add(lblNewLabel_4);
-		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -141,30 +113,15 @@ public class RegCita extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 			{
-			MaskFormatter mask = null;
+			
 	        try {
 	            mask = new MaskFormatter("## : ##");
 	            mask.setPlaceholderCharacter('_');
 	        } catch (java.text.ParseException e) {
 	            e.printStackTrace();
 	        }
-
-	        txtHora = new JFormattedTextField(mask);
-	        txtHora.setText("");
-	        txtHora.setBounds(41, 188, 44, 22);
-
-	        txtFech = new JFormattedTextField(df);
-	        txtFech.setBounds(42, 118, 75, 22);
-	        txtFech.setValue(new Date());
-	        contentPanel.add(txtHora);
-	        contentPanel.add(txtFech);
 			}
 		}
-
-		
-		cbxDoc = new JComboBox<String>();
-		cbxDoc.setBounds(200, 188, 128, 22);
-		cbxDoc.addItem("<Seleccione>");
 		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
 			if(aux != null) {
 				if(aux instanceof Doctor) {
@@ -172,21 +129,75 @@ public class RegCita extends JDialog {
 				}
 			}
 		}
-		contentPanel.add(cbxDoc);
-		
-		JLabel lblNewLabel_5 = new JLabel("Cedula del Paciente");
-		lblNewLabel_5.setBounds(200, 16, 116, 16);
-		contentPanel.add(lblNewLabel_5);
-		
-		txtCedPaciente = new JTextField();
-		txtCedPaciente.setBounds(200, 48, 128, 22);
-		contentPanel.add(txtCedPaciente);
-		txtCedPaciente.setColumns(10);
 		{
-			txtNomPaciente = new JTextField();
-			txtNomPaciente.setBounds(200, 121, 128, 22);
-			contentPanel.add(txtNomPaciente);
-			txtNomPaciente.setColumns(10);
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBounds(12, 13, 471, 218);
+			contentPanel.add(panel);
+			panel.setLayout(null);
+			
+			JLabel lblNewLabel = new JLabel("Codigo:");
+			lblNewLabel.setBounds(31, 21, 56, 16);
+			panel.add(lblNewLabel);
+			
+			JLabel lblNewLabel_5 = new JLabel("Cedula del Paciente");
+			lblNewLabel_5.setBounds(16, 138, 116, 16);
+			panel.add(lblNewLabel_5);
+			
+			txtCedPaciente = new JTextField();
+			txtCedPaciente.setBounds(16, 176, 211, 22);
+			panel.add(txtCedPaciente);
+			txtCedPaciente.setColumns(10);
+			{
+				txtCod = new JTextField();
+				txtCod.setBounds(118, 18, 336, 22);
+				panel.add(txtCod);
+				txtCod.setEditable(false);
+				txtCod.setColumns(10);
+				txtCod.setText("CM-" + Clinica.citCod);
+			}
+			{
+				JLabel lblNewLabel_1 = new JLabel("Fecha:");
+				lblNewLabel_1.setBounds(263, 138, 56, 16);
+				panel.add(lblNewLabel_1);
+			}
+			
+				        txtFech = new JFormattedTextField(df);
+				        txtFech.setBounds(263, 176, 75, 22);
+				        panel.add(txtFech);
+				        txtFech.setValue(new Date());
+				        {
+				        	JLabel lblNewLabel_3 = new JLabel("Hora:");
+				        	lblNewLabel_3.setBounds(368, 138, 56, 16);
+				        	panel.add(lblNewLabel_3);
+				        }
+				        
+				        	        txtHora = new JFormattedTextField(mask);
+				        	        txtHora.setBounds(368, 176, 44, 22);
+				        	        panel.add(txtHora);
+				        	        txtHora.setText("");
+				        	        
+				        	        		
+				        	        		cbxDoc = new JComboBox<String>();
+				        	        		cbxDoc.setBounds(243, 95, 211, 22);
+				        	        		panel.add(cbxDoc);
+				        	        		{
+				        	        			JLabel lblNewLabel_4 = new JLabel("Doctor:");
+				        	        			lblNewLabel_4.setBounds(243, 58, 56, 16);
+				        	        			panel.add(lblNewLabel_4);
+				        	        		}
+				        	        		{
+				        	        			txtNomPaciente = new JTextField();
+				        	        			txtNomPaciente.setBounds(16, 95, 211, 22);
+				        	        			panel.add(txtNomPaciente);
+				        	        			txtNomPaciente.setColumns(10);
+				        	        		}
+				        	        		{
+				        	        			JLabel lblNewLabel_2 = new JLabel("Nombre del Paciente:");
+				        	        			lblNewLabel_2.setBounds(16, 58, 128, 16);
+				        	        			panel.add(lblNewLabel_2);
+				        	        		}
+				        	        		cbxDoc.addItem("<Seleccione>");
 		}
 		
 		

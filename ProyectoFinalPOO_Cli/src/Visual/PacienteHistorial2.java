@@ -24,6 +24,9 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.JTextArea;
 
 public class PacienteHistorial2 extends JDialog {
 
@@ -63,7 +66,7 @@ public class PacienteHistorial2 extends JDialog {
 		setBounds(100, 100, 686, 697);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
@@ -72,7 +75,7 @@ public class PacienteHistorial2 extends JDialog {
 			panel.setLayout(null);
 			{
 				JPanel panelTabla = new JPanel();
-				panelTabla.setBounds(12, 108, 636, 310);
+				panelTabla.setBounds(12, 108, 650, 310);
 				panel.add(panelTabla);
 				panelTabla.setLayout(new BorderLayout(0, 0));
 				{
@@ -91,7 +94,7 @@ public class PacienteHistorial2 extends JDialog {
 			}
 			{
 				txtCedula = new JTextField();
-				txtCedula.setBounds(139, 28, 400, 22);
+				txtCedula.setBounds(139, 27, 400, 22);
 				panel.add(txtCedula);
 				txtCedula.setColumns(10);
 			}
@@ -112,41 +115,41 @@ public class PacienteHistorial2 extends JDialog {
 						
 					}
 				});
-				btnBuscar.setBounds(551, 27, 97, 25);
+				btnBuscar.setBounds(556, 26, 97, 25);
 				panel.add(btnBuscar);
 			}
 			{
 				JLabel label = new JLabel("C\u00F3digo Historial:");
-				label.setBounds(24, 66, 97, 16);
+				label.setBounds(19, 66, 97, 16);
 				panel.add(label);
 			}
 			{
 				txtCodigo = new JTextField();
 				txtCodigo.setEditable(false);
 				txtCodigo.setColumns(10);
-				txtCodigo.setBounds(139, 63, 77, 22);
+				txtCodigo.setBounds(135, 63, 77, 22);
 				panel.add(txtCodigo);
 			}
 			{
 				JLabel label = new JLabel("Nombre Paciente:");
-				label.setBounds(233, 63, 122, 16);
+				label.setBounds(231, 66, 122, 16);
 				panel.add(label);
 			}
 			{
 				txtPaciente = new JTextField();
 				txtPaciente.setEditable(false);
 				txtPaciente.setColumns(10);
-				txtPaciente.setBounds(367, 63, 281, 22);
+				txtPaciente.setBounds(372, 63, 281, 22);
 				panel.add(txtPaciente);
 			}
 			{
 				JLabel lblVacunas = new JLabel("Vacunas:");
-				lblVacunas.setBounds(24, 431, 97, 16);
+				lblVacunas.setBounds(12, 431, 97, 16);
 				panel.add(lblVacunas);
 			}
 			
 			JPanel panel_1 = new JPanel();
-			panel_1.setBounds(12, 460, 636, 129);
+			panel_1.setBounds(12, 460, 650, 129);
 			panel.add(panel_1);
 			panel_1.setLayout(new BorderLayout(0, 0));
 			

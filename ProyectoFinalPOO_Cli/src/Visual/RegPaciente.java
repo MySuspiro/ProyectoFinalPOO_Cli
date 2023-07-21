@@ -25,6 +25,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class RegPaciente extends JDialog {
 
@@ -57,19 +59,20 @@ public class RegPaciente extends JDialog {
 		{
 			setTitle("Registrar Paciente");
 		}
-		setBounds(100, 100, 474, 605);
+		setBounds(100, 100, 605, 480);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
+			panel.setBorder(null);
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
 				JLabel label = new JLabel("C\u00F3digo:");
-				label.setBounds(12, 14, 56, 16);
+				label.setBounds(44, 15, 56, 16);
 				panel.add(label);
 			}
 			{
@@ -77,12 +80,12 @@ public class RegPaciente extends JDialog {
 				txtCodigo.setEditable(false);
 				txtCodigo.setText("P-"+Clinica.getInstance().codigoPersona);
 				txtCodigo.setColumns(10);
-				txtCodigo.setBounds(12, 44, 267, 22);
+				txtCodigo.setBounds(44, 46, 228, 22);
 				panel.add(txtCodigo);
 			}
 			{
 				JLabel label = new JLabel("Nombre:");
-				label.setBounds(12, 146, 56, 16);
+				label.setBounds(44, 83, 56, 16);
 				panel.add(label);
 			}
 			{
@@ -100,22 +103,22 @@ public class RegPaciente extends JDialog {
 					}
 				});
 				txtNombre.setColumns(10);
-				txtNombre.setBounds(12, 176, 267, 22);
+				txtNombre.setBounds(44, 114, 228, 22);
 				panel.add(txtNombre);
 			}
 			{
 				JLabel label = new JLabel("Direcci\u00F3n:");
-				label.setBounds(12, 411, 70, 16);
+				label.setBounds(44, 287, 70, 16);
 				panel.add(label);
 			}
 			{
 				txtDireccion = new JTextArea();
-				txtDireccion.setBounds(12, 441, 430, 53);
+				txtDireccion.setBounds(44, 318, 430, 53);
 				panel.add(txtDireccion);
 			}
 			{
 				JLabel lblSexo = new JLabel("Sexo");
-				lblSexo.setBounds(306, 149, 97, 16);
+				lblSexo.setBounds(316, 151, 97, 16);
 				panel.add(lblSexo);
 			}
 			{
@@ -124,12 +127,12 @@ public class RegPaciente extends JDialog {
 				cbSexo.setSelectedIndex(-1);
 				cbSexo.setMaximumRowCount(2);
 				cbSexo.setToolTipText("");
-				cbSexo.setBounds(306, 176, 107, 22);
+				cbSexo.setBounds(316, 182, 107, 22);
 				panel.add(cbSexo);
 			}
 			{
 				JLabel lblCdula = new JLabel("C\u00E9dula:");
-				lblCdula.setBounds(12, 80, 56, 16);
+				lblCdula.setBounds(316, 15, 56, 16);
 				panel.add(lblCdula);
 			}
 			{
@@ -147,12 +150,12 @@ public class RegPaciente extends JDialog {
 					}
 				});
 				txtCedula.setColumns(10);
-				txtCedula.setBounds(12, 110, 267, 22);
+				txtCedula.setBounds(316, 46, 228, 22);
 				panel.add(txtCedula);
 			}
 			
 			JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
-			lblTelfono.setBounds(12, 212, 56, 16);
+			lblTelfono.setBounds(316, 83, 56, 16);
 			panel.add(lblTelfono);
 			
 			txtTelefono = new JTextField();
@@ -168,11 +171,11 @@ public class RegPaciente extends JDialog {
 				}
 			});
 			txtTelefono.setColumns(10);
-			txtTelefono.setBounds(12, 242, 267, 22);
+			txtTelefono.setBounds(316, 114, 228, 22);
 			panel.add(txtTelefono);
 			
 			JLabel lblLmiteDeCrdito = new JLabel("Seguro:");
-			lblLmiteDeCrdito.setBounds(12, 278, 129, 16);
+			lblLmiteDeCrdito.setBounds(44, 151, 129, 16);
 			panel.add(lblLmiteDeCrdito);
 			
 			txtSeguro = new JTextField();
@@ -189,17 +192,17 @@ public class RegPaciente extends JDialog {
 				}
 			});
 			txtSeguro.setColumns(10);
-			txtSeguro.setBounds(12, 308, 267, 22);
+			txtSeguro.setBounds(44, 182, 228, 22);
 			panel.add(txtSeguro);
 			{
 				JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico:");
-				lblCorreoElectrnico.setBounds(12, 346, 129, 16);
+				lblCorreoElectrnico.setBounds(44, 219, 129, 16);
 				panel.add(lblCorreoElectrnico);
 			}
 			{
 				txtCorreoE = new JTextField();
 				txtCorreoE.setColumns(10);
-				txtCorreoE.setBounds(12, 376, 430, 22);
+				txtCorreoE.setBounds(44, 250, 500, 22);
 				panel.add(txtCorreoE);
 			}
 		}

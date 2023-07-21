@@ -27,6 +27,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class RegEmpleado extends JDialog {
 
@@ -71,6 +73,7 @@ public class RegEmpleado extends JDialog {
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
+			panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
@@ -87,183 +90,183 @@ public class RegEmpleado extends JDialog {
 			}
 			{
 				JLabel label = new JLabel("C\u00F3digo:");
-				label.setBounds(40, 28, 56, 16);
+				label.setBounds(42, 28, 56, 16);
 				panel.add(label);
-			}
-			{
-				txtCodigo = new JTextField();
-				txtCodigo.setEditable(false);
-				txtCodigo.setText("E-"+Clinica.getInstance().codigoPersona);
-				txtCodigo.setColumns(10);
-				txtCodigo.setBounds(40, 58, 267, 22);
-				panel.add(txtCodigo);
 			}
 			{
 				JLabel label = new JLabel("Nombre:");
-				label.setBounds(40, 93, 56, 16);
+				label.setBounds(42, 93, 56, 16);
 				panel.add(label);
-			}
-			{
-				txtNombre = new JTextField();
-				txtNombre.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyTyped(KeyEvent e) {
-						 // Obtener la tecla presionada
-		                char c = e.getKeyChar();
-		                // Verificar si la tecla es una letra
-		                if (!Character.isLetter(c)&& c != ' ') {
-		                    // Consumir el evento para evitar que se escriba el carácter no válido
-		                    e.consume();
-		                }
-					}
-				});
-				txtNombre.setColumns(10);
-				txtNombre.setBounds(40, 123, 267, 22);
-				panel.add(txtNombre);
 			}
 			{
 				JLabel label = new JLabel("Direcci\u00F3n:");
-				label.setBounds(40, 291, 70, 16);
+				label.setBounds(42, 291, 70, 16);
 				panel.add(label);
 			}
 			{
-				txtDireccion = new JTextArea();
-				txtDireccion.setBounds(40, 320, 561, 53);
-				panel.add(txtDireccion);
-			}
-			{
 				JLabel lblSexo = new JLabel("Sexo");
-				lblSexo.setBounds(334, 96, 97, 16);
+				lblSexo.setBounds(339, 96, 97, 16);
 				panel.add(lblSexo);
 			}
 			{
-				cbSexo = new JComboBox<String>();
-				cbSexo.setModel(new DefaultComboBoxModel<String>(new String[] {"Femenino", "Masculino"}));
-				cbSexo.setSelectedIndex(-1);
-				cbSexo.setMaximumRowCount(2);
-				cbSexo.setToolTipText("");
-				cbSexo.setBounds(334, 123, 107, 22);
-				panel.add(cbSexo);
-			}
-			{
 				JLabel lblCdula = new JLabel("C\u00E9dula:");
-				lblCdula.setBounds(334, 28, 56, 16);
+				lblCdula.setBounds(339, 28, 56, 16);
 				panel.add(lblCdula);
-			}
-			{
-				txtCedula = new JTextField();
-				txtCedula.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyTyped(KeyEvent e) {
-						 // Obtener la tecla presionada
-		                char c = e.getKeyChar();
-		                // Verificar si la tecla es un número
-		                if (!Character.isDigit(c)) {
-		                    // Consumir el evento para evitar que se escriba el carácter no válido
-		                    e.consume();
-		                }
-					}
-				});
-				txtCedula.setColumns(10);
-				txtCedula.setBounds(334, 58, 267, 22);
-				panel.add(txtCedula);
 			}
 			
 			JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
-			lblTelfono.setBounds(40, 162, 56, 16);
+			lblTelfono.setBounds(42, 162, 56, 16);
 			panel.add(lblTelfono);
 			
-			txtTelefono = new JTextField();
-			txtTelefono.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyTyped(KeyEvent e) {
-				    char c = e.getKeyChar();
-				    
-				    // Verificar si la tecla es un número o el carácter '-'
-				    if (!Character.isDigit(c) && c != '-') {
-				        e.consume(); 
-				    }
-				}
-			});
-			txtTelefono.setColumns(10);
-			txtTelefono.setBounds(40, 192, 267, 22);
-			panel.add(txtTelefono);
-			
 			JLabel lblLmiteDeCrdito = new JLabel("Puesto Laboral:");
-			lblLmiteDeCrdito.setBounds(334, 162, 129, 16);
+			lblLmiteDeCrdito.setBounds(339, 162, 129, 16);
 			panel.add(lblLmiteDeCrdito);
-			
-			txtPuestoLaboral = new JTextField();
-			txtPuestoLaboral.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyTyped(KeyEvent e) {
-					 // Obtener la tecla presionada
+			{
+				JPanel panel_1 = new JPanel();
+				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_1.setBounds(12, 13, 624, 383);
+				panel.add(panel_1);
+				panel_1.setLayout(null);
+				{
+					JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico:");
+					lblCorreoElectrnico.setBounds(30, 213, 192, 16);
+					panel_1.add(lblCorreoElectrnico);
+				}
+				{
+					txtCorreoE = new JTextField();
+					txtCorreoE.setColumns(10);
+					txtCorreoE.setBounds(30, 243, 560, 22);
+					panel_1.add(txtCorreoE);
+				}
+				
+				txtPuestoLaboral = new JTextField();
+				txtPuestoLaboral.setBounds(327, 180, 267, 22);
+				panel_1.add(txtPuestoLaboral);
+				txtPuestoLaboral.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						 // Obtener la tecla presionada
 	                char c = e.getKeyChar();
 	                // Verificar si la tecla es una letra
 	                if (!Character.isLetter(c)&& c != ' ') {
 	                    // Consumir el evento para evitar que se escriba el carácter no válido
 	                    e.consume();
 	                }
-				}
-			});
-			txtPuestoLaboral.setColumns(10);
-			txtPuestoLaboral.setBounds(334, 192, 267, 22);
-			panel.add(txtPuestoLaboral);
-			{
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_1.setBounds(12, 13, 613, 383);
-				panel.add(panel_1);
-				panel_1.setLayout(null);
+					}
+				});
+				txtPuestoLaboral.setColumns(10);
+				
+				txtTelefono = new JTextField();
+				txtTelefono.setBounds(30, 180, 267, 22);
+				panel_1.add(txtTelefono);
+				txtTelefono.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+					    char c = e.getKeyChar();
+					    
+					    // Verificar si la tecla es un número o el carácter '-'
+					    if (!Character.isDigit(c) && c != '-') {
+					        e.consume(); 
+					    }
+					}
+				});
+				txtTelefono.setColumns(10);
 				{
-					JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico:");
-					lblCorreoElectrnico.setBounds(27, 213, 192, 16);
-					panel_1.add(lblCorreoElectrnico);
+					txtNombre = new JTextField();
+					txtNombre.setBounds(30, 111, 267, 22);
+					panel_1.add(txtNombre);
+					txtNombre.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyTyped(KeyEvent e) {
+							 // Obtener la tecla presionada
+		                char c = e.getKeyChar();
+		                // Verificar si la tecla es una letra
+		                if (!Character.isLetter(c)&& c != ' ') {
+		                    // Consumir el evento para evitar que se escriba el carácter no válido
+		                    e.consume();
+		                }
+						}
+					});
+					txtNombre.setColumns(10);
 				}
 				{
-					txtCorreoE = new JTextField();
-					txtCorreoE.setColumns(10);
-					txtCorreoE.setBounds(27, 243, 560, 22);
-					panel_1.add(txtCorreoE);
+					cbSexo = new JComboBox<String>();
+					cbSexo.setBounds(327, 111, 107, 22);
+					panel_1.add(cbSexo);
+					cbSexo.setModel(new DefaultComboBoxModel<String>(new String[] {"Femenino", "Masculino"}));
+					cbSexo.setSelectedIndex(-1);
+					cbSexo.setMaximumRowCount(2);
+					cbSexo.setToolTipText("");
+				}
+				{
+					txtCodigo = new JTextField();
+					txtCodigo.setBounds(30, 46, 267, 22);
+					panel_1.add(txtCodigo);
+					txtCodigo.setEditable(false);
+					txtCodigo.setText("E-"+Clinica.getInstance().codigoPersona);
+					txtCodigo.setColumns(10);
+				}
+				{
+					txtCedula = new JTextField();
+					txtCedula.setBounds(327, 46, 267, 22);
+					panel_1.add(txtCedula);
+					txtCedula.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyTyped(KeyEvent e) {
+							 // Obtener la tecla presionada
+		                char c = e.getKeyChar();
+		                // Verificar si la tecla es un número
+		                if (!Character.isDigit(c)) {
+		                    // Consumir el evento para evitar que se escriba el carácter no válido
+		                    e.consume();
+		                }
+						}
+					});
+					txtCedula.setColumns(10);
+				}
+				{
+					txtDireccion = new JTextArea();
+					txtDireccion.setBounds(30, 306, 561, 53);
+					panel_1.add(txtDireccion);
 				}
 			}
 			{
 				panelUser = new JPanel();
 				panelUser.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panelUser.setBounds(12, 409, 613, 146);
+				panelUser.setBounds(12, 409, 624, 146);
 				panel.add(panelUser);
 				panelUser.setLayout(null);
 				{
 					JLabel lblNewLabel_1 = new JLabel("Nombre de Usuario:");
-					lblNewLabel_1.setBounds(29, 13, 154, 16);
+					lblNewLabel_1.setBounds(30, 14, 154, 16);
 					panelUser.add(lblNewLabel_1);
 				}
 				{
 					txtUsername = new JTextField();
 					txtUsername.setColumns(10);
-					txtUsername.setBounds(29, 42, 276, 22);
+					txtUsername.setBounds(30, 44, 267, 22);
 					panelUser.add(txtUsername);
 				}
 				{
 					JLabel lblContrase = new JLabel("Contrase\u00F1a:");
-					lblContrase.setBounds(29, 82, 154, 16);
+					lblContrase.setBounds(30, 80, 154, 16);
 					panelUser.add(lblContrase);
 				}
 				{
 					txtContrasena = new JTextField();
 					txtContrasena.setColumns(10);
-					txtContrasena.setBounds(29, 111, 276, 22);
+					txtContrasena.setBounds(30, 110, 267, 22);
 					panelUser.add(txtContrasena);
 				}
 				{
 					JLabel lblConfirmarContrasea = new JLabel("Confirmar Contrase\u00F1a:");
-					lblConfirmarContrasea.setBounds(334, 82, 154, 16);
+					lblConfirmarContrasea.setBounds(327, 80, 154, 16);
 					panelUser.add(lblConfirmarContrasea);
 				}
 				{
 					txtConfirm = new JTextField();
 					txtConfirm.setColumns(10);
-					txtConfirm.setBounds(334, 111, 267, 22);
+					txtConfirm.setBounds(327, 110, 267, 22);
 					panelUser.add(txtConfirm);
 				}
 			}

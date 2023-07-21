@@ -21,6 +21,9 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 
 public class RegUser extends JDialog {
 
@@ -50,7 +53,7 @@ public class RegUser extends JDialog {
 		setBounds(100, 100, 450, 247);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
@@ -59,26 +62,26 @@ public class RegUser extends JDialog {
 		contentPanel.add(lblNombreUsuario);
 		
 		txtUsername = new JTextField();
-		txtUsername.setBounds(28, 53, 174, 20);
+		txtUsername.setBounds(28, 51, 176, 20);
 		contentPanel.add(txtUsername);
 		txtUsername.setColumns(10);
 		
 		txtContrasena = new JTextField();
-		txtContrasena.setBounds(26, 113, 176, 20);
+		txtContrasena.setBounds(26, 111, 176, 20);
 		contentPanel.add(txtContrasena);
 		txtContrasena.setColumns(10);
 		
-		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(30, 86, 97, 14);
+		JLabel lblPassword = new JLabel("Contrase\u00F1a:");
+		lblPassword.setBounds(30, 84, 97, 14);
 		contentPanel.add(lblPassword);
 		
-		JLabel lblConfirmarPassword = new JLabel("Confirmar Password:");
-		lblConfirmarPassword.setBounds(228, 90, 167, 14);
+		JLabel lblConfirmarPassword = new JLabel("Confirmar Contrase\u00F1a:");
+		lblConfirmarPassword.setBounds(228, 84, 167, 14);
 		contentPanel.add(lblConfirmarPassword);
 		
 		txtConfirm = new JTextField();
 		txtConfirm.setColumns(10);
-		txtConfirm.setBounds(228, 113, 176, 20);
+		txtConfirm.setBounds(228, 111, 176, 20);
 		contentPanel.add(txtConfirm);
 		{
 			JPanel buttonPane = new JPanel();

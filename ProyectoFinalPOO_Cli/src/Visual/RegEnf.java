@@ -58,49 +58,57 @@ public class RegEnf extends JDialog {
 		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(12, 13, 420, 217);
+		contentPanel.add(panel);
+		panel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("Codigo:");
-			lblNewLabel.setBounds(42, 13, 56, 16);
-			contentPanel.add(lblNewLabel);
-		}
-		{
-			JLabel lblNewLabel_1 = new JLabel("Nombre:");
-			lblNewLabel_1.setBounds(242, 14, 56, 16);
-			contentPanel.add(lblNewLabel_1);
-		}
-		{
-			JLabel lblNewLabel_2 = new JLabel("Descripcion:");
-			lblNewLabel_2.setBounds(42, 124, 156, 16);
-			contentPanel.add(lblNewLabel_2);
-		}
-		{
-			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setBounds(242, 80, 149, 60);
-			contentPanel.add(panel);
+			JPanel panel_1 = new JPanel();
+			panel_1.setBounds(228, 37, 149, 87);
+			panel.add(panel_1);
+			panel_1.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_1.setLayout(null);
 			{
 				rdbVig = new JRadioButton("Bajo Vigilancia");
-				panel.add(rdbVig);
+				rdbVig.setBounds(18, 33, 111, 25);
+				panel_1.add(rdbVig);
 			}
 		}
 		{
 			txtCodigo = new JTextField();
+			txtCodigo.setBounds(126, 11, 251, 22);
+			panel.add(txtCodigo);
 			txtCodigo.setEditable(false);
-			txtCodigo.setBounds(42, 44, 156, 22);
-			contentPanel.add(txtCodigo);
 			txtCodigo.setColumns(10);
 			txtCodigo.setText("E-"+Clinica.enfCod);
 		}
 		{
+			JLabel lblNewLabel = new JLabel("Codigo:");
+			lblNewLabel.setBounds(35, 14, 56, 16);
+			panel.add(lblNewLabel);
+		}
+		{
+			JLabel lblNewLabel_1 = new JLabel("Nombre:");
+			lblNewLabel_1.setBounds(29, 44, 56, 16);
+			panel.add(lblNewLabel_1);
+		}
+		{
 			txtNombre = new JTextField();
-			txtNombre.setBounds(242, 44, 149, 22);
-			contentPanel.add(txtNombre);
+			txtNombre.setBounds(29, 74, 149, 22);
+			panel.add(txtNombre);
 			txtNombre.setColumns(10);
 		}
 		{
+			JLabel lblNewLabel_2 = new JLabel("Descripcion:");
+			lblNewLabel_2.setBounds(29, 110, 156, 16);
+			panel.add(lblNewLabel_2);
+		}
+		{
 			txtDescripcion = new JTextArea();
-			txtDescripcion.setBounds(42, 154, 349, 60);
-			contentPanel.add(txtDescripcion);
+			txtDescripcion.setBounds(29, 140, 348, 60);
+			panel.add(txtDescripcion);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -215,5 +223,4 @@ private boolean checkFields() {
 		}
 
 	}
-
 }
