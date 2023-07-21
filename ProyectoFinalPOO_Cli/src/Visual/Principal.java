@@ -12,7 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
 
-import logico.Control;
+import logico.Clinica;
 
 import java.awt.FlowLayout;
 import javax.swing.border.SoftBevelBorder;
@@ -58,13 +58,14 @@ public class Principal extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				
 				//NUEVO CAROLINA PROBANDO
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("empresa.dat");
+					empresa2 = new  FileOutputStream("laclinica.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
-					empresaWrite.writeObject(Control.getInstance());
+					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -189,7 +190,7 @@ public class Principal extends JFrame {
 		
 		mnAdministracion = new JMenu("Administraci\u00F3n");
 		
-		if(!Control.getLoginUser().getTipo().equalsIgnoreCase("Administrador")){
+		if(!Clinica.getLoginUser().getTipo().equalsIgnoreCase("Administrador")){
 			mnAdministracion.setEnabled(false);
 		}
 		menuBar.add(mnAdministracion);

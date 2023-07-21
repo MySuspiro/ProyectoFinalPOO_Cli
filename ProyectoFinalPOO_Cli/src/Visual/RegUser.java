@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logico.Clinica;
-import logico.Control;
 import logico.User;
 
 import javax.swing.JLabel;
@@ -99,7 +98,7 @@ public class RegUser extends JDialog {
 								if(verificarContrasena()==true)
 								{
 									User user = new User("Administrador",txtUsername.getText(),txtContrasena.getText(),null);
-								    Control.getInstance().regUser(user);
+								    Clinica.getInstance().regUser(user);
 								    JOptionPane.showMessageDialog(null,"Operación satisfactoria","Registro", JOptionPane.INFORMATION_MESSAGE);
 								    clean();
 									

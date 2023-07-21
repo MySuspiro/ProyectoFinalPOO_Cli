@@ -1,8 +1,14 @@
 package logico;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Clinica {
+public class Clinica implements Serializable{
 
 	private ArrayList<Enfermedad> misEnfermedades;
 	private ArrayList<Vacuna> misVacunas;
@@ -10,7 +16,10 @@ public class Clinica {
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Historial> misHistoriales;
 	private ArrayList<CitaMedica> misCitas;
+	//en prueba pa lo fichero
 	private ArrayList<User> misUsers;
+	private static User loginUser;
+	//
 	private static Clinica clinica=null;
 	public static int histCod = 1000;
 	public static int citCod = 1000;
@@ -121,6 +130,42 @@ public class Clinica {
 	public void agregarHistorial(Historial historial) {
         misHistoriales.add(historial);
     }
+	
+	//Probando fichero
+	
+	public static Clinica getClinica() {
+		return clinica;
+	}
+
+	public static void setClinica(Clinica clinica) {
+		Clinica.clinica = clinica;
+	}
+	
+	public static void setLoginUser(User loginUser) {
+		Clinica.loginUser = loginUser;
+	}
+
+	public static User getLoginUser() {
+		return loginUser;
+	}
+
+	public void regUser(User user) {
+		misUsers.add(user);
+		
+	}
+	
+	public boolean confirmLogin(String text, String text2) {
+		boolean login = false;
+		for (User user : misUsers) {
+			if(user.getUserName().equals(text) && user.getPass().equals(text2)){
+				loginUser = user;
+				login = true;
+			}
+		}
+		return login;
+	}
+	
+	//
 	
 	public Persona buscarPersonaByCodigo(String codigoPersona) {
 		Persona aux = null;
@@ -389,7 +434,7 @@ public class Clinica {
 		return porciento;
 	}
 	
-	
+}
 	
 
-}
+

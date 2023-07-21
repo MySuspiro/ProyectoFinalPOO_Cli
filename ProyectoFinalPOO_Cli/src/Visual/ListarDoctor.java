@@ -25,6 +25,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class ListarDoctor extends JDialog {
@@ -147,6 +150,7 @@ public class ListarDoctor extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
 		loadDoctores();
 	}
 
@@ -167,6 +171,7 @@ public class ListarDoctor extends JDialog {
 		}	
 		
 	}
+	
 	
 	//verificar que no existan consultas con el doctor y que no existan usuarios con el doctor
 	

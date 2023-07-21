@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.Clinica;
-import logico.Control;
 import logico.Doctor;
 import logico.Persona;
 import logico.User;
@@ -311,7 +310,7 @@ public class RegDoctor extends JDialog {
 									
 				
 									User user = new User("Doctor",txtUsername.getText(),txtContrasena.getText(),persona);
-								    Control.getInstance().regUser(user);
+								    Clinica.getInstance().regUser(user);
 									
 
 									
