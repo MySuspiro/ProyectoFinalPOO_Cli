@@ -113,7 +113,7 @@ public class RegPaciente extends JDialog {
 			}
 			{
 				txtDireccion = new JTextArea();
-				txtDireccion.setBounds(44, 318, 430, 53);
+				txtDireccion.setBounds(44, 318, 500, 53);
 				panel.add(txtDireccion);
 			}
 			{

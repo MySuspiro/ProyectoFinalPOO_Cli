@@ -1,6 +1,8 @@
 package logico;
 
-public class Vacuna {
+import java.io.Serializable;
+
+public class Vacuna implements Serializable{
 	
 	private String codigo;
 	private String nombre;
