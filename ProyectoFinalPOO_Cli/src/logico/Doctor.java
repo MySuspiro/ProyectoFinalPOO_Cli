@@ -8,7 +8,7 @@ public class Doctor extends Persona implements Serializable {
 	public Doctor(String cedula, String nombre, String dir, String codigo, String telefono, char sexo, String correoElectronico, String especialidad) {
 		super(cedula, nombre, dir, codigo, telefono, sexo,correoElectronico);
 		this.especialidad = especialidad;
-		
+		codigo = "D-"+Clinica.getInstance().getcodPers();
 	}
 
 	public String getEspecialidad() {

@@ -14,8 +14,7 @@ public class Historial implements Serializable {
 	
 	public Historial(String cedPaciente) {
 		super();
-		this.codigo = "H-" + Clinica.histCod;
-		Clinica.histCod++;
+		this.codigo = "H-" + Clinica.getInstance().getcodHist();
 		this.cedPaciente = cedPaciente;
 		misVacunas = new ArrayList<Vacuna>();
 		misConsultas = new ArrayList<Consulta>();

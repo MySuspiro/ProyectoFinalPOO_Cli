@@ -9,10 +9,9 @@ public class Vacuna implements Serializable{
 	private String descripcion;
 	private int cant;
 	private Enfermedad enf;
-	public Vacuna(String codigo, String nombre, String descripcion, int cant, Enfermedad enf) {
+	public Vacuna(String nombre, String descripcion, int cant, Enfermedad enf) {
 		super();
-		this.codigo = "V+"+Clinica.vacCod;
-		Clinica.vacCod++;
+		this.codigo = "V+"+Clinica.getInstance().getcodVac();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.cant = cant;
@@ -39,9 +38,14 @@ public class Vacuna implements Serializable{
 	public int getCant() {
 		return cant;
 	}
-	public void setCant(int cant) {
+	public void SetCant(int cant) {
 		this.cant = cant;
 	}
+	
+	public void removeOne() {
+		this.cant--;
+	}
+	
 	public Enfermedad getEnf() {
 		return enf;
 	}

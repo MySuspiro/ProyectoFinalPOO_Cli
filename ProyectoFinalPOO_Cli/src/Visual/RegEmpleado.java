@@ -202,7 +202,7 @@ public class RegEmpleado extends JDialog {
 					txtCodigo.setBounds(30, 46, 267, 22);
 					panel_1.add(txtCodigo);
 					txtCodigo.setEditable(false);
-					txtCodigo.setText("E-"+Clinica.getInstance().codigoPersona);
+					txtCodigo.setText("E-"+Clinica.getInstance().getcodPers());
 					txtCodigo.setColumns(10);
 				}
 				{
@@ -421,7 +421,7 @@ public class RegEmpleado extends JDialog {
 		txtPuestoLaboral.setText("");
 		txtCorreoE.setText("");
 		cbSexo.setSelectedIndex(-1);
-		txtCodigo.setText("E-"+Clinica.getInstance().codigoPersona);
+		txtCodigo.setText("E-"+Clinica.getInstance().getcodPers());
 		txtUsername.setText("");
 		txtContrasena.setText("");
 		txtConfirm.setText("");

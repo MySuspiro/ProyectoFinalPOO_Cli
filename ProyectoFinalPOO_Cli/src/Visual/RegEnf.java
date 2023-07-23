@@ -82,7 +82,7 @@ public class RegEnf extends JDialog {
 			panel.add(txtCodigo);
 			txtCodigo.setEditable(false);
 			txtCodigo.setColumns(10);
-			txtCodigo.setText("E-"+Clinica.enfCod);
+			txtCodigo.setText("E-"+Clinica.getInstance().getcodEnf());
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Codigo:");
@@ -185,7 +185,7 @@ public class RegEnf extends JDialog {
 	}
 	
 	private void Clean() {
-		txtCodigo.setText("E-" + Clinica.enfCod);
+		txtCodigo.setText("E-" + Clinica.getInstance().getcodEnf());
 		txtDescripcion.setText("");
 		txtNombre.setText("");
 		rdbVig.setSelected(false);

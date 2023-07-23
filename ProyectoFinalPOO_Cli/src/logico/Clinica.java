@@ -21,12 +21,6 @@ public class Clinica implements Serializable{
 	private static User loginUser;
 	//
 	private static Clinica clinica=null;
-	public static int histCod = 1000;
-	public static int citCod = 1000;
-	public static int conCod = 1000;
-	public static int enfCod = 1000;
-	public static int vacCod = 1000;
-	public static int codigoPersona=1000;
 
 
 	
@@ -110,7 +104,6 @@ public class Clinica implements Serializable{
 	
 	public void agregarPersona(Persona persona) {
         misPersonas.add(persona);
-        codigoPersona++;
     }
 	
 	public void agregarVacuna(Vacuna vacuna) {
@@ -298,26 +291,79 @@ public class Clinica implements Serializable{
 		return aux;
 	}
 	
+	public Vacuna buscarVacunaByNom(String nom) {
+		Vacuna aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misVacunas.size()) {
+			if(misVacunas.get(i).getNombre().equalsIgnoreCase(nom)){
+				aux = misVacunas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+	
+	public Vacuna buscarVacunaByCod(String cod) {
+		Vacuna aux = null;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misVacunas.size()) {
+			if(misVacunas.get(i).getCodigo().equalsIgnoreCase(cod)){
+				aux = misVacunas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
 	
 	
 	public void eliminarEnfermedad(logico.Enfermedad selected) {
 		misEnfermedades.remove(selected);
 	}
+	
 	public void eliminarCitas(CitaMedica cita) {
 		misCitas.remove(cita);
 	}
+	
+	public void eliminarVacuna(Vacuna aux) {
+		misVacunas.remove(aux);
+	}
+	
 	public void modificarEnfermedad(Enfermedad miEnf) {
 		int index= buscarIndexEnfermedadByCode(miEnf);
-		misEnfermedades.set(index,miEnf);	
+		misEnfermedades.set(index, miEnf);	
 		
 	}
 	
 	public void modificarCita(CitaMedica cit) {
 		int index = buscarIndexCitaByCode(cit);
-		misCitas.set(index,cit);
+		misCitas.set(index, cit);
 	}
 	
+	public void modificarVacuna(Vacuna vac) {
+		int index = buscarIndexVacunaByCode(vac);
+		misVacunas.set(index, vac);
+	}
 	
+	private int buscarIndexVacunaByCode(Vacuna vac) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misVacunas.size()) {
+			if(misVacunas.get(i).getCodigo().equalsIgnoreCase(vac.getCodigo())){
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
 	
 	private int buscarIndexCitaByCode(CitaMedica cit) {
 		int aux = -1;
@@ -408,11 +454,9 @@ public class Clinica implements Serializable{
 	}
 	
 	public float vacunaCantPacientes(Vacuna vacuna) {
-		
 		int count=0;
 		float porciento=0;
 		int cantPacientes=0;
-		
 		for (Persona persona: misPersonas)
 		{
 			if (persona instanceof Paciente )
@@ -425,14 +469,115 @@ public class Clinica implements Serializable{
 						count++;
 					}
 				}
-
 			}
 		}
-		
 		porciento=(count*100)/cantPacientes;
-		
 		return porciento;
 	}
+	
+
+	public String getcodHist() {
+		String mayor = "1000";
+		String codigo = null;
+		for (Historial aux : misHistoriales) {
+			codigo = extractNumber(aux.getCodigo());
+			if(codigo.compareTo(mayor) > 0) {
+				mayor = codigo;
+			}
+		}
+		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+		return resultado;
+	}
+
+
+	public String getcodCita() {
+		String mayor = "1000";
+		String codigo = null;
+		for (CitaMedica aux : misCitas) {
+			codigo = extractNumber(aux.getCodigo());
+			if(codigo.compareTo(mayor) > 0) {
+				mayor = aux.getCodigo();
+			}
+		}
+		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+		return resultado;	
+	}
+
+
+	public String getcodCons() {
+		String mayor = "1000";
+		String codigo = null;
+		for (Consulta aux : misConsultas) {
+			codigo = extractNumber(aux.getCodigoConsulta());
+			if(codigo.compareTo(mayor) > 0) {
+				mayor = codigo;
+			}
+		}
+		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+		return resultado;
+	}
+
+
+	public String getcodEnf() {
+		String mayor = "1000";
+		String codigo = null;
+		for (Enfermedad aux : misEnfermedades) {
+			codigo = extractNumber(aux.getCodigo());
+			if(codigo.compareTo(mayor) > 0) {
+				mayor = codigo;
+			}
+		}
+		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+		return resultado;	
+	}
+	
+
+	public String getcodVac() {
+		String mayor = "1000";
+		String codigo = null;
+		for (Vacuna aux : misVacunas) {
+			codigo = extractNumber(aux.getCodigo());
+			if(codigo.compareTo(mayor) > 0) {
+				mayor = codigo;
+			}
+		}
+		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+		return resultado;	
+	}
+
+	public String getcodPers() {
+		String mayor = "1000";
+		String codigo = null;
+		for (Historial aux : misHistoriales) {
+			codigo = extractNumber(aux.getCodigo());
+			if(codigo.compareTo(mayor) > 0) {
+				mayor = codigo;
+			}
+		}
+		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+		return resultado;
+	}
+	
+	
+	
+	public static String extractNumber(final String str) {                
+
+		if(str == null || str.isEmpty()) return "";
+
+		StringBuilder sb = new StringBuilder();
+		boolean found = false;
+		for(char c : str.toCharArray()){
+		    if(Character.isDigit(c)){
+		        sb.append(c);
+		        found = true;
+		    } else if(found){
+		        // If we already found a digit before and this char is not a digit, stop looping
+		        break;                
+		    }
+		}
+
+		return sb.toString();
+		}
 	
 }
 	

@@ -10,8 +10,7 @@ public class Enfermedad implements Serializable {
 	private String descripcion;
 	public Enfermedad(String codigo, String nombre, String status, String descripcion) {
 		super();
-		Codigo = "E-"+Clinica.enfCod;
-		Clinica.enfCod++;
+		Codigo = "E-"+Clinica.getInstance().getcodEnf();
 		Nombre = nombre;
 		this.Status = status;
 		this.descripcion = descripcion;

@@ -8,6 +8,7 @@ public class Empleado extends Persona implements Serializable{
 	public Empleado(String cedula, String nombre, String dir, String codigo, String telefono, char sexo,String correoElectronico, String puestoLaboral) {
 		super(cedula, nombre, dir, codigo, telefono,sexo,correoElectronico);
 		this.puestoLaboral=puestoLaboral;
+		codigo = "EM-"+Clinica.getInstance().getcodPers();
 	}
 
 	public String getPuestoLaboral() {

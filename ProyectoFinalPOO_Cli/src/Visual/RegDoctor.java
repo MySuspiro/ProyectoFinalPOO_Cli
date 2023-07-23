@@ -175,7 +175,7 @@ public class RegDoctor extends JDialog {
 					txtCodigo.setBounds(30, 45, 267, 22);
 					panel_1.add(txtCodigo);
 					txtCodigo.setEditable(false);
-					txtCodigo.setText("D-"+Clinica.getInstance().codigoPersona);
+					txtCodigo.setText("D-"+Clinica.getInstance().getcodPers());
 					txtCodigo.setColumns(10);
 				}
 				{
@@ -419,7 +419,7 @@ public class RegDoctor extends JDialog {
 		txtEspecialidad.setText("");
 		txtCorreoE.setText("");
 		cbSexo.setSelectedIndex(-1);
-		txtCodigo.setText("D-"+Clinica.getInstance().codigoPersona);
+		txtCodigo.setText("D-"+Clinica.getInstance().getcodPers());
 		txtUsername.setText("");
 		txtContrasena.setText("");
 		txtConfirm.setText("");

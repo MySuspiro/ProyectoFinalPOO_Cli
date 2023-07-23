@@ -78,7 +78,7 @@ public class RegPaciente extends JDialog {
 			{
 				txtCodigo = new JTextField();
 				txtCodigo.setEditable(false);
-				txtCodigo.setText("P-"+Clinica.getInstance().codigoPersona);
+				txtCodigo.setText("P-"+Clinica.getInstance().getcodPers());
 				txtCodigo.setColumns(10);
 				txtCodigo.setBounds(44, 46, 228, 22);
 				panel.add(txtCodigo);
@@ -355,7 +355,7 @@ public class RegPaciente extends JDialog {
 		txtSeguro.setText("");
 		txtCorreoE.setText("");
 		cbSexo.setSelectedIndex(-1);
-		txtCodigo.setText("P-"+Clinica.getInstance().codigoPersona);
+		txtCodigo.setText("P-"+Clinica.getInstance().getcodPers());
 		
 	}
 	

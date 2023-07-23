@@ -148,7 +148,7 @@ public class RegCita extends JDialog {
 				panel.add(txtCod);
 				txtCod.setEditable(false);
 				txtCod.setColumns(10);
-				txtCod.setText("CM-" + Clinica.getInstance());
+				txtCod.setText("CM-" + Clinica.getInstance().getcodCita());
 			}
 			{
 				JLabel lblNewLabel_1 = new JLabel("Fecha:");
@@ -174,7 +174,7 @@ public class RegCita extends JDialog {
 				        	        		
 				        	        		cbxDoc = new JComboBox<String>();
 				        	        		cbxDoc.setBounds(243, 95, 211, 22);
-				        	        		cbxDoc.addItem("<Seleccione");
+				        	        		cbxDoc.addItem("<Seleccione>");
 				        	        		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
 				        	        			if(aux != null) {
 				        	        				if(aux instanceof Doctor) {
@@ -199,7 +199,6 @@ public class RegCita extends JDialog {
 				        	        			lblNewLabel_2.setBounds(16, 58, 128, 16);
 				        	        			panel.add(lblNewLabel_2);
 				        	        		}
-				        	        		cbxDoc.addItem("<Seleccione>");
 		}
 		
 		
@@ -208,7 +207,7 @@ public class RegCita extends JDialog {
 	}
 	
 	private void Clean() {
-		txtCod.setText("CM-" + Clinica.citCod);
+		txtCod.setText("CM-" + Clinica.getInstance().getcodCita());
 		txtFech.setValue(new Date());
 		txtHora.setText("00:00");
 		txtNomPaciente.setText("");

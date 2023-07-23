@@ -13,6 +13,7 @@ public class Paciente extends Persona implements Serializable {
 		super(cedula, nombre, dir, codigo, telefono, sexo, correoElectronico);
 		Seguro = seguro;
 		hist = new Historial(cedula);
+		codigo = "P-"+Clinica.getInstance().getcodPers();
 
 	}
 

@@ -13,8 +13,7 @@ public class CitaMedica implements Serializable {
 	private String hora;
 	public CitaMedica(String codigo, String cedPaciente, String nomPaciente, Doctor doctor, String hora, Date fecha) {
 		super();
-		this.codigo = "CM-" + Clinica.citCod;
-		Clinica.citCod++;
+		this.codigo = "CM-" + Clinica.getInstance().getcodCita();
 		this.cedPaciente = cedPaciente;
 		this.nomPaciente = nomPaciente;
 		this.doctor = doctor;

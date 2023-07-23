@@ -220,7 +220,7 @@ public class RegConsulta extends JDialog {
 		txtCodigoCons.setColumns(10);
 		txtCodigoCons.setBounds(50, 50, 196, 22);
 		panel_2.add(txtCodigoCons);
-		txtCodigoCons.setText("C-"+Clinica.conCod);
+		txtCodigoCons.setText("C-"+Clinica.getInstance().getcodCons());
 		
 		JLabel lblNewLabel_9 = new JLabel("Diagnostico:");
 		lblNewLabel_9.setBounds(50, 165, 120, 16);
@@ -242,7 +242,9 @@ public class RegConsulta extends JDialog {
 		panelVac.add(cmbVac);
 		cmbVac.addItem("<Seleccione>");
 		for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
-			cmbVac.addItem(aux.getNombre());
+			if(aux.getCant() > 0) {
+				cmbVac.addItem(aux.getNombre());
+			}
 		}
 		
 		rdbVacuna = new JRadioButton("Vacunado");
@@ -304,9 +306,16 @@ public class RegConsulta extends JDialog {
 						Doctor doc = null;
 						String status = "Investigando";
 						Enfermedad enf = null;
+						Vacuna vac = null;
+						
 						char sex = 0;
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
-						enf = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+						if(rdbEnf.isSelected() || rdbSano.isSelected()) {
+							enf = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+						}
+						if(rdbVacuna.isSelected()) {
+							vac = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
+						}
 						
 						if(rdbHombre.isSelected()) {
 							sex = 'H';
@@ -314,7 +323,7 @@ public class RegConsulta extends JDialog {
 							sex = 'M';
 						}
 						if(txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
-							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.codigoPersona, txtTel.getText(), sex, txtEmail.getText() ,txtSeguro.getText());
+							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText() ,txtSeguro.getText());
 						}
 						
 						
@@ -336,9 +345,12 @@ public class RegConsulta extends JDialog {
 						}
 						
 						if(doc != null && pac != null) {
-							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status);
+							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status, vac);
+							int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+							if(option == JOptionPane.OK_OPTION) {
+								pac.getHist().addMisConsultas(cons);
+							}
 							Clinica.getInstance().agregarConsulta(cons);
-							pac.getHist().addMisConsultas(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
 						} else {
@@ -366,7 +378,6 @@ public class RegConsulta extends JDialog {
 	}
 
 	protected void loadPaciente(Paciente pac) {
-		// TODO Auto-generated method stub
 		txtCedPaciente.setText(pac.getCedula());
 		txtEmail.setText(pac.getCorreoElectronico());
 		txtDir.setText(pac.getDir());
@@ -387,7 +398,7 @@ public class RegConsulta extends JDialog {
 
 	private void Clean() {
 		txtCedPaciente.setText("");
-		txtCodigoCons.setText("C-"+Clinica.conCod);
+		txtCodigoCons.setText("C-"+Clinica.getInstance().getcodCons());
 		txtEmail.setText("");
 		txtDiag.setText("");
 		txtDir.setText("");
