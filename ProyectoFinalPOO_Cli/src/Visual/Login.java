@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class Login extends JFrame {
 
@@ -82,7 +83,7 @@ public class Login extends JFrame {
 	 */
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 273, 271);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,20 +95,20 @@ public class Login extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(39, 39, 87, 14);
+		lblUsuario.setBounds(98, 20, 48, 14);
 		panel.add(lblUsuario);
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setBounds(39, 98, 105, 14);
+		lblContrasea.setBounds(87, 94, 70, 14);
 		panel.add(lblContrasea);
 		
 		textField = new JTextField();
-		textField.setBounds(39, 64, 191, 20);
+		textField.setBounds(42, 54, 160, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(39, 128, 191, 20);
+		textField_1.setBounds(42, 128, 160, 20);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -122,7 +123,7 @@ public class Login extends JFrame {
 				
 			}
 		});
-		btnLogin.setBounds(37, 175, 89, 23);
+		btnLogin.setBounds(78, 168, 89, 23);
 		panel.add(btnLogin);
 	}
 }

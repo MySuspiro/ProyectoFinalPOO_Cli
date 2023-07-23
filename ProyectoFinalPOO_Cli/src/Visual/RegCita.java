@@ -122,13 +122,7 @@ public class RegCita extends JDialog {
 	        }
 			}
 		}
-		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
-			if(aux != null) {
-				if(aux instanceof Doctor) {
-					cbxDoc.addItem(aux.getNombre());
-				}
-			}
-		}
+		
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -154,7 +148,7 @@ public class RegCita extends JDialog {
 				panel.add(txtCod);
 				txtCod.setEditable(false);
 				txtCod.setColumns(10);
-				txtCod.setText("CM-" + Clinica.citCod);
+				txtCod.setText("CM-" + Clinica.getInstance());
 			}
 			{
 				JLabel lblNewLabel_1 = new JLabel("Fecha:");
@@ -180,6 +174,14 @@ public class RegCita extends JDialog {
 				        	        		
 				        	        		cbxDoc = new JComboBox<String>();
 				        	        		cbxDoc.setBounds(243, 95, 211, 22);
+				        	        		cbxDoc.addItem("<Seleccione");
+				        	        		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
+				        	        			if(aux != null) {
+				        	        				if(aux instanceof Doctor) {
+				        	        					cbxDoc.addItem(aux.getNombre());
+				        	        				}
+				        	        			}
+				        	        		}
 				        	        		panel.add(cbxDoc);
 				        	        		{
 				        	        			JLabel lblNewLabel_4 = new JLabel("Doctor:");
