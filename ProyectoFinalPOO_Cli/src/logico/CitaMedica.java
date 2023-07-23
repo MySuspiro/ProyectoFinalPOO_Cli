@@ -1,8 +1,9 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CitaMedica {
+public class CitaMedica implements Serializable {
 
 	private String codigo;
 	private Date fecha;

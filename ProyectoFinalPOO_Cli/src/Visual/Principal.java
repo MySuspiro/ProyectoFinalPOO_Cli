@@ -24,16 +24,27 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private Dimension dim;
 	private JMenu mnAdministracion;
+	//probando socket
+	static Socket sfd = null;
+	static DataInputStream EntradaSocket;
+	static DataOutputStream SalidaSocket;
 
 	/**
 	 * Launch the application.
@@ -287,6 +298,38 @@ public class Principal extends JFrame {
 		mnNewMenu_11.add(mntmNewMenuItem_3);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Respaldo");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//probando el socket
+		        try {
+		            sfd = new Socket("localhost", 7007);
+		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
+		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
+
+		            try (FileInputStream fis = new FileInputStream("laclinica2.dat")) {
+		                byte[] buffer = new byte[4096];
+		                int bytesRead;
+		                while ((bytesRead = fis.read(buffer)) != -1) {
+		                    SalidaSocket.write(buffer, 0, bytesRead);
+		                }
+		                SalidaSocket.flush();
+		                System.out.println("Respaldo enviado correctamente.");
+		            } catch (IOException eo) {
+		                System.out.println("Error al enviar el respaldo: " + eo.getMessage());
+		            }
+		        } catch (UnknownHostException uhe) {
+		            System.out.println("No se puede acceder al servidor.");
+		        } catch (IOException ioe) {
+		            System.out.println("Comunicación rechazada.");
+		        } finally {
+		            try {
+		                if (sfd != null) sfd.close();
+		            } catch (IOException eo) {
+		                eo.printStackTrace();
+		            }
+		        }}
+			//
+		});
 		mnAdministracion.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
