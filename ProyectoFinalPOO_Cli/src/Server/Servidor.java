@@ -8,18 +8,17 @@ public class Servidor {
 
     public static void main(String[] args) {
         try {
-            // Crear el servidor en el puerto 7000
             ServerSocket serverSocket = new ServerSocket(7007);
             System.out.println("Servidor esperando conexiones...");
 
             while (true) {
-                // Esperar a que un cliente se conecte
+                // Esperar que se conecten
                 Socket socket = serverSocket.accept();
                 System.out.println("Cliente conectado desde: " + socket.getInetAddress());
 
-                // Procesar el flujo de entrada del cliente
+                // Procesar el flujo de entrada 
                 try (DataInputStream inputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()))) {
-                    // Nombre del archivo de respaldo en el servidor
+                   
                     String nombreArchivo = "respaldo_laclinica1.dat";
 
                     // Crear un flujo de salida para guardar el archivo

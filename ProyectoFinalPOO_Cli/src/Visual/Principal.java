@@ -74,7 +74,7 @@ public class Principal extends JFrame {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("laclinica.dat");
+					empresa2 = new  FileOutputStream("laclinica3.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
 					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -97,6 +97,55 @@ public class Principal extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu_3 = new JMenu("Cita");
+		if(!Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado")){
+			mnNewMenu_3.setEnabled(false);
+		}
+		menuBar.add(mnNewMenu_3);
+		
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegCita2 regCita= new RegCita2(null);
+				regCita.setModal(true);
+				regCita.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_6);
+		
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarCita listc= new ListarCita();
+				listc.setModal(true);
+				listc.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_8);
+		
+		JMenu mnNewMenu_1 = new JMenu("Consulta");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			RegConsulta regConsul= new RegConsulta();
+			regConsul.setModal(true);
+			regConsul.setVisible(true);
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_4);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*ListarFactura2 listarFactura= new ListarFactura2();
+				listarFactura.setModal(true);
+				listarFactura.setVisible(true);*/
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_5);
 		
 		JMenu mnNewMenu_2 = new JMenu("Paciente");
 		menuBar.add(mnNewMenu_2);
@@ -136,46 +185,15 @@ public class Principal extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Agenda Citas");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgendaSemanal2 as= new AgendaSemanal2();
+				//as.setModal(true);
+				as.setVisible(true);
+				
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_7);
-		
-		JMenu mnNewMenu_1 = new JMenu("Consulta");
-		menuBar.add(mnNewMenu_1);
-		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
-		mntmNewMenuItem_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			RegConsulta regConsul= new RegConsulta();
-			regConsul.setModal(true);
-			regConsul.setVisible(true);
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_4);
-		
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar");
-		mntmNewMenuItem_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*ListarFactura2 listarFactura= new ListarFactura2();
-				listarFactura.setModal(true);
-				listarFactura.setVisible(true);*/
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_5);
-		
-		JMenu mnNewMenu_3 = new JMenu("Cita");
-		menuBar.add(mnNewMenu_3);
-		
-		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
-		mntmNewMenuItem_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				RegCita regCita= new RegCita(null);
-				regCita.setModal(true);
-				regCita.setVisible(true);
-			}
-		});
-		mnNewMenu_3.add(mntmNewMenuItem_6);
-		
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
-		mnNewMenu_3.add(mntmNewMenuItem_8);
 		
 		JMenu mnNewMenu_4 = new JMenu("Enfermedad");
 		menuBar.add(mnNewMenu_4);
@@ -306,7 +324,7 @@ public class Principal extends JFrame {
 		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
 		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-		            try (FileInputStream fis = new FileInputStream("laclinica2.dat")) {
+		            try (FileInputStream fis = new FileInputStream("laclinica3.dat")) {
 		                byte[] buffer = new byte[4096];
 		                int bytesRead;
 		                while ((bytesRead = fis.read(buffer)) != -1) {

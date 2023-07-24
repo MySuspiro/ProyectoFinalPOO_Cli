@@ -5,30 +5,41 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.CitaMedica;
 import logico.Clinica;
+import logico.Consulta;
+import logico.Doctor;
+import logico.Empleado;
+import logico.Persona;
+import logico.User;
 
-import javax.swing.border.BevelBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.border.TitledBorder;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class ListarCita extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-	private DefaultTableModel modelo;
-	private Object[] row;
-	private CitaMedica selected = null;
-	private JButton btnDel;
+	private static JTable table;
+	private static DefaultTableModel modelo;
+	private static Object[] row;
 	private JButton btnUpdate;
+	private JButton btnEliminar;
+	private CitaMedica selected=null;
 
 	/**
 	 * Launch the application.
@@ -47,97 +58,123 @@ public class ListarCita extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarCita() {
-		setBounds(100, 100, 692, 441);
+		setResizable(false);
+		setTitle("Listado Citas");
+		setBounds(100, 100, 685, 458);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			contentPanel.add(panel, BorderLayout.CENTER);
+		}
+		{
 			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
 				table = new JTable();
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int index = table.getSelectedRow();
-						if(index >= 0) {
-							btnDel.setEnabled(true);
-							btnDel.setEnabled(true);
-							selected = Clinica.getInstance().buscarCitaByCode(table.getValueAt(index, 0).toString());
+						int index=table.getSelectedRow();
+						if (index>=0) {
+							btnEliminar.setEnabled(true);
+							btnUpdate.setEnabled(true);
+							selected = Clinica.getInstance().buscarCitaByCode(table.getValueAt(index,0).toString());
+							
 						}
 					}
 				});
-				scrollPane.setViewportView(table);
-				
-				String[] headers = {"Codigo", "Fecha", "Hora", "Cedula del Paciente", "Nombre del Paciente"};
+				modelo= new DefaultTableModel();
+				String[] headers = {"Codigo", "Nombre","Teléfono","Doctor","Fecha","Hora"};
 				modelo.setColumnIdentifiers(headers);
-				
 				table.setModel(modelo);
 				scrollPane.setViewportView(table);
 			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnUpdate = new JButton("Modificar");
-				btnUpdate.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						RegCita regCita = new RegCita(selected);
-						regCita.setModal(true);
-						regCita.setVisible(true);
-						
+				btnUpdate = new JButton("Actualizar");
+				btnUpdate.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+							RegCita2 update= new RegCita2(selected);
+							update.setModal(true);
+							update.setVisible(true);
+							//nuevo
+							btnEliminar.setEnabled(false);
+							btnUpdate.setEnabled(false);
+
+
 					}
 				});
+				btnUpdate.setEnabled(false);
 				btnUpdate.setActionCommand("OK");
 				buttonPane.add(btnUpdate);
 				getRootPane().setDefaultButton(btnUpdate);
 			}
 			{
-				btnDel = new JButton("Eliminar");
-				btnDel.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						Clinica.getInstance().eliminarCitas(selected);;
-						loadCitas();
-						btnDel.setEnabled(false);
-						btnUpdate.setEnabled(false);
+				btnEliminar = new JButton("Eliminar");
+				btnEliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (selected!=null) {
+							int option = JOptionPane.showConfirmDialog(null, "Está seguro(a) que desea eliminar la Cita con código: "+ selected.getCodigo(), "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+							if (option== JOptionPane.OK_OPTION  ) {
+
+									Clinica.getInstance().eliminarCitas(selected);
+									btnEliminar.setEnabled(false);
+									btnUpdate.setEnabled(false);
+									loadCitas();
+
+							}
+						}
 					}
 				});
-				buttonPane.add(btnDel);
+				btnEliminar.setEnabled(false);
+				buttonPane.add(btnEliminar);
 			}
 			{
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				btnCancel.setActionCommand("Cancel");
-				buttonPane.add(btnCancel);
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
 			}
 		}
+		
+		loadCitas();
 	}
 
-	protected void loadCitas() {
-		if(Clinica.getInstance().getMisCitas() != null) {
-			modelo.setRowCount(0);
-			row = new Object[table.getColumnCount()];
-			
-			for(CitaMedica aux: Clinica.getInstance().getMisCitas()) {
-				row[0] = aux.getCodigo();
-				row[1] = aux.getFecha();
-				row[2] = aux.getHora();
-				row[3] = aux.getCedPaciente();
-				row[4] = aux.getNomPaciente();
-				modelo.addRow(row);
-			}
-		}
-	}
+	public static void loadCitas() {
+	    modelo.setRowCount(0);
+	    row = new Object[table.getColumnCount()];
 
+	    for (CitaMedica persona : Clinica.getInstance().getMisCitas()) {
+	        row[0] = persona.getCodigo();
+	        row[1] = persona.getNomPaciente();
+	        row[2] = persona.getCedPaciente();
+	        
+	        // Verificar que la cita tenga un doctor asociado antes de acceder a su nombre
+	        if (persona.getDoctor() != null) {
+	            row[3] = persona.getDoctor().getNombre();
+	        } else {
+	            row[3] = "Sin doctor asignado";
+	        }
+	        
+	        row[4] = persona.getFecha();
+	        row[5] = persona.getHora();
+	        modelo.addRow(row);
+	    }
+	}
 }
+	
