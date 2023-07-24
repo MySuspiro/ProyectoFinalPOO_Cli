@@ -68,16 +68,13 @@ public class AgendaSemanal extends JFrame {
             if (row != -1 && column != -1) {
                 String citaDetails = cita.getNomPaciente();
                 //appointments.put(horaCita + "_" + column, citaDetails);
-                tableModel.setValueAt("Hola", 3, 3); // Mostrar los detalles directamente en la celda
+                tableModel.setValueAt("Hola", row, column); // Mostrar los detalles directamente en la celda
             }
         }
         
         //tableModel.setValueAt("Hola", 3, 3);
 
 
-        // Utilizamos un editor y renderer personalizado para las celdas
-       /* table.setDefaultEditor(Object.class, new AgendaCellEditor());
-        table.setDefaultRenderer(Object.class, new AgendaCellRenderer());*/
 
         JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(scrollPane);
@@ -119,21 +116,5 @@ public class AgendaSemanal extends JFrame {
         SwingUtilities.invokeLater(AgendaSemanal::new);
     }
 
-    private class AgendaCellEditor extends DefaultCellEditor {
-        public AgendaCellEditor() {
-            super(new JTextField());
-        }
-    }
 
-    private class AgendaCellRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            // Mostrar los componentes JTextField correctamente en las celdas
-            if (value instanceof Component) {
-                return (Component) value;
-            } else {
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            }
-        }
-    }
 }

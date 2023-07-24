@@ -175,6 +175,25 @@ public class Clinica implements Serializable{
 		return aux;
 	}
 	
+	public Doctor buscarDoctorByUser(String codigo) {
+	    Doctor aux = null;
+	    boolean encontrado = false;
+	    int i = 0;
+	    
+	    while (!encontrado && i < misPersonas.size()) {
+	        if (misPersonas.get(i) instanceof Doctor) {
+	            Doctor doctor = (Doctor) misPersonas.get(i);
+	            if (doctor.getCodigo().equals(codigo)) {
+	                aux = doctor;
+	                encontrado = true;
+	            }
+	        }
+	        i++;
+	    }
+	    
+	    return aux;
+	}
+	
 	public Historial buscarHistorialByCedula(String cedula) {
 		Historial aux = null;
 		boolean encontrado = false;
