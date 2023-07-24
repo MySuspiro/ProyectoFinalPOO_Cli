@@ -11,14 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
-import com.sun.org.apache.bcel.internal.generic.LoadClass;
-import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
-
 import logico.Clinica;
 import logico.Consulta;
 import logico.Doctor;
 import logico.Enfermedad;
-import logico.Historial;
 import logico.Paciente;
 import logico.Persona;
 import logico.Vacuna;
@@ -99,13 +95,13 @@ public class RegConsulta extends JDialog {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
-				if(pac != null) {
+				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText().toString());
+				if(pac == null) {
+					JOptionPane.showMessageDialog(null, "Cliente no encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
+				} else {
 					encontrado = true;
 					JOptionPane.showMessageDialog(null, "Cliente encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
 					loadPaciente(pac);
-				} else {
-					JOptionPane.showMessageDialog(null, "Cliente no encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -276,7 +272,7 @@ public class RegConsulta extends JDialog {
 				rdbSano.setVisible(false);
 				rdbEnf.setVisible(false);
 				PanEnf.setVisible(true);
-				Paciente pac = (Paciente)Clinica.getInstance().buscarPersonaByCodigo(txtCedPaciente.getText());
+				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 				for (Enfermedad aux : pac.getHist().getMisEnfermedades()){
 					if(aux != null) {
 						cmbEnf.addItem(aux.getNombre());
@@ -303,13 +299,22 @@ public class RegConsulta extends JDialog {
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						Doctor doc = null;
+						Doctor doc = null;	
 						String status = "Investigando";
 						Enfermedad enf = null;
 						Vacuna vac = null;
-						
 						char sex = 0;
+						
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
+						
+						//es hombre o mujer
+						if(rdbHombre.isSelected()) {
+							sex = 'H';
+						} else if (rdbMujer.isSelected()) {
+							sex = 'M';
+						}
+						
+						// iniciar enf y vacuna
 						if(rdbEnf.isSelected() || rdbSano.isSelected()) {
 							enf = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
 						}
@@ -317,16 +322,7 @@ public class RegConsulta extends JDialog {
 							vac = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
 						}
 						
-						if(rdbHombre.isSelected()) {
-							sex = 'H';
-						} else if (rdbMujer.isSelected()) {
-							sex = 'M';
-						}
-						if(txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
-							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText() ,txtSeguro.getText());
-						}
-						
-						
+						// estoy sano o enfermo
 						if(enf != null) {
 							if(rdbEnf.isSelected()) {
 								status = "Enfermo";
@@ -335,9 +331,9 @@ public class RegConsulta extends JDialog {
 								status = "Sano";
 								pac.getHist().eliminarMisEnfermedades(enf);
 							}
-
 						}
 						
+						//si usuario no esta encontrado
 						if(!encontrado && sex != 0) {
 							Clinica.getInstance().agregarPersona(pac);
 						} else {
@@ -349,11 +345,11 @@ public class RegConsulta extends JDialog {
 							int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
 							if(option == JOptionPane.OK_OPTION) {
 								pac.getHist().addMisConsultas(cons);
+								Clinica.getInstance().modificarPersona(pac);
 							}
 							Clinica.getInstance().agregarConsulta(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-							Clinica.getInstance().modificarPersona(pac);
 						} else {
 							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
 						}

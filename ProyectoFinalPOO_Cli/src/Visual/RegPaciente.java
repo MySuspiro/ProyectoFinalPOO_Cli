@@ -138,7 +138,7 @@ public class RegPaciente extends JDialog {
 			{
 				txtCedula = new JTextField();
 				txtCedula.addKeyListener(new KeyAdapter() {
-					@Override
+					/*@Override
 					public void keyTyped(KeyEvent e) {
 						 // Obtener la tecla presionada
 		                char c = e.getKeyChar();
@@ -147,7 +147,7 @@ public class RegPaciente extends JDialog {
 		                    // Consumir el evento para evitar que se escriba el carácter no válido
 		                    e.consume();
 		                }
-					}
+					}*/
 				});
 				txtCedula.setColumns(10);
 				txtCedula.setBounds(316, 46, 228, 22);
@@ -244,12 +244,9 @@ public class RegPaciente extends JDialog {
 									
 									Paciente paciente = new Paciente(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtCorreoE.getText(),txtSeguro.getText());
 									Clinica.getInstance().agregarPersona(paciente);
-								
 									Historial hist = new Historial(txtCedula.getText());
 									paciente.setHist(hist);
-									
 									Clinica.getInstance().agregarHistorial(hist);
-									
 									JOptionPane.showMessageDialog(null,"Operación satisfactoria","Registro", JOptionPane.INFORMATION_MESSAGE);
 									//dispose();
 								    clean();

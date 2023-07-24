@@ -195,7 +195,7 @@ public class Clinica implements Serializable{
 		boolean encontrado = false;
 		int i=0;
 		while (!encontrado && i<misPersonas.size()) {
-			if(misPersonas.get(i).getCodigo().equalsIgnoreCase(cedula)){
+			if(misPersonas.get(i).getCedula().equalsIgnoreCase(cedula)){
 				aux = misPersonas.get(i);
 				encontrado = true;
 			}
