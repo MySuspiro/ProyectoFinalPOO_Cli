@@ -99,9 +99,6 @@ public class Principal extends JFrame {
 		setJMenuBar(menuBar);
 		
 		JMenu mnNewMenu_3 = new JMenu("Cita");
-		if(!Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado")){
-			mnNewMenu_3.setEnabled(false);
-		}
 		menuBar.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
@@ -125,6 +122,9 @@ public class Principal extends JFrame {
 		mnNewMenu_3.add(mntmNewMenuItem_8);
 		
 		JMenu mnNewMenu_1 = new JMenu("Consulta");
+		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
+			mnNewMenu_1.setEnabled(false);
+		}
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
@@ -148,6 +148,9 @@ public class Principal extends JFrame {
 		mnNewMenu_1.add(mntmNewMenuItem_5);
 		
 		JMenu mnNewMenu_2 = new JMenu("Paciente");
+		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
+			mnNewMenu_2.setEnabled(false);
+		}
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar");
@@ -196,6 +199,9 @@ public class Principal extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem_7);
 		
 		JMenu mnNewMenu_4 = new JMenu("Enfermedad");
+		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
+			mnNewMenu_4.setEnabled(false);
+		}
 		menuBar.add(mnNewMenu_4);
 		
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Listar");
@@ -209,6 +215,9 @@ public class Principal extends JFrame {
 		mnNewMenu_4.add(mntmNewMenuItem_10);
 		
 		JMenu mnNewMenu_5 = new JMenu("Vacuna");
+		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
+			mnNewMenu_5.setEnabled(false);
+		}
 		menuBar.add(mnNewMenu_5);
 		
 		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Registrar");
