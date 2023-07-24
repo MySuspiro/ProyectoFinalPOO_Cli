@@ -97,10 +97,10 @@ public class RegConsulta extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText().toString());
 				if(pac == null) {
-					JOptionPane.showMessageDialog(null, "Cliente no encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Paciente no encontrado", "Paciente", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					encontrado = true;
-					JOptionPane.showMessageDialog(null, "Cliente encontrado", "Clientes", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Paciente encontrado", "Paciente", JOptionPane.INFORMATION_MESSAGE);
 					loadPaciente(pac);
 				}
 			}
@@ -180,7 +180,7 @@ public class RegConsulta extends JDialog {
 		panel_2.setLayout(null);
 		
 		PanEnf = new JPanel();
-		PanEnf.setBorder(new TitledBorder(null, "Enferma", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanEnf.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Enfermedad", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		PanEnf.setBounds(36, 89, 226, 74);
 		panel_2.add(PanEnf);
 		PanEnf.setLayout(null);
