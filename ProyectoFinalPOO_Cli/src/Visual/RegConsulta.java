@@ -353,6 +353,7 @@ public class RegConsulta extends JDialog {
 							Clinica.getInstance().agregarConsulta(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
+							Clinica.getInstance().modificarPersona(pac);
 						} else {
 							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
 						}

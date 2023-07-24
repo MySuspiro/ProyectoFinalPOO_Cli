@@ -83,7 +83,7 @@ public class RegCita extends JDialog {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						doc = (Doctor)Clinica.getInstance().buscarPersonaByCedula(cbxDoc.getSelectedItem().toString());
+						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cbxDoc.getSelectedItem().toString());
 						if(cbxDoc.getSelectedIndex() != 0 && miCita == null) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, txtHora.getText(), fech);
 							Clinica.getInstance().agregarCita(cita);
