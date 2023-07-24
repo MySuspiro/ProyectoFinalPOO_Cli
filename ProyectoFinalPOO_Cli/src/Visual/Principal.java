@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
 
 import logico.Clinica;
+import logico.Doctor;
 
 import java.awt.FlowLayout;
 import javax.swing.border.SoftBevelBorder;
@@ -74,7 +75,7 @@ public class Principal extends JFrame {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("laclinica3.dat");
+					empresa2 = new  FileOutputStream("laclinica4.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
 					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -187,12 +188,16 @@ public class Principal extends JFrame {
 		JMenu mnNewMenu = new JMenu("Doctor");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Agenda Citas");
+		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Agenda Semanal Citas");
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AgendaSemanal2 as= new AgendaSemanal2();
-				//as.setModal(true);
-				as.setVisible(true);
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
+					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					AgendaSemanal2 as= new AgendaSemanal2(doc);
+					as.setModal(true);
+					as.setVisible(true);
+				}
+
 				
 			}
 		});
@@ -260,9 +265,23 @@ public class Principal extends JFrame {
 		mnAdministracion.add(mnNewMenu_9);
 		
 		JMenuItem mntmNewMenuItem_17 = new JMenuItem("Registrar");
+		mntmNewMenuItem_17.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegVacuna regDoc= new RegVacuna(null);
+				regDoc.setModal(true);
+				regDoc.setVisible(true);
+			}
+		});
 		mnNewMenu_9.add(mntmNewMenuItem_17);
 		
 		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Listar");
+		mntmNewMenuItem_18.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarVacuna regDoc= new ListarVacuna();
+				regDoc.setModal(true);
+				regDoc.setVisible(true);
+			}
+		});
 		mnNewMenu_9.add(mntmNewMenuItem_18);
 		
 		JMenu mnNewMenu_10 = new JMenu("Doctor");
@@ -333,7 +352,7 @@ public class Principal extends JFrame {
 		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
 		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-		            try (FileInputStream fis = new FileInputStream("laclinica3.dat")) {
+		            try (FileInputStream fis = new FileInputStream("laclinica4.dat")) {
 		                byte[] buffer = new byte[4096];
 		                int bytesRead;
 		                while ((bytesRead = fis.read(buffer)) != -1) {
