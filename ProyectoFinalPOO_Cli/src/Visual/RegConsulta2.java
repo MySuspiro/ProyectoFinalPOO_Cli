@@ -310,16 +310,17 @@ public class RegConsulta2 extends JDialog {
 						pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
 						
-						//check si existe paciente
-						if(pac != null) {
-							encontrado = true;
-						}
-						
 						//es hombre o mujer
 						if(rdbHombre.isSelected()) {
 							sex = 'H';
 						} else if (rdbMujer.isSelected()) {
 							sex = 'M';
+						}
+						
+						//si usuario no esta encontrado crealo
+						if(pac != null) {
+							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
+							Clinica.getInstance().agregarPersona(pac);
 						}
 						
 						// iniciar enf y vacuna
@@ -342,11 +343,7 @@ public class RegConsulta2 extends JDialog {
 						}
 						
 						
-						//si usuario no esta encontrado crealo/modificalo
-						if(!encontrado) {
-							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
-							Clinica.getInstance().agregarPersona(pac);
-						}
+						
 						
 						//registro de Consulta 
 						if(doc != null && pac != null) {
@@ -386,7 +383,6 @@ public class RegConsulta2 extends JDialog {
 	}
 
 	protected void PacUpdate() {
-		pac.setCedula(txtCedPaciente.getText());
 		pac.setNombre(txtNom.getText());
 		pac.setDir(txtDir.getText());
 		pac.setTelefono(txtTel.getText());
