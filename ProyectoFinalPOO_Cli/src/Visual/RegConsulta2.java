@@ -344,7 +344,7 @@ public class RegConsulta2 extends JDialog {
 						
 						//si usuario no esta encontrado crealo/modificalo
 						if(!encontrado) {
-							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
+							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
 							Clinica.getInstance().agregarPersona(pac);
 						}
 						
