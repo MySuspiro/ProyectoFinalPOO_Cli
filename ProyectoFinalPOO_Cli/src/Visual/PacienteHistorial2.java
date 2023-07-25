@@ -110,6 +110,7 @@ public class PacienteHistorial2 extends JDialog {
 						if (!txtCedula.getText().isEmpty())
 						{
 							String nombreBuscado = txtCedula.getText();
+							System.out.println("cedula: " + txtCedula.getText());
 							loadConsultas(nombreBuscado);	
 						}
 						
@@ -187,9 +188,13 @@ public class PacienteHistorial2 extends JDialog {
 		modelo2.setRowCount(0);
 		row2= new Object[table.getColumnCount()];
 		historial = Clinica.getInstance().buscarHistorialByCedula(txtCedula.getText());
+		historial = Clinica.getInstance().buscarHistorialByCedula(txtCedula.getText());
+		//System.out.println("Valor de historial: " + historial.getCodigo());
+		JOptionPane.showMessageDialog(null, "Llegue aqui", "Error", JOptionPane.ERROR_MESSAGE);
 		
 		if (historial!=null) 
 		{
+			JOptionPane.showMessageDialog(null, "Encontre Historial", "Error", JOptionPane.ERROR_MESSAGE);
 			 boolean coincidencia=false;
 			 ArrayList<Consulta> misConsultas = historial.getMisConsultas();
 			 ArrayList<Vacuna> misVacunas = historial.getMisVacunas();
@@ -223,6 +228,9 @@ public class PacienteHistorial2 extends JDialog {
 			    
 			
 		}
+     else {
+        JOptionPane.showMessageDialog(null, "No existe Historial", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 			
 	}
 }
