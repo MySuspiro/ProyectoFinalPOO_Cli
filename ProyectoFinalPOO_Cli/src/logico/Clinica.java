@@ -205,7 +205,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -213,26 +212,27 @@ public class Clinica implements Serializable{
 		Persona aux = null;
 		boolean encontrado = false;
 		int i=0;
-		while (!encontrado && i<misPersonas.size()) {
-			if(misPersonas.get(i).getCedula().equalsIgnoreCase(cedula)){
-				aux = misPersonas.get(i);
-				encontrado = true;
+		if(!misPersonas.isEmpty()) {
+			while (!encontrado && i<misPersonas.size()) {
+				if(misPersonas.get(i).getCedula().equalsIgnoreCase(cedula)){
+					aux = misPersonas.get(i);
+					encontrado = true;
+				}
+				i++;
 			}
-			i++;
-		}
-		
+		}		
 		return aux;
 	}
 	
 	public void eliminarPersona(logico.Persona selected) {
 		misPersonas.remove(selected);
 	}
+	
 	public void modificarPersona(Persona miPersona) {
 		int index = buscarIndexPersonaByCode(miPersona);
 		if(misPersonas != null) {
 			misPersonas.set(index,miPersona);	
 		}
-		
 	}
 	
 	private int buscarIndexPersonaByCode(Persona miPersona) {
@@ -246,7 +246,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -261,7 +260,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -276,7 +274,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -291,7 +288,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -306,7 +302,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -321,7 +316,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -336,7 +330,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -380,7 +373,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
@@ -395,7 +387,6 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 
@@ -411,12 +402,10 @@ public class Clinica implements Serializable{
 			}
 			i++;
 		}
-		
 		return aux;
 	}
 	
 	public int cantMujeres() {
-		
 		int count=0;
 		
 		for (Persona persona: misPersonas)
@@ -426,12 +415,10 @@ public class Clinica implements Serializable{
 				count++;
 			}
 		}
-		
 		return count;
 	}
 	
 	public int cantHombres() {
-		
 		int count=0;
 		
 		for (Persona persona: misPersonas)
@@ -441,12 +428,10 @@ public class Clinica implements Serializable{
 				count++;
 			}
 		}
-		
 		return count;
 	}
 	
 	public float enfermedadCantPacientes(Enfermedad enf) {
-		
 		int count=0;
 		float porciento=0;
 		int cantPacientes=0;
@@ -463,12 +448,9 @@ public class Clinica implements Serializable{
 						count++;
 					}
 				}
-
 			}
 		}
-		
 		porciento=(count*100)/cantPacientes;
-		
 		return count;
 	}
 	
@@ -580,9 +562,7 @@ public class Clinica implements Serializable{
 	
 	
 	public static String extractNumber(final String str) {                
-
 		if(str == null || str.isEmpty()) return "";
-
 		StringBuilder sb = new StringBuilder();
 		boolean found = false;
 		for(char c : str.toCharArray()){
@@ -594,9 +574,8 @@ public class Clinica implements Serializable{
 		        break;                
 		    }
 		}
-
 		return sb.toString();
-		}
+	}
 	
 }
 	

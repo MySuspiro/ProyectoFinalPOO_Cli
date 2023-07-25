@@ -263,7 +263,6 @@ public class RegConsulta2 extends JDialog {
 						cmbEnf.addItem(aux.getNombre());
 					}	
 				}
-				
 			}
 		});
 		rdbEnf.setBounds(50, 85, 127, 25);
@@ -276,13 +275,12 @@ public class RegConsulta2 extends JDialog {
 				rdbSano.setVisible(false);
 				rdbEnf.setVisible(false);
 				PanEnf.setVisible(true);
-				Paciente pac = (Paciente)Clinica.getInstance().buscarPersonaByCodigo(txtCedPaciente.getText());
+				pac = (Paciente)Clinica.getInstance().buscarPersonaByCodigo(txtCedPaciente.getText());
 				for (Enfermedad aux : pac.getHist().getMisEnfermedades()){
 					if(aux != null) {
 						cmbEnf.addItem(aux.getNombre());
-					}	
+					}
 				}
-				
 			}
 		});
 		rdbSano.setBounds(50, 121, 127, 25);
@@ -303,13 +301,28 @@ public class RegConsulta2 extends JDialog {
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						Doctor doc = null;
+						Doctor doc = null;	
 						String status = "Investigando";
 						Enfermedad enf = null;
 						Vacuna vac = null;
-						
 						char sex = 0;
+						
+						pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
+						
+						//check si existe paciente
+						if(pac != null) {
+							encontrado = true;
+						}
+						
+						//es hombre o mujer
+						if(rdbHombre.isSelected()) {
+							sex = 'H';
+						} else if (rdbMujer.isSelected()) {
+							sex = 'M';
+						}
+						
+						// iniciar enf y vacuna
 						if(rdbEnf.isSelected() || rdbSano.isSelected()) {
 							enf = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
 						}
@@ -317,47 +330,40 @@ public class RegConsulta2 extends JDialog {
 							vac = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
 						}
 						
-						if(rdbHombre.isSelected()) {
-							sex = 'H';
-						} else if (rdbMujer.isSelected()) {
-							sex = 'M';
-						}
-						if(txtCedPaciente.getText() != null && txtNom.getText() != null && txtDir.getText() != null && txtEmail.getText() != null && txtTel.getText() != null) {
-							Paciente paciente=null;
-							paciente = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText() ,txtSeguro.getText());
-						}
-						
-						
+						// estoy sano o enfermo
 						if(enf != null) {
 							if(rdbEnf.isSelected()) {
 								status = "Enfermo";
-								pac.getHist().addMisEnfermedades(enf);;
+								pac.getHist().addMisEnfermedades(enf);
 							} else if (rdbSano.isSelected()) {
 								status = "Sano";
 								pac.getHist().eliminarMisEnfermedades(enf);
 							}
-
 						}
 						
+						
+						//si usuario no esta encontrado crealo/modificalo
 						if(!encontrado && sex != 0) {
+							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
 							Clinica.getInstance().agregarPersona(pac);
-						} else {
-							Clinica.getInstance().modificarPersona(pac);
 						}
 						
+						//registro de Consulta 
 						if(doc != null && pac != null) {
 							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status, vac);
 							int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
 							if(option == JOptionPane.OK_OPTION) {
 								pac.getHist().addMisConsultas(cons);
 							}
+							PacUpdate();
 							Clinica.getInstance().agregarConsulta(cons);
 							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-							Clinica.getInstance().modificarPersona(pac);
 						} else {
 							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
 						}
+						
+						
 						
 					}
 				});
@@ -377,6 +383,21 @@ public class RegConsulta2 extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	protected void PacUpdate() {
+		pac.setCedula(txtCedPaciente.getText());
+		pac.setNombre(txtNom.getText());
+		pac.setDir(txtDir.getText());
+		pac.setTelefono(txtTel.getText());
+		pac.setCorreoElectronico(txtEmail.getText());
+		pac.setSeguro(txtSeguro.getText());
+		if(rdbHombre.isSelected()) {
+			pac.setSexo('H');
+		} else {
+			pac.setSexo('M');
+		}
+		Clinica.getInstance().modificarPersona(pac);
 	}
 
 	protected void loadPaciente(Paciente pac) {

@@ -371,13 +371,14 @@ public class RegPaciente extends JDialog {
 	}
 	
 	public boolean verificarCedulaRepetida() {
-		
-	    for (Persona persona : Clinica.getInstance().getMisPersonas()) {
-	        if (persona.getCedula().equals(txtCedula.getText())) {
-	            return false;//se repite 
-	        }
-	    }
-	    return true; //no se repite
+		if(Clinica.getInstance().getMisPersonas().isEmpty()) {
+			for (Persona persona : Clinica.getInstance().getMisPersonas()) {
+		        if (persona.getCedula().equals(txtCedula.getText())) {
+		            return false;//se repite 
+		        }
+		    }
+		}
+		return true; //no se repite
 	}
 }
 

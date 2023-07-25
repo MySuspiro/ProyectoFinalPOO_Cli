@@ -131,7 +131,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			RegConsulta regConsul= new RegConsulta();
+			RegConsulta2 regConsul= new RegConsulta2();
 			regConsul.setModal(true);
 			regConsul.setVisible(true);
 			}

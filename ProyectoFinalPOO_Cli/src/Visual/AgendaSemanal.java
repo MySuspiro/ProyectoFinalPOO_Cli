@@ -112,9 +112,5 @@ public class AgendaSemanal extends JFrame {
         return -1; // Día no encontrado
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(AgendaSemanal::new);
-    }
-
 
 }
