@@ -299,70 +299,19 @@ public class RegConsulta2 extends JDialog {
 			{
 				JButton okButton = new JButton("Registrar");
 				okButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						Doctor doc = null;	
-						String status = "Investigando";
-						Enfermedad enf = null;
-						Vacuna vac = null;
-						char sex = 0;
-						
-						pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
-						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
-						
-						//es hombre o mujer
-						if(rdbHombre.isSelected()) {
-							sex = 'H';
-						} else if (rdbMujer.isSelected()) {
-							sex = 'M';
-						}
-						
-						//si usuario no esta encontrado crealo
-						if(pac != null) {
-							pac = new Paciente(txtCedPaciente.getText(), txtNom.getText(), txtDir.getText(), "P-"+Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
-							Clinica.getInstance().agregarPersona(pac);
-						}
-						
-						// iniciar enf y vacuna
-						if(rdbEnf.isSelected() || rdbSano.isSelected()) {
-							enf = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
-						}
-						if(rdbVacuna.isSelected()) {
-							vac = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
-						}
-						
-						// estoy sano o enfermo
-						if(enf != null) {
-							if(rdbEnf.isSelected()) {
-								status = "Enfermo";
-								pac.getHist().addMisEnfermedades(enf);
-							} else if (rdbSano.isSelected()) {
-								status = "Sano";
-								pac.getHist().eliminarMisEnfermedades(enf);
-							}
-						}
-						
-						
-						
-						
-						//registro de Consulta 
-						if(doc != null && pac != null) {
-							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status, vac);
-							int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
-							if(option == JOptionPane.OK_OPTION) {
-								pac.getHist().addMisConsultas(cons);
-							}
-							PacUpdate();
-							Clinica.getInstance().agregarConsulta(cons);
-							JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
-							Clean();
-						} else {
-							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
-						}
-						
-						
-						
-					}
+				    @Override
+				    public void mouseClicked(MouseEvent e) {
+				        String cedula = txtCedPaciente.getText();
+				        Paciente paciente = searchOrCreatePatient(cedula);
+
+				        if (paciente != null) {
+				            // If patient exists, update their information
+				            registerConsulta(paciente);
+
+				        } else {
+				            JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
+				        }
+				    }
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -395,6 +344,8 @@ public class RegConsulta2 extends JDialog {
 		}
 		Clinica.getInstance().modificarPersona(pac);
 	}
+	
+	
 
 	protected void loadPaciente(Paciente pac) {
 		txtCedPaciente.setText(pac.getCedula());
@@ -414,7 +365,68 @@ public class RegConsulta2 extends JDialog {
 		}
 		
 	}
+	private Paciente searchOrCreatePatient(String cedula) {
+	    Paciente paciente = (Paciente) Clinica.getInstance().buscarPersonaByCedula(cedula);
 
+	    if (paciente == null) {
+	        char sex = rdbHombre.isSelected() ? 'H' : 'M';
+	        paciente = new Paciente(cedula, txtNom.getText(), txtDir.getText(), "P-" + Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText());
+	        Clinica.getInstance().agregarPersona(paciente);
+	    }
+
+	    return paciente;
+	}
+
+	private void updatePatient(Paciente paciente) {
+	    paciente.setNombre(txtNom.getText());
+	    paciente.setDir(txtDir.getText());
+	    paciente.setTelefono(txtTel.getText());
+	    paciente.setCorreoElectronico(txtEmail.getText());
+	    paciente.setSeguro(txtSeguro.getText());
+	    paciente.setSexo(rdbHombre.isSelected() ? 'H' : 'M');
+	    Clinica.getInstance().modificarPersona(paciente);
+	}
+
+
+	private void registerConsulta(Paciente paciente) {
+	    Doctor doctor = (Doctor) Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
+	    Enfermedad enfermedad = null;
+	    Vacuna vacuna = null;
+
+	    if (rdbEnf.isSelected() || rdbSano.isSelected()) {
+	        enfermedad = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+	    }
+
+	    if (rdbVacuna.isSelected()) {
+	        vacuna = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
+	    }
+
+	    String status = "Investigando";
+
+	    if (enfermedad != null) {
+	        if (rdbEnf.isSelected()) {
+	            status = "Enfermo";
+	            paciente.getHist().addMisEnfermedades(enfermedad);
+	        } else if (rdbSano.isSelected()) {
+	            status = "Sano";
+	            paciente.getHist().eliminarMisEnfermedades(enfermedad);
+	        }
+	    }
+
+	    Consulta consulta = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enfermedad, paciente, doctor, status, vacuna);
+
+	    int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+	    if (option == JOptionPane.OK_OPTION) {
+	        paciente.getHist().addMisConsultas(consulta);
+	    }
+        updatePatient(paciente);
+	    Clinica.getInstance().agregarConsulta(consulta);
+
+	    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
+
+	    Clean();
+	}
+	
 	private void Clean() {
 		txtCedPaciente.setText("");
 		txtCodigoCons.setText("C-"+Clinica.getInstance().getcodCons());

@@ -44,7 +44,7 @@ public class RegCita extends JDialog {
     private JButton btnReg;
     MaskFormatter mask = null;
     private JTextField txtDoctor;
-    private Doctor doc=null;
+    private Doctor doc = null;
     private JComboBox cbxHora;
 
 	/**
@@ -84,7 +84,7 @@ public class RegCita extends JDialog {
 
 						
 						if(cbxHora.getSelectedIndex() != 0 ) {
-							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doctor, cbxHora.getSelectedItem().toString(), fech);
+							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							if (cita != null) {    
 							    System.out.println("Doctor Code GUARDADO: " + cita.getDoctor().getNombre());
