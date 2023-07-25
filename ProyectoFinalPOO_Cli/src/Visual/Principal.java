@@ -75,7 +75,7 @@ public class Principal extends JFrame {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("laclinica5.dat");
+					empresa2 = new  FileOutputStream("laclinica6.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
 					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -105,9 +105,18 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegCita2 regCita= new RegCita2(null);
-				regCita.setModal(true);
-				regCita.setVisible(true);
+				
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
+					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					RegCita as= new RegCita(doc);
+					as.setModal(true);
+					as.setVisible(true);
+				}else {
+					RegCita2 regCita= new RegCita2(null);
+					regCita.setModal(true);
+					regCita.setVisible(true);	
+				}
+
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_6);
@@ -352,7 +361,7 @@ public class Principal extends JFrame {
 		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
 		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-		            try (FileInputStream fis = new FileInputStream("laclinica5.dat")) {
+		            try (FileInputStream fis = new FileInputStream("laclinica6.dat")) {
 		                byte[] buffer = new byte[4096];
 		                int bytesRead;
 		                while ((bytesRead = fis.read(buffer)) != -1) {

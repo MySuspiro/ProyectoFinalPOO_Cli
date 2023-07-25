@@ -492,17 +492,28 @@ public class Clinica implements Serializable{
 
 
 	public String getcodCita() {
-		String mayor = "1000";
-		String codigo = null;
-		for (CitaMedica aux : misCitas) {
-			codigo = extractNumber(aux.getCodigo());
-			if(codigo.compareTo(mayor) > 0) {
-				mayor = aux.getCodigo();
-			}
-		}
-		String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
-		return resultado;	
+	    String mayor = "1000";
+	    String codigo = null;
+	    for (CitaMedica aux : misCitas) {
+	        codigo = extractNumber2(aux.getCodigo());
+	        if (codigo != null && codigo.compareTo(mayor) > 0) {
+	            mayor = codigo;
+	        }
+	    }
+	    String resultado = Integer.toString(Integer.parseInt(mayor) + 1);
+	    return resultado;
 	}
+
+	private String extractNumber2(String input) {
+	    StringBuilder sb = new StringBuilder();
+	    for (char c : input.toCharArray()) {
+	        if (Character.isDigit(c)) {
+	            sb.append(c);
+	        }
+	    }
+	    return sb.toString();
+	}
+
 
 
 	public String getcodCons() {
