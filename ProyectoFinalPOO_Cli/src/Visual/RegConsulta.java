@@ -306,6 +306,7 @@ public class RegConsulta extends JDialog {
 						char sex = 0;
 						
 						doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
+						pac=(Paciente) Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 						
 						//es hombre o mujer
 						if(rdbHombre.isSelected()) {
@@ -321,6 +322,14 @@ public class RegConsulta extends JDialog {
 						if(rdbVacuna.isSelected()) {
 							vac = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
 						}
+
+						//si usuario no esta encontrado
+						if(pac==null) {
+							
+							Clinica.getInstance().agregarPersona(pac);
+						} else {
+							Clinica.getInstance().modificarPersona(pac);
+						}
 						
 						// estoy sano o enfermo
 						if(enf != null) {
@@ -333,12 +342,7 @@ public class RegConsulta extends JDialog {
 							}
 						}
 						
-						//si usuario no esta encontrado
-						if(!encontrado && sex != 0) {
-							Clinica.getInstance().agregarPersona(pac);
-						} else {
-							Clinica.getInstance().modificarPersona(pac);
-						}
+
 						
 						if(doc != null && pac != null) {
 							Consulta cons = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enf, pac, doc, status, vac);

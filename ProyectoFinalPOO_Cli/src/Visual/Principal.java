@@ -75,7 +75,7 @@ public class Principal extends JFrame {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("laclinica6.dat");
+					empresa2 = new  FileOutputStream("laclinica8.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
 					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -361,7 +361,7 @@ public class Principal extends JFrame {
 		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
 		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-		            try (FileInputStream fis = new FileInputStream("laclinica6.dat")) {
+		            try (FileInputStream fis = new FileInputStream("laclinica8.dat")) {
 		                byte[] buffer = new byte[4096];
 		                int bytesRead;
 		                while ((bytesRead = fis.read(buffer)) != -1) {

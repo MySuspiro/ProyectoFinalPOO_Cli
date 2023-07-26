@@ -210,17 +210,37 @@ public class PacienteHistorial2 extends JDialog {
 			        if (consulta.getPaciente().getCedula().equals(paciente.getCedula())) {
 						row[0]=consulta.getFechaConsulta();
 						row[1]=consulta.getDiagnostico();
-						row[2]=consulta.getEnfermedad().getNombre();
+						if (consulta.getEnfermedad()!=null)
+						{
+							row[2]=consulta.getEnfermedad().getNombre();
+							
+						}else
+						{
+							row[2]=" ";
+						}
 			            modelo.addRow(row);
 			            coincidencia=true;
 			        }
 			    }
 			 
 			 for (Vacuna vacuna : misVacunas) {
+				 if (vacuna!=null)
+				 {
 						row2[0]=vacuna.getNombre();
 						row2[1]=vacuna.getDescripcion();
 						row2[2]=vacuna.getEnf().getNombre();
 			            modelo2.addRow(row2);
+					 
+				 }
+				 else
+				 {
+						row2[0]=" ";
+						row2[1]=" ";
+						row2[2]=" ";
+			            modelo2.addRow(row2);
+					 
+				 }
+
 			            coincidencia=true;
 			        
 			        }
