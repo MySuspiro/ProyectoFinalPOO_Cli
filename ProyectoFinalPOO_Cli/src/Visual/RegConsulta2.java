@@ -419,6 +419,8 @@ public class RegConsulta2 extends JDialog {
 	    if (option == JOptionPane.OK_OPTION) {
 	        paciente.getHist().addMisConsultas(consulta);
 	    }
+	    paciente.getHist().addMisConsultas(consulta);
+
         updatePatient(paciente);
 	    Clinica.getInstance().agregarConsulta(consulta);
 

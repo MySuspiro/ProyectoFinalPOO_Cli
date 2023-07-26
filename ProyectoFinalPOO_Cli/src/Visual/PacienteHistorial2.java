@@ -109,9 +109,11 @@ public class PacienteHistorial2 extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if (!txtCedula.getText().isEmpty())
 						{
-							String nombreBuscado = txtCedula.getText();
+							Paciente pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedula.getText());
+							/*String nombreBuscado = txtCedula.getText();
 							System.out.println("cedula: " + txtCedula.getText());
-							loadConsultas(nombreBuscado);	
+							loadConsultas(nombreBuscado);*/	
+							loadConsultas(pac);
 						}
 						
 					}
@@ -182,15 +184,17 @@ public class PacienteHistorial2 extends JDialog {
 		}
 	}
 	
-	private void loadConsultas(String clienteBuscado) {
+	//private void loadConsultas(String clienteBuscado) {
+	private void loadConsultas(Paciente clienteBuscado) {
+
 		modelo.setRowCount(0);
 		row= new Object[table.getColumnCount()];
 		modelo2.setRowCount(0);
 		row2= new Object[table.getColumnCount()];
-		historial = Clinica.getInstance().buscarHistorialByCedula(txtCedula.getText());
-		historial = Clinica.getInstance().buscarHistorialByCedula(txtCedula.getText());
+		historial = clienteBuscado.getHist();
+		//historial = Clinica.getInstance().buscarHistorialByCedula(txtCedula.getText());
 		//System.out.println("Valor de historial: " + historial.getCodigo());
-		JOptionPane.showMessageDialog(null, "Llegue aqui", "Error", JOptionPane.ERROR_MESSAGE);
+		//JOptionPane.showMessageDialog(null, "Llegue aqui", "Error", JOptionPane.ERROR_MESSAGE);
 		
 		if (historial!=null) 
 		{
