@@ -61,7 +61,7 @@ public class RegConsulta2 extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta();
+			RegConsulta2 dialog = new RegConsulta2();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
