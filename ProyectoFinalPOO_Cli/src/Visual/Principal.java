@@ -75,7 +75,7 @@ public class Principal extends JFrame {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("laclinica8.dat");
+					empresa2 = new  FileOutputStream("laclinica11.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
 					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -131,6 +131,16 @@ public class Principal extends JFrame {
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_8);
 		
+		JMenuItem mntmNewMenuItem_14 = new JMenuItem("Agenda Semanal");
+		mntmNewMenuItem_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgendaSemanal as= new AgendaSemanal();
+				as.setModal(true);
+				as.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_14);
+		
 		JMenu mnNewMenu_1 = new JMenu("Consulta");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
 			mnNewMenu_1.setEnabled(false);
@@ -140,9 +150,16 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			RegConsulta2 regConsul= new RegConsulta2();
-			regConsul.setModal(true);
-			regConsul.setVisible(true);
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
+					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					RegConsulta regConsul= new RegConsulta(doc);
+					regConsul.setModal(true);
+					regConsul.setVisible(true);
+				}else {
+					RegConsulta2 regConsul= new RegConsulta2();
+					regConsul.setModal(true);
+					regConsul.setVisible(true);	
+				}
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_4);
@@ -195,6 +212,9 @@ public class Principal extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem_13);
 		
 		JMenu mnNewMenu = new JMenu("Doctor");
+		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
+			mnNewMenu.setEnabled(false);
+		}
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Agenda Semanal Citas");
@@ -206,7 +226,13 @@ public class Principal extends JFrame {
 					as.setModal(true);
 					as.setVisible(true);
 				}
-
+				else
+				{
+					AgendaSemanal3 as= new AgendaSemanal3();
+					as.setModal(true);
+					as.setVisible(true);
+					
+				}
 				
 			}
 		});
@@ -361,7 +387,7 @@ public class Principal extends JFrame {
 		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
 		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-		            try (FileInputStream fis = new FileInputStream("laclinica8.dat")) {
+		            try (FileInputStream fis = new FileInputStream("laclinica11.dat")) {
 		                byte[] buffer = new byte[4096];
 		                int bytesRead;
 		                while ((bytesRead = fis.read(buffer)) != -1) {

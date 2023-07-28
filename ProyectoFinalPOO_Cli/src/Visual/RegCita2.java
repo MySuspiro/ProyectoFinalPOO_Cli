@@ -29,13 +29,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.DefaultComboBoxModel;
 
 public class RegCita2 extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCod;
 	private JFormattedTextField txtFech;
-	private JFormattedTextField txtHora;
 	private JComboBox<String> cbxDoc;
 	DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
     DateFormatter df = new DateFormatter(format);
@@ -44,6 +44,7 @@ public class RegCita2 extends JDialog {
     private CitaMedica miCita= null;
     private JButton btnReg;
     MaskFormatter mask = null;
+    private JComboBox cbxHora;
 
 	/**
 	 * Create the dialog.
@@ -56,7 +57,7 @@ public class RegCita2 extends JDialog {
 		} else {
 			setTitle("Modificar Cita");
 		}
-		setBounds(100, 100, 501, 314);
+		setBounds(100, 100, 531, 314);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -90,23 +91,36 @@ public class RegCita2 extends JDialog {
 						} else {
 						    System.out.println("Doctor is null.");
 						}
-						
+						System.out.println("toy aqui1" );
 						if(cbxDoc.getSelectedIndex() != 0 && miCita == null) {
-							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, txtHora.getText(), fech);
+							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
-							if (cita != null) {    
-							    System.out.println("Doctor Code GUARDADO: " + cita.getDoctor().getNombre());
-							} else {
-							    System.out.println("Doctor is null.");
-							}
 							
 							JOptionPane.showMessageDialog(null, "Cita Agendada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-						} else if (cbxDoc.getSelectedIndex() != 0 && miCita != null) {
-							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, txtHora.getText(), fech);
-							Clinica.getInstance().modificarCita(cita);
+						} else if ( miCita != null) {
+							System.out.println("toy aqui" );
+							
+							miCita.setNomPaciente(txtNomPaciente.getText());
+							miCita.setCedPaciente(txtCedPaciente.getText());
+							miCita.setDoctor(doc);
+							
+							Date date = null;
+							try {
+								date = format.parse(txtFech.getText());
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							miCita.setFecha(date);
+							miCita.setHora(cbxHora.getSelectedItem().toString());
+							
+							
+
+							Clinica.getInstance().modificarCita(miCita);
 							JOptionPane.showMessageDialog(null, "Cita Modificada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
+							ListarCita.loadCitas();
 						}
 					}
 				});
@@ -139,7 +153,7 @@ public class RegCita2 extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setBounds(12, 13, 471, 218);
+			panel.setBounds(12, 13, 490, 218);
 			contentPanel.add(panel);
 			panel.setLayout(null);
 			
@@ -157,7 +171,7 @@ public class RegCita2 extends JDialog {
 			txtCedPaciente.setColumns(10);
 			{
 				txtCod = new JTextField();
-				txtCod.setBounds(118, 18, 336, 22);
+				txtCod.setBounds(118, 18, 356, 22);
 				panel.add(txtCod);
 				txtCod.setEditable(false);
 				txtCod.setColumns(10);
@@ -178,15 +192,10 @@ public class RegCita2 extends JDialog {
 				        	lblNewLabel_3.setBounds(368, 138, 56, 16);
 				        	panel.add(lblNewLabel_3);
 				        }
-				        
-				        	        txtHora = new JFormattedTextField(mask);
-				        	        txtHora.setBounds(368, 176, 44, 22);
-				        	        panel.add(txtHora);
-				        	        txtHora.setText("");
 				        	        
 				        	        		
 				        	        		cbxDoc = new JComboBox<String>();
-				        	        		cbxDoc.setBounds(243, 95, 211, 22);
+				        	        		cbxDoc.setBounds(243, 95, 231, 22);
 				        	        		panel.add(cbxDoc);
 				        	        		{
 				        	        			JLabel lblNewLabel_4 = new JLabel("Doctor:");
@@ -213,20 +222,77 @@ public class RegCita2 extends JDialog {
 				        	        			lblNewLabel_2.setBounds(16, 58, 128, 16);
 				        	        			panel.add(lblNewLabel_2);
 				        	        		}
+				        	        		{
+				        	        			cbxHora = new JComboBox();
+				        	        			cbxHora.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "9 : 00", "10 : 00", "11 : 00", "12 : 00", "13 : 00", "14 : 00", "15 : 00", "16 : 00", "17 : 00", "18 : 00"}));
+				        	        			cbxHora.setBounds(368, 176, 106, 22);
+				        	        			panel.add(cbxHora);
+				        	        		}
 				        	        		
 		}
 		
 		
-
+		loadCita();
         
 	}
 	
 	private void Clean() {
 		txtCod.setText("CM-" + Clinica.getInstance().getcodCita());
 		txtFech.setValue(new Date());
-		txtHora.setText("00:00");
+	
 		txtNomPaciente.setText("");
 		txtCedPaciente.setText("");
 		cbxDoc.setSelectedIndex(0);
+		cbxHora.setSelectedIndex(0);
 	}
+	
+	private void loadCita() {
+	    if (miCita != null) {
+	        txtCod.setText(miCita.getCodigo());
+	        txtNomPaciente.setText(miCita.getNomPaciente());
+	        txtCedPaciente.setText(miCita.getCedPaciente());
+	        String fechaStr = txtFech.getText();
+
+	        /*Date fecha = null;
+	        try {
+	            fecha = new SimpleDateFormat("dd-MM-yyyy").parse(fechaStr);
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+	        txtFech.setText(new SimpleDateFormat("dd-MM-yyyy").format(fecha));*/
+	        txtFech.setText(new SimpleDateFormat("dd-MM-yyyy").format(miCita.getFecha()));
+
+	        cbxDoc.removeAllItems(); // Limpiar los elementos previos del JComboBox
+
+	        // Agregar todos los doctores al JComboBox
+	        for (Persona aux : Clinica.getInstance().getMisPersonas()) {
+	            if (aux != null && aux instanceof Doctor) {
+	                String nombre = aux.getNombre();
+	                if (nombre != null) {
+	                    cbxDoc.addItem(nombre);
+	                }
+	            }
+	        }
+
+	        // Establecer el SelectedIndex del JComboBox para que coincida con el doctor asociado a miCita
+	        Doctor doctorCita = miCita.getDoctor();
+	        for (int i = 0; i < cbxDoc.getItemCount(); i++) {
+	            String nombreDoctor = (String) cbxDoc.getItemAt(i);
+	            if (nombreDoctor.equals(doctorCita.getNombre())) {
+	                cbxDoc.setSelectedIndex(i);
+	                break;
+	            }
+	        }
+	        
+	       String hora = miCita.getHora();
+	        for (int i = 0; i < cbxHora.getItemCount(); i++) {
+	            String horaCombo = (String) cbxHora.getItemAt(i);
+	            if (horaCombo.equals(hora)) {
+	                cbxHora.setSelectedIndex(i);
+	                break;
+	            }
+	        }
+	    }
+	}
+
 }

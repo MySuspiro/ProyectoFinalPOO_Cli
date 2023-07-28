@@ -42,5 +42,23 @@ public class CitaMedica implements Serializable {
 	public String getNomPaciente() {
 		return nomPaciente;
 	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+	public void setCedPaciente(String cedPaciente) {
+		this.cedPaciente = cedPaciente;
+	}
+	public void setNomPaciente(String nomPaciente) {
+		this.nomPaciente = nomPaciente;
+	}
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
 
 }
