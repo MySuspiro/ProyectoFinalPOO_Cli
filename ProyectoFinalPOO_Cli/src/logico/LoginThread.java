@@ -17,48 +17,44 @@ public class LoginThread extends Thread{
 	
 	@Override
 	public void run() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				FileInputStream empresa;
-				FileOutputStream empresa2;
-				ObjectInputStream empresaRead;
-				ObjectOutputStream empresaWrite;
-				try {
-					empresa = new FileInputStream ("laclinica8.dat");
-					empresaRead = new ObjectInputStream(empresa);
-					Clinica temp = (Clinica)empresaRead.readObject();
-					Clinica.setClinica(temp);
-					empresa.close();
-					empresaRead.close();
-			
-				} catch (FileNotFoundException e) {
-					try {
-						empresa2 = new  FileOutputStream("laclinica8.dat");
-						empresaWrite = new ObjectOutputStream(empresa2);
-						User aux = new User("Administrador", "Admin", "Admin",null);
-						Clinica.getInstance().regUser(aux);
-						empresaWrite.writeObject(Clinica.getInstance());
-						empresa2.close();
-						empresaWrite.close();
-					} catch (FileNotFoundException e1) {
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-					}
-				} catch (IOException e) {
-					
-					
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		FileInputStream empresa;
+		FileOutputStream empresa2;
+		ObjectInputStream empresaRead;
+		ObjectOutputStream empresaWrite;
+		try {
+			empresa = new FileInputStream ("laclinica11.dat");
+			empresaRead = new ObjectInputStream(empresa);
+			Clinica temp = (Clinica)empresaRead.readObject();
+			Clinica.setClinica(temp);
+			empresa.close();
+			empresaRead.close();
+	
+		} catch (FileNotFoundException e) {
+			try {
+				empresa2 = new  FileOutputStream("laclinica11.dat");
+				empresaWrite = new ObjectOutputStream(empresa2);
+				User aux = new User("Administrador", "Admin", "Admin",null);
+				Clinica.getInstance().regUser(aux);
+				empresaWrite.writeObject(Clinica.getInstance());
+				empresa2.close();
+				empresaWrite.close();
+			} catch (FileNotFoundException e1) {
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
 			}
-		});
+		} catch (IOException e) {
+			
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			Login frame = new Login();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
