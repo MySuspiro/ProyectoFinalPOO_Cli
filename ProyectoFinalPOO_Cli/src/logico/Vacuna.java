@@ -11,7 +11,7 @@ public class Vacuna implements Serializable{
 	private Enfermedad enf;
 	public Vacuna(String nombre, String descripcion, int cant, Enfermedad enf) {
 		super();
-		this.codigo = "V+"+Clinica.getInstance().getcodVac();
+		this.codigo = "V-"+Clinica.getInstance().getcodVac();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.cant = cant;

@@ -1,6 +1,7 @@
 package Visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -12,8 +13,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import javafx.scene.chart.NumberAxis;
 import logico.Clinica;
 import logico.Doctor;
+import logico.Vacuna;
 
 import java.awt.FlowLayout;
 import javax.swing.border.SoftBevelBorder;
@@ -36,6 +46,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Principal extends JFrame {
 
@@ -46,6 +58,10 @@ public class Principal extends JFrame {
 	static Socket sfd = null;
 	static DataInputStream EntradaSocket;
 	static DataOutputStream SalidaSocket;
+	private JPanel panel;
+	private static JFreeChart chart;
+	private ChartPanel chartPanel;
+	
 
 	/**
 	 * Launch the application.
@@ -235,9 +251,23 @@ public class Principal extends JFrame {
 		menuBar.add(mnNewMenu_5);
 		
 		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Registrar");
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegVacuna aux = new RegVacuna(null);
+				aux.setModal(true);
+				aux.setVisible(true);
+			}
+		});
 		mnNewMenu_5.add(mntmNewMenuItem_11);
 		
 		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Listar");
+		mntmNewMenuItem_12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarVacuna aux = new ListarVacuna();
+				aux.setModal(true);
+				aux.setVisible(true);
+			}
+		});
 		mnNewMenu_5.add(mntmNewMenuItem_12);
 		
 		mnAdministracion = new JMenu("Administraci\u00F3n");
@@ -391,7 +421,7 @@ public class Principal extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
@@ -401,5 +431,53 @@ public class Principal extends JFrame {
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setVgap(10);
 		contentPane.add(panel_1, BorderLayout.SOUTH);
+		initVac();
 	}
+	
+	public void initVac() {
+	    panel = new JPanel();
+	    panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	    contentPane.add(panel, BorderLayout.CENTER);
+	    panel.setLayout(null);
+	    panel.setLocation(50, 50);
+
+
+	    // Fuente de Datos
+	    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	    for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
+	        dataset.setValue((int)Clinica.getInstance().vacunaCantPacientes(aux), aux.getEnf().getNombre(), aux.getNombre());
+	    }
+
+	    // Creando el Grafico
+	    chart = ChartFactory.createBarChart3D("Vacunas Puestas", "Vacunas", "Cantidad de Vacunas",
+	            dataset, PlotOrientation.VERTICAL, true, true, false);
+	    chart.setBackgroundPaint(Color.gray);
+	    chart.getTitle().setPaint(Color.black);
+	    CategoryPlot p = chart.getCategoryPlot();
+	    p.setRangeGridlinePaint(Color.red);
+	    
+	    
+	    // Mostrar Grafico
+	    chartPanel = new ChartPanel(chart);
+	    panel.add(chartPanel);
+	    chartPanel.setBounds(1126, 478, 778, 471);
+	}
+
+	// Método para actualizar el gráfico con nuevos datos
+	 public static void UpdateGraphVac() {
+	    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	    for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
+	        dataset.setValue(Clinica.getInstance().vacunaCantPacientes(aux), aux.getEnf().getNombre(), aux.getNombre());
+	    }
+
+	    // Actualizar datos del gráfico
+	    chart.getCategoryPlot().setDataset(dataset);
+	}
+
+
+
+
+
+	
+	
 }

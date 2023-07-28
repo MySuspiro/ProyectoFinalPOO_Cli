@@ -17,6 +17,7 @@ import logico.Clinica;
 import logico.User;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -119,7 +120,9 @@ public class Login extends JFrame {
 					Principal frame = new Principal();
 					dispose();
 					frame.setVisible(true);
-				};
+				} else {
+					JOptionPane.showMessageDialog(null,"Chekee el Usuario / Contraseña e intente otra vez!","LogIn", JOptionPane.INFORMATION_MESSAGE);
+				}
 				
 			}
 		});

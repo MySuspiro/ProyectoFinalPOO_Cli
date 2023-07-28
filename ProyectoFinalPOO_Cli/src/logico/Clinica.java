@@ -454,26 +454,25 @@ public class Clinica implements Serializable{
 		return count;
 	}
 	
-	public float vacunaCantPacientes(Vacuna vacuna) {
-		int count=0;
-		float porciento=0;
-		int cantPacientes=0;
+	public int vacunaCantPacientes(Vacuna vacuna) {
+		int count = 0;
 		for (Persona persona: misPersonas)
 		{
 			if (persona instanceof Paciente )
 			{
-				cantPacientes++;
-				for (Vacuna vac: ((Paciente) persona).getHist().getMisVacunas())
-				{
-					if(vac.getCodigo().equalsIgnoreCase(vacuna.getCodigo()))
+				try {
+					for (Vacuna vac: ((Paciente) persona).getHist().getMisVacunas())
 					{
-						count++;
+						if(vac.getCodigo().equalsIgnoreCase(vacuna.getCodigo()))
+						{
+							count++;
+						}
 					}
+				} catch (Exception e) {
 				}
-			}
+							}
 		}
-		porciento=(count*100)/cantPacientes;
-		return porciento;
+		return count;
 	}
 	
 

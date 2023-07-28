@@ -125,6 +125,9 @@ public class ListarVacuna extends JDialog {
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+				btnUpdate.setEnabled(false);
+				btnEliminar.setEnabled(false);
+				loadVacunas();
 			}
 		}
 	}
