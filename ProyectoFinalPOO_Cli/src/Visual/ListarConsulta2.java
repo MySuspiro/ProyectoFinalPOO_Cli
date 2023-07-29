@@ -120,7 +120,7 @@ public class ListarConsulta2 extends JDialog {
 				row[2]=cliente.getPaciente().getNombre();	
 				if(cliente.getEnfermedad()!=null)
 				{
-					row[3]=cliente.getEnfermedad();
+					row[3]=cliente.getEnfermedad().getNombre();
 					row[4]=cliente.getStatus();
 					
 				}
@@ -132,7 +132,7 @@ public class ListarConsulta2 extends JDialog {
 				}
 				if(cliente.getVac()!=null)
 				{
-					row[5]=cliente.getVac();
+					row[5]=cliente.getVac().getNombre();
 					
 				}
 				else
