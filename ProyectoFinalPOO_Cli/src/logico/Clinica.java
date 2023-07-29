@@ -361,7 +361,7 @@ public class Clinica implements Serializable{
 		int index = buscarIndexVacunaByCode(vac);
 		misVacunas.set(index, vac);
 	}
-	
+
 	private int buscarIndexVacunaByCode(Vacuna vac) {
 		int aux = -1;
 		boolean encontrado = false;

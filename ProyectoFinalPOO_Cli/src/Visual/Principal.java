@@ -202,9 +202,19 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar");
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*ListarFactura2 listarFactura= new ListarFactura2();
-				listarFactura.setModal(true);
-				listarFactura.setVisible(true);*/
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
+					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					ListarConsulta2 as= new ListarConsulta2(doc);
+					as.setModal(true);
+					as.setVisible(true);
+				}
+				else
+				{
+					ListarConsulta as= new ListarConsulta();
+					as.setModal(true);
+					as.setVisible(true);
+
+				}
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_5);
