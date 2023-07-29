@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -87,21 +88,31 @@ public class RegCita3 extends JDialog {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						//doc = (Doctor)Clinica.getInstance().buscarPersonaByNom(cbxDoc.getSelectedItem().toString());
-						/*if (doc != null) {
-						    String doctorCode = doc.getCodigo();
-						    System.out.println("Doctor Code: " + doctorCode);
-						} else {
-						    System.out.println("Doctor is null.");
-						}*/
+						
+						 Calendar calendar = Calendar.getInstance();
+			                try {
+			                    Date date = format.parse(txtFech.getText());
+			                    calendar.setTime(date);
+			                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+			                    if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+			                        JOptionPane.showMessageDialog(null, "No se pueden agendar citas los fines de semana (sábado o domingo).", "Error", JOptionPane.ERROR_MESSAGE);
+			                        return; 
+			                    }
+			                } catch (ParseException ex) {
+			                    ex.printStackTrace();
+			                   
+			                }
+			                
+
 						System.out.println("toy aqui1" );
-						if(selected !=null && miCita == null) {
+						if(selected !=null && miCita == null && doctorTieneCita(selected,fech,cbxHora.getSelectedItem().toString())==false) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(),selected, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							
 							JOptionPane.showMessageDialog(null, "Cita Agendada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-						} else if ( miCita != null) {
+						} else if ( miCita != null && doctorTieneCita(selected,fech,cbxHora.getSelectedItem().toString())==false) {
 							System.out.println("toy aqui" );
 							
 							miCita.setNomPaciente(txtNomPaciente.getText());
@@ -124,7 +135,11 @@ public class RegCita3 extends JDialog {
 							JOptionPane.showMessageDialog(null, "Cita Modificada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 							ListarCita.loadCitas();
+						}else {
+						    // doctorTieneCita(selected, fech, cbxHora.getSelectedItem().toString()) returns true
+						    JOptionPane.showMessageDialog(null, "Error: El doctor ya tiene una cita para esa fecha y hora.", "Agenda", JOptionPane.ERROR_MESSAGE);
 						}
+						
 					}
 				});
 				btnReg.setActionCommand("OK");
@@ -200,14 +215,7 @@ public class RegCita3 extends JDialog {
 				        	        			lblNewLabel_4.setBounds(243, 58, 56, 16);
 				        	        			panel.add(lblNewLabel_4);
 				        	        		}
-				        	        	    /*for (Persona aux : Clinica.getInstance().getMisPersonas()) {
-				        	        	        if (aux != null && aux instanceof Doctor) {
-				        	        	            String nombre = aux.getNombre();
-				        	        	            if (nombre != null) {
-				        	        	                cbxDoc.addItem(nombre);
-				        	        	            }
-				        	        	        }
-				        	        	    }*/
+
 				        	        		{
 				        	        			txtNomPaciente = new JTextField();
 				        	        			txtNomPaciente.setBounds(16, 95, 200, 22);
@@ -215,7 +223,7 @@ public class RegCita3 extends JDialog {
 				        	        			txtNomPaciente.setColumns(10);
 				        	        		}
 				        	        		{
-				        	        			JLabel lblNewLabel_2 = new JLabel("Nombre del Persona:");
+				        	        			JLabel lblNewLabel_2 = new JLabel("Nombre Persona:");
 				        	        			lblNewLabel_2.setBounds(16, 58, 128, 16);
 				        	        			panel.add(lblNewLabel_2);
 				        	        		}
@@ -229,9 +237,7 @@ public class RegCita3 extends JDialog {
 				        	        		JButton btnNewButton = new JButton("Buscar");
 				        	        		btnNewButton.addActionListener(new ActionListener() {
 				        	        			public void actionPerformed(ActionEvent e) {
-				        	        				BuscarDoctor dialogB = new BuscarDoctor();
-				        	        	            //dialogB.setLocationRelativeTo(null); // Abre DialogB en el centro de DialogA
-				        	        	       
+				        	        				BuscarDoctor dialogB = new BuscarDoctor(); 	        	       
 				        	        	            dialogB.setModal(true);
 				        	        	            dialogB.setVisible(true); 
 				        	        	            selected=dialogB.getSelected();
@@ -279,28 +285,7 @@ public class RegCita3 extends JDialog {
 	        txtDoc.setText(miCita.getDoctor().getNombre());
 	        txtFech.setText(new SimpleDateFormat("dd-MM-yyyy").format(miCita.getFecha()));
 
-	       /* cbxDoc.removeAllItems(); // Limpiar los elementos previos del JComboBox
 
-	        // Agregar todos los doctores al JComboBox
-	        for (Persona aux : Clinica.getInstance().getMisPersonas()) {
-	            if (aux != null && aux instanceof Doctor) {
-	                String nombre = aux.getNombre();
-	                if (nombre != null) {
-	                    cbxDoc.addItem(nombre);
-	                }
-	            }
-	        }
-
-	        // Establecer el SelectedIndex del JComboBox para que coincida con el doctor asociado a miCita
-	        Doctor doctorCita = miCita.getDoctor();
-	        for (int i = 0; i < cbxDoc.getItemCount(); i++) {
-	            String nombreDoctor = (String) cbxDoc.getItemAt(i);
-	            if (nombreDoctor.equals(doctorCita.getNombre())) {
-	                cbxDoc.setSelectedIndex(i);
-	                break;
-	            }
-	        }*/
-	        
 	       String hora = miCita.getHora();
 	        for (int i = 0; i < cbxHora.getItemCount(); i++) {
 	            String horaCombo = (String) cbxHora.getItemAt(i);
@@ -310,5 +295,28 @@ public class RegCita3 extends JDialog {
 	            }
 	        }
 	    }
+	}
+	
+	public boolean doctorTieneCita(Doctor doctor, Date fecha, String hora) {
+	    Calendar calendarFecha = Calendar.getInstance();
+	    calendarFecha.setTime(fecha);
+
+	    for (CitaMedica cita : Clinica.getInstance().getMisCitas()) {
+	        if (cita.getDoctor().equals(doctor)) {
+	            Date citaFecha = cita.getFecha();
+	            Calendar calendarCitaFecha = Calendar.getInstance();
+	            calendarCitaFecha.setTime(citaFecha);
+
+	            // Compare day, month, and year of the dates
+	            if (calendarCitaFecha.get(Calendar.YEAR) == calendarFecha.get(Calendar.YEAR)
+	                && calendarCitaFecha.get(Calendar.MONTH) == calendarFecha.get(Calendar.MONTH)
+	                && calendarCitaFecha.get(Calendar.DAY_OF_MONTH) == calendarFecha.get(Calendar.DAY_OF_MONTH)
+	                && cita.getHora().equals(hora)) {
+	                return true; // El doctor ya tiene una cita en el mismo día y hora
+	            }
+	        }
+	    }
+
+	    return false; // El doctor no tiene una cita en el mismo día y hora
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -78,7 +79,7 @@ public class RegCita extends JDialog {
 				btnReg.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						Doctor doc = null;
+						//Doctor doc = null;
 						Date fech = null;
 						try {
 							fech = format.parse(txtFech.getText());
@@ -86,15 +87,30 @@ public class RegCita extends JDialog {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						
+		                Calendar calendar = Calendar.getInstance();
+		                try {
+		                    Date date = format.parse(txtFech.getText());
+		                    calendar.setTime(date);
+		                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-						System.out.println("toy aqui1" );
-						if(doc != null && miCita == null) {
+		                    if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+		                        JOptionPane.showMessageDialog(null, "No se pueden agendar citas los fines de semana (sábado o domingo).", "Error", JOptionPane.ERROR_MESSAGE);
+		                        return; 
+		                    }
+		                } catch (ParseException ex) {
+		                    ex.printStackTrace();
+		                  
+		                }
+
+						//System.out.println("toy aqui1" );
+						if(doc != null && miCita == null && doctorTieneCita(doc,fech,cbxHora.getSelectedItem().toString())==false) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							
 							JOptionPane.showMessageDialog(null, "Cita Agendada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-						} else if ( miCita != null) {
+						} else if ( miCita != null && doctorTieneCita(doc,fech,cbxHora.getSelectedItem().toString())==false) {
 							System.out.println("toy aqui" );
 							
 							miCita.setNomPaciente(txtNomPaciente.getText());
@@ -117,6 +133,9 @@ public class RegCita extends JDialog {
 							JOptionPane.showMessageDialog(null, "Cita Modificada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 							ListarCita.loadCitas();
+						}else {
+						    // doctorTieneCita(selected, fech, cbxHora.getSelectedItem().toString()) returns true
+						    JOptionPane.showMessageDialog(null, "Error: El doctor ya tiene una cita para esa fecha y hora.", "Agenda", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
@@ -157,7 +176,7 @@ public class RegCita extends JDialog {
 			lblNewLabel.setBounds(31, 21, 56, 16);
 			panel.add(lblNewLabel);
 			
-			JLabel lblNewLabel_5 = new JLabel("Cedula del Paciente");
+			JLabel lblNewLabel_5 = new JLabel("Tel\u00E9fono Persona:");
 			lblNewLabel_5.setBounds(16, 138, 116, 16);
 			panel.add(lblNewLabel_5);
 			
@@ -201,7 +220,7 @@ public class RegCita extends JDialog {
 				        	        			txtNomPaciente.setColumns(10);
 				        	        		}
 				        	        		{
-				        	        			JLabel lblNewLabel_2 = new JLabel("Nombre del Paciente:");
+				        	        			JLabel lblNewLabel_2 = new JLabel("Nombre Persona:");
 				        	        			lblNewLabel_2.setBounds(16, 58, 128, 16);
 				        	        			panel.add(lblNewLabel_2);
 				        	        		}
@@ -255,6 +274,29 @@ public class RegCita extends JDialog {
 	            }
 	        }
 	    }
+	}
+	
+	public boolean doctorTieneCita(Doctor doctor, Date fecha, String hora) {
+	    Calendar calendarFecha = Calendar.getInstance();
+	    calendarFecha.setTime(fecha);
+
+	    for (CitaMedica cita : Clinica.getInstance().getMisCitas()) {
+	        if (cita.getDoctor().equals(doctor)) {
+	            Date citaFecha = cita.getFecha();
+	            Calendar calendarCitaFecha = Calendar.getInstance();
+	            calendarCitaFecha.setTime(citaFecha);
+
+	            // Compare day, month, and year of the dates
+	            if (calendarCitaFecha.get(Calendar.YEAR) == calendarFecha.get(Calendar.YEAR)
+	                && calendarCitaFecha.get(Calendar.MONTH) == calendarFecha.get(Calendar.MONTH)
+	                && calendarCitaFecha.get(Calendar.DAY_OF_MONTH) == calendarFecha.get(Calendar.DAY_OF_MONTH)
+	                && cita.getHora().equals(hora)) {
+	                return true; // El doctor ya tiene una cita en el mismo día y hora
+	            }
+	        }
+	    }
+
+	    return false; // El doctor no tiene una cita en el mismo día y hora
 	}
 
 }

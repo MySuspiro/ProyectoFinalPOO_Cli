@@ -139,7 +139,7 @@ public class Principal extends JFrame {
 					as.setModal(true);
 					as.setVisible(true);
 				}else {
-					RegCita2 regCita= new RegCita2(null);
+					RegCita3 regCita= new RegCita3(null);
 					regCita.setModal(true);
 					regCita.setVisible(true);	
 				}
