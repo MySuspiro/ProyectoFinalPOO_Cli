@@ -184,7 +184,7 @@ public class RegConsulta2 extends JDialog {
 		panel_2.setLayout(null);
 		
 		PanEnf = new JPanel();
-		PanEnf.setBorder(new TitledBorder(null, "Enferma", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanEnf.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Enfermo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		PanEnf.setBounds(36, 89, 226, 74);
 		panel_2.add(PanEnf);
 		PanEnf.setLayout(null);
@@ -240,11 +240,11 @@ public class RegConsulta2 extends JDialog {
 		cmbVac = new JComboBox<>();
 		cmbVac.setBounds(18, 27, 196, 22);
 		panelVac.add(cmbVac);
-		cmbVac.addItem("<Seleccione>");
+		cmbVac.addItem("<Selected>");
 		for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
-			if(aux.getCant() > 0) {
+			if(aux != null) {
 				cmbVac.addItem(aux.getNombre());
-			}
+			}	
 		}
 		
 		rdbVacuna = new JRadioButton("Vacunado");
@@ -258,6 +258,9 @@ public class RegConsulta2 extends JDialog {
 				rdbSano.setVisible(false);
 				rdbEnf.setVisible(false);
 				PanEnf.setVisible(true);
+				cmbEnf.removeAllItems();
+				cmbVac.setSelectedIndex(0);
+				cmbEnf.addItem("<Selected>");
 				for (Enfermedad aux : Clinica.getInstance().getMisEnfermedades()) {
 					if(aux != null) {
 						cmbEnf.addItem(aux.getNombre());
@@ -276,6 +279,9 @@ public class RegConsulta2 extends JDialog {
 				rdbEnf.setVisible(false);
 				PanEnf.setVisible(true);
 				pac = (Paciente)Clinica.getInstance().buscarPersonaByCodigo(txtCedPaciente.getText());
+				cmbEnf.removeAllItems();
+				cmbVac.setSelectedIndex(0);
+				cmbEnf.addItem("<Selected>");
 				for (Enfermedad aux : pac.getHist().getMisEnfermedades()){
 					if(aux != null) {
 						cmbEnf.addItem(aux.getNombre());
@@ -290,6 +296,7 @@ public class RegConsulta2 extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				panelVac.setVisible(true);
 				rdbVacuna.setVisible(false);
+				cmbVac.setSelectedIndex(0);
 			}
 		});
 		{
@@ -377,7 +384,7 @@ public class RegConsulta2 extends JDialog {
 	    return paciente;
 	}
 
-	private void updatePatient(Paciente paciente) {
+	private void updatePatient(Paciente paciente, Vacuna vac, Enfermedad enf, String status) {
 	    paciente.setNombre(txtNom.getText());
 	    paciente.setDir(txtDir.getText());
 	    paciente.setTelefono(txtTel.getText());
@@ -385,6 +392,21 @@ public class RegConsulta2 extends JDialog {
 	    paciente.setSeguro(txtSeguro.getText());
 	    paciente.setSexo(rdbHombre.isSelected() ? 'H' : 'M');
 	    Clinica.getInstance().modificarPersona(paciente);
+	    try {
+			paciente.getHist().addMisVacunas(vac);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	    try {
+	    	if(status.equalsIgnoreCase("Enfermo")) {
+				paciente.getHist().addMisEnfermedades(enf);
+	    	} else if (status.equalsIgnoreCase("Sano")) {
+				paciente.getHist().eliminarMisEnfermedades(enf);
+	    	}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	    
 	}
 
 
@@ -420,7 +442,7 @@ public class RegConsulta2 extends JDialog {
 	        paciente.getHist().addMisConsultas(consulta);
 	    }
 
-        updatePatient(paciente);
+        updatePatient(paciente, vacuna, enfermedad, status);
 	    Clinica.getInstance().agregarConsulta(consulta);
 
 	    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);

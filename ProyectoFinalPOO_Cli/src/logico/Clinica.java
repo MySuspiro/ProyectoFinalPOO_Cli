@@ -431,29 +431,6 @@ public class Clinica implements Serializable{
 		return count;
 	}
 	
-	public float enfermedadCantPacientes(Enfermedad enf) {
-		int count=0;
-		float porciento=0;
-		int cantPacientes=0;
-		
-		for (Persona persona: misPersonas)
-		{
-			if (persona instanceof Paciente )
-			{
-				cantPacientes++;
-				for (Consulta consulta: ((Paciente) persona).getHist().getMisConsultas())
-				{
-					if(consulta.getEnfermedad().getCodigo().equalsIgnoreCase(enf.getCodigo()))
-					{
-						count++;
-					}
-				}
-			}
-		}
-		porciento=(count*100)/cantPacientes;
-		return count;
-	}
-	
 	public int vacunaCantPacientes(Vacuna vacuna) {
 		int count = 0;
 		for (Persona persona: misPersonas)
@@ -471,6 +448,78 @@ public class Clinica implements Serializable{
 				} catch (Exception e) {
 				}
 							}
+		}
+		return count;
+	}
+	
+	public int EnfermoCantPacientes(Enfermedad enf) {
+		int count = 0;
+		for (Persona persona: misPersonas)
+		{
+			if (persona instanceof Paciente )
+			{
+				try {
+					for (Enfermedad enfermedad: ((Paciente)persona).getHist().getMisEnfermedades())
+					{
+						if(enfermedad.getCodigo().equalsIgnoreCase(enf.getCodigo()))
+						{
+							count++;
+						}
+					}
+				} catch (Exception e) {
+				
+				}	
+			}
+		}
+		return count;
+	}
+	
+	public int CantPacientes() {
+		int count = 0;
+		for (Persona persona: misPersonas)
+		{
+			if (persona instanceof Paciente )
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	public int CantPacientesEnfermos() {
+		int count = 0;
+		for (Persona persona: misPersonas)
+		{
+			if (persona instanceof Paciente )
+			{
+				try {
+					if(!((Paciente)persona).getHist().getMisEnfermedades().isEmpty()) {
+						count++;
+					}
+				} catch (Exception e) {
+				
+				}	
+			}
+		}
+		return count;
+	}
+	
+	public int CantPacientesEnfermosVig() {
+		int count = 0;
+		for (Persona persona: misPersonas)
+		{
+			if (persona instanceof Paciente )
+			{
+				try {
+					for (Enfermedad enf : ((Paciente)persona).getHist().getMisEnfermedades()) {
+						if(enf.getStatus().equalsIgnoreCase("Vigilancia")) {
+							count++;
+						}
+					}
+				} catch (Exception e) {
+				
+				}
+			}
 		}
 		return count;
 	}
@@ -586,6 +635,7 @@ public class Clinica implements Serializable{
 		}
 		return sb.toString();
 	}
+	
 	
 }
 	

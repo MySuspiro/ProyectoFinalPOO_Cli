@@ -19,10 +19,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javafx.scene.chart.NumberAxis;
 import logico.Clinica;
 import logico.Doctor;
+import logico.Enfermedad;
 import logico.Vacuna;
 
 import java.awt.FlowLayout;
@@ -48,6 +50,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextPane;
 
 public class Principal extends JFrame {
 
@@ -59,9 +62,17 @@ public class Principal extends JFrame {
 	static DataInputStream EntradaSocket;
 	static DataOutputStream SalidaSocket;
 	private JPanel panel;
-	private static JFreeChart chart;
-	private ChartPanel chartPanel;
-	
+	private static JFreeChart chartEnfV;
+	private ChartPanel chartEnfVPanel;
+	private static DefaultCategoryDataset datasetEnfV;
+	private static JFreeChart chartEnf;
+	private static ChartPanel chartEnfPanel;
+	private static DefaultPieDataset datasetEnf;
+	private static JFreeChart chartVac;
+	private ChartPanel chartVacPanel;
+	private static DefaultCategoryDataset datasetVac;
+
+
 
 	/**
 	 * Launch the application.
@@ -86,7 +97,7 @@ public class Principal extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				
+
 				//NUEVO CAROLINA PROBANDO
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
@@ -101,7 +112,7 @@ public class Principal extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
 		});
 		setResizable(false);
@@ -111,17 +122,17 @@ public class Principal extends JFrame {
 		dim=getToolkit().getScreenSize();
 		setSize(dim.width, dim.height-35);
 		setLocationRelativeTo(null);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JMenu mnNewMenu_3 = new JMenu("Cita");
 		menuBar.add(mnNewMenu_3);
-		
+
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
 					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
 					RegCita as= new RegCita(doc);
@@ -136,7 +147,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_6);
-		
+
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
 		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -146,7 +157,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_8);
-		
+
 		JMenuItem mntmNewMenuItem_14 = new JMenuItem("Agenda Semanal");
 		mntmNewMenuItem_14.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -156,13 +167,13 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_14);
-		
+
 		JMenu mnNewMenu_1 = new JMenu("Consulta");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
 			mnNewMenu_1.setEnabled(false);
 		}
 		menuBar.add(mnNewMenu_1);
-		
+
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registrar");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -179,7 +190,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_4);
-		
+
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar");
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -189,13 +200,13 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_5);
-		
+
 		JMenu mnNewMenu_2 = new JMenu("Paciente");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
 			mnNewMenu_2.setEnabled(false);
 		}
 		menuBar.add(mnNewMenu_2);
-		
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -205,18 +216,18 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem);
-		
+
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Historial");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PacienteHistorial2 paH= new PacienteHistorial2();
 				paH.setModal(true);
 				paH.setVisible(true);
-				
+
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_1);
-		
+
 		JMenuItem mntmNewMenuItem_13 = new JMenuItem("Registrar(prueba)");
 		mntmNewMenuItem_13.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -226,13 +237,13 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_13);
-		
+
 		JMenu mnNewMenu = new JMenu("Doctor");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
 			mnNewMenu.setEnabled(false);
 		}
 		menuBar.add(mnNewMenu);
-		
+
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Agenda Semanal Citas");
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -247,19 +258,19 @@ public class Principal extends JFrame {
 					AgendaSemanal3 as= new AgendaSemanal3();
 					as.setModal(true);
 					as.setVisible(true);
-					
+
 				}
-				
+
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_7);
-		
+
 		JMenu mnNewMenu_4 = new JMenu("Enfermedad");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
 			mnNewMenu_4.setEnabled(false);
 		}
 		menuBar.add(mnNewMenu_4);
-		
+
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Listar");
 		mntmNewMenuItem_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -269,13 +280,13 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_10);
-		
+
 		JMenu mnNewMenu_5 = new JMenu("Vacuna");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
 			mnNewMenu_5.setEnabled(false);
 		}
 		menuBar.add(mnNewMenu_5);
-		
+
 		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Registrar");
 		mntmNewMenuItem_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -285,7 +296,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_5.add(mntmNewMenuItem_11);
-		
+
 		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Listar");
 		mntmNewMenuItem_12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -295,17 +306,17 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_5.add(mntmNewMenuItem_12);
-		
+
 		mnAdministracion = new JMenu("Administraci\u00F3n");
-		
+
 		if(!Clinica.getLoginUser().getTipo().equalsIgnoreCase("Administrador")){
 			mnAdministracion.setEnabled(false);
 		}
 		menuBar.add(mnAdministracion);
-		
+
 		JMenu mnNewMenu_8 = new JMenu("Enfermedad");
 		mnAdministracion.add(mnNewMenu_8);
-		
+
 		JMenuItem mntmNewMenuItem_15 = new JMenuItem("Registrar");
 		mntmNewMenuItem_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -315,7 +326,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_8.add(mntmNewMenuItem_15);
-		
+
 		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Listar");
 		mntmNewMenuItem_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -325,10 +336,10 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_8.add(mntmNewMenuItem_16);
-		
+
 		JMenu mnNewMenu_9 = new JMenu("Vacuna");
 		mnAdministracion.add(mnNewMenu_9);
-		
+
 		JMenuItem mntmNewMenuItem_17 = new JMenuItem("Registrar");
 		mntmNewMenuItem_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -338,7 +349,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_9.add(mntmNewMenuItem_17);
-		
+
 		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Listar");
 		mntmNewMenuItem_18.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -348,10 +359,10 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_9.add(mntmNewMenuItem_18);
-		
+
 		JMenu mnNewMenu_10 = new JMenu("Doctor");
 		mnAdministracion.add(mnNewMenu_10);
-		
+
 		JMenuItem mntmNewMenuItem_19 = new JMenuItem("Registrar");
 		mntmNewMenuItem_19.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -361,7 +372,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_10.add(mntmNewMenuItem_19);
-		
+
 		JMenuItem mntmNewMenuItem_20 = new JMenuItem("Listar");
 		mntmNewMenuItem_20.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -371,10 +382,10 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_10.add(mntmNewMenuItem_20);
-		
+
 		JMenu mnNewMenu_7 = new JMenu("Empleado");
 		mnAdministracion.add(mnNewMenu_7);
-		
+
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Registrar");
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -384,7 +395,7 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_7.add(mntmNewMenuItem_9);
-		
+
 		JMenuItem mntmNewMenuItem_21 = new JMenuItem("Listar");
 		mntmNewMenuItem_21.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -394,10 +405,10 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_7.add(mntmNewMenuItem_21);
-		
+
 		JMenu mnNewMenu_11 = new JMenu("Administrador");
 		mnAdministracion.add(mnNewMenu_11);
-		
+
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Registrar");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -407,103 +418,155 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_11.add(mntmNewMenuItem_3);
-		
+
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Respaldo");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//probando el socket
-		        try {
-		            sfd = new Socket("localhost", 7007);
-		            EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
-		            SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
+				try {
+					sfd = new Socket("localhost", 7007);
+					EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
+					SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-		            try (FileInputStream fis = new FileInputStream("laclinica11.dat")) {
-		                byte[] buffer = new byte[4096];
-		                int bytesRead;
-		                while ((bytesRead = fis.read(buffer)) != -1) {
-		                    SalidaSocket.write(buffer, 0, bytesRead);
-		                }
-		                SalidaSocket.flush();
-		                System.out.println("Respaldo enviado correctamente.");
-		            } catch (IOException eo) {
-		                System.out.println("Error al enviar el respaldo: " + eo.getMessage());
-		            }
-		        } catch (UnknownHostException uhe) {
-		            System.out.println("No se puede acceder al servidor.");
-		        } catch (IOException ioe) {
-		            System.out.println("Comunicación rechazada.");
-		        } finally {
-		            try {
-		                if (sfd != null) sfd.close();
-		            } catch (IOException eo) {
-		                eo.printStackTrace();
-		            }
-		        }}
+					try (FileInputStream fis = new FileInputStream("laclinica11.dat")) {
+						byte[] buffer = new byte[4096];
+						int bytesRead;
+						while ((bytesRead = fis.read(buffer)) != -1) {
+							SalidaSocket.write(buffer, 0, bytesRead);
+						}
+						SalidaSocket.flush();
+						System.out.println("Respaldo enviado correctamente.");
+					} catch (IOException eo) {
+						System.out.println("Error al enviar el respaldo: " + eo.getMessage());
+					}
+				} catch (UnknownHostException uhe) {
+					System.out.println("No se puede acceder al servidor.");
+				} catch (IOException ioe) {
+					System.out.println("Comunicación rechazada.");
+				} finally {
+					try {
+						if (sfd != null) sfd.close();
+					} catch (IOException eo) {
+						eo.printStackTrace();
+					}
+				}}
 			//
 		});
 		mnAdministracion.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+		contentPane.setLayout(null);
+
 		panel = new JPanel();
+		panel.setBounds(0, 0, 0, 0);
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(panel, BorderLayout.CENTER);
+		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 954, 1914, 30);
 		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setVgap(10);
-		contentPane.add(panel_1, BorderLayout.SOUTH);
+		contentPane.add(panel_1);
 		initVac();
+		initEnfV();
+		initEnf();
 	}
-	
+
 	public void initVac() {
-	    panel = new JPanel();
-	    panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-	    contentPane.add(panel, BorderLayout.CENTER);
-	    panel.setLayout(null);
-	    panel.setLocation(50, 50);
-
-
 	    // Fuente de Datos
-	    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	    datasetVac = new DefaultCategoryDataset();
 	    for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
-	        dataset.setValue((int)Clinica.getInstance().vacunaCantPacientes(aux), aux.getEnf().getNombre(), aux.getNombre());
+	    	datasetVac.setValue((int)Clinica.getInstance().vacunaCantPacientes(aux), aux.getEnf().getNombre(), aux.getNombre());
 	    }
 
 	    // Creando el Grafico
-	    chart = ChartFactory.createBarChart3D("Vacunas Puestas", "Vacunas", "Cantidad de Vacunas",
-	            dataset, PlotOrientation.VERTICAL, true, true, false);
-	    chart.setBackgroundPaint(Color.gray);
-	    chart.getTitle().setPaint(Color.black);
-	    CategoryPlot p = chart.getCategoryPlot();
+	    chartVac = ChartFactory.createBarChart3D("Vacunas Puestas", "Vacunas", "Cantidad de Vacunas",
+	    		datasetVac, PlotOrientation.VERTICAL, true, true, false);
+	    chartVac.setBackgroundPaint(Color.white);
+	    chartVac.getTitle().setPaint(Color.black);
+	    CategoryPlot p = chartVac.getCategoryPlot();
 	    p.setRangeGridlinePaint(Color.red);
 	    
 	    
 	    // Mostrar Grafico
-	    chartPanel = new ChartPanel(chart);
-	    panel.add(chartPanel);
-	    chartPanel.setBounds(1126, 478, 778, 471);
+	    chartVacPanel = new ChartPanel(chartVac);
+	    getContentPane().add(chartVacPanel);
+	    chartVacPanel.setBounds(119, 470, 778, 471);
+	}
+
+	
+	
+	public void initEnfV() {
+		// Fuente de Datos
+		datasetEnfV = new DefaultCategoryDataset();
+		for (Enfermedad aux : Clinica.getInstance().getMisEnfermedades()) {
+			if(aux.getStatus().equalsIgnoreCase("Vigilancia")) {
+				datasetEnfV.setValue(Clinica.getInstance().EnfermoCantPacientes(aux), "", aux.getNombre());
+			}
+		}
+
+		// Creando el Grafico
+		chartEnfV = ChartFactory.createBarChart3D("Enfermedades en Vigilancia", "Enfermedades", "Cantidad de Casos",
+				datasetEnfV, PlotOrientation.VERTICAL, false, false, false);
+		
+		
+		// Mostrar Grafico
+		chartEnfVPanel = new ChartPanel(chartEnfV);
+		getContentPane().add(chartEnfVPanel);
+		chartEnfVPanel.setBounds(1016, 470, 778, 471);
+	}
+	
+	public void initEnf() {
+		// Fuente de Datos
+		datasetEnf = new DefaultPieDataset();
+		int CantVig = Clinica.getInstance().CantPacientesEnfermosVig();
+		int CantEnf = Clinica.getInstance().CantPacientesEnfermos();
+		datasetEnf.setValue("Pacientes Enfermos", CantEnf-CantVig);
+		datasetEnf.setValue("Enfermos en Vigilancia", CantVig);
+		datasetEnf.setValue("Pacientes Sanos", Clinica.getInstance().CantPacientes()-CantEnf);
+		
+		// Creando el Grafico
+		chartEnf = ChartFactory.createPieChart("Estado actual de Pacientes", 
+				datasetEnf, true, true, false);
+
+		// Mostrar Grafico
+		chartEnfPanel = new ChartPanel(chartEnf);
+		getContentPane().add(chartEnfPanel);
+		chartEnfPanel.setBounds(632, 13, 650, 408);
 	}
 
 	// Método para actualizar el gráfico con nuevos datos
-	 public static void UpdateGraphVac() {
-	    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	    for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
-	        dataset.setValue(Clinica.getInstance().vacunaCantPacientes(aux), aux.getEnf().getNombre(), aux.getNombre());
-	    }
+	public static void UpdateGraphs() {
+		datasetVac.clear();
 
-	    // Actualizar datos del gráfico
-	    chart.getCategoryPlot().setDataset(dataset);
+		datasetVac = new DefaultCategoryDataset();
+		for (Vacuna aux : Clinica.getInstance().getMisVacunas()) {
+			datasetVac.setValue(Clinica.getInstance().vacunaCantPacientes(aux), aux.getEnf().getNombre(), aux.getNombre());
+		}
+		// Actualizar datos del gráfico
+		chartVac.getCategoryPlot().setDataset(datasetVac);
+		
+		datasetEnfV.clear();
+		for (Enfermedad aux : Clinica.getInstance().getMisEnfermedades()) {
+			if(aux.getStatus().equalsIgnoreCase("Vigilancia")) {
+				datasetEnfV.setValue(Clinica.getInstance().EnfermoCantPacientes(aux), "", aux.getNombre());
+			}
+		}
+		// Actualizar datos del gráfico
+		chartEnfV.getCategoryPlot().setDataset(datasetEnfV);
+		
+		datasetEnf.clear();
+		int CantVig = Clinica.getInstance().CantPacientesEnfermosVig();
+		int CantEnf = Clinica.getInstance().CantPacientesEnfermos();
+		datasetEnf.setValue("Pacientes Enfermos", CantEnf-CantVig);
+		datasetEnf.setValue("Enfermos en Vigilancia", CantVig);
+		datasetEnf.setValue("Pacientes Sanos", Clinica.getInstance().CantPacientes()-CantEnf);
+		// Actualizar datos del gráfico
+		chartEnfPanel.repaint();
+		
 	}
-
-
-
-
-
-	
-	
 }

@@ -33,6 +33,10 @@ public class Historial implements Serializable {
 		this.misVacunas.add(vac);
 	}
 	
+	public void removeMisVacunas(Vacuna vac) {
+		this.misVacunas.remove(vac);
+	}
+	
 
 	public ArrayList<Consulta> getMisConsultas() {
 		return misConsultas;
@@ -41,6 +45,7 @@ public class Historial implements Serializable {
 	public void addMisConsultas(Consulta con) {
 		this.misConsultas.add(con);
 	}
+	
 
 	public String getCedPaciente() {
 		return cedPaciente;

@@ -14,7 +14,7 @@ public class GraphThread extends Thread {
 				while(Terminado){
 					try {
 						if(Principal.getFrames().length > 0) {
-							Principal.UpdateGraphVac();
+							Principal.UpdateGraphs();
 						}
 					} catch (Exception e) {
 						System.out.println("ese if ta raro miop");
