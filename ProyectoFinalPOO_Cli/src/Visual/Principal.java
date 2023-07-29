@@ -102,7 +102,7 @@ public class Principal extends JFrame {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa2 = new  FileOutputStream("laclinica11.dat");
+					empresa2 = new  FileOutputStream("laclinica15.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);
 					empresaWrite.writeObject(Clinica.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -135,7 +135,7 @@ public class Principal extends JFrame {
 
 				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
 					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
-					RegCita as= new RegCita(doc);
+					RegCita as= new RegCita(null,doc);
 					as.setModal(true);
 					as.setVisible(true);
 				}else {
@@ -151,9 +151,17 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
 		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarCita listc= new ListarCita();
-				listc.setModal(true);
-				listc.setVisible(true);
+				
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
+					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					ListarCita2 listc= new ListarCita2(doc);
+					listc.setModal(true);
+					listc.setVisible(true);
+				}else {
+					ListarCita listc= new ListarCita();
+					listc.setModal(true);
+					listc.setVisible(true);
+				}
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_8);
@@ -428,7 +436,7 @@ public class Principal extends JFrame {
 					EntradaSocket = new DataInputStream(new BufferedInputStream(sfd.getInputStream()));
 					SalidaSocket = new DataOutputStream(new BufferedOutputStream(sfd.getOutputStream()));
 
-					try (FileInputStream fis = new FileInputStream("laclinica11.dat")) {
+					try (FileInputStream fis = new FileInputStream("laclinica15.dat")) {
 						byte[] buffer = new byte[4096];
 						int bytesRead;
 						while ((bytesRead = fis.read(buffer)) != -1) {

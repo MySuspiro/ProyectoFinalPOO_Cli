@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public class ListarCita extends JDialog {
+public class ListarCita2 extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static JTable table;
@@ -40,24 +40,17 @@ public class ListarCita extends JDialog {
 	private JButton btnUpdate;
 	private JButton btnEliminar;
 	private CitaMedica selected=null;
+	private static Doctor miDoc=null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			ListarCita dialog = new ListarCita();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public ListarCita() {
+	public ListarCita2(Doctor doc) {
+		miDoc=doc;
 		setResizable(false);
 		setTitle("Listado Citas");
 		setBounds(100, 100, 685, 458);
@@ -105,7 +98,7 @@ public class ListarCita extends JDialog {
 				btnUpdate = new JButton("Actualizar");
 				btnUpdate.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-							RegCita3 update= new RegCita3(selected);
+							RegCita update= new RegCita(selected,miDoc);
 							update.setModal(true);
 							update.setVisible(true);
 							//nuevo
@@ -160,21 +153,25 @@ public class ListarCita extends JDialog {
 	    row = new Object[table.getColumnCount()];
 
 	    for (CitaMedica persona : Clinica.getInstance().getMisCitas()) {
-	        row[0] = persona.getCodigo();
-	        row[1] = persona.getNomPaciente();
-	        row[2] = persona.getCedPaciente();
-	        
-	        // Verificar que la cita tenga un doctor asociado antes de acceder a su nombre
-	        if (persona.getDoctor() != null) {
-	            row[3] = persona.getDoctor().getNombre();
-	        } else {
-	            row[3] = "Sin doctor asignado";
-	        }
-	        
-	        row[4] = persona.getFecha();
-	        row[5] = persona.getHora();
-	        modelo.addRow(row);
+	    	if(miDoc.getCodigo().equalsIgnoreCase(persona.getDoctor().getCodigo()))
+	    	{
+		        row[0] = persona.getCodigo();
+		        row[1] = persona.getNomPaciente();
+		        row[2] = persona.getCedPaciente();
+		        
+		        // Verificar que la cita tenga un doctor asociado antes de acceder a su nombre
+		        if (persona.getDoctor() != null) {
+		            row[3] = persona.getDoctor().getNombre();
+		        } else {
+		            row[3] = "Sin doctor asignado";
+		        }
+		        
+		        row[4] = persona.getFecha();
+		        row[5] = persona.getHora();
+		        modelo.addRow(row);
+	    		
+	    	}
+
 	    }
 	}
 }
-	

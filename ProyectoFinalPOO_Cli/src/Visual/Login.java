@@ -41,7 +41,7 @@ public class Login extends JFrame {
 				ObjectInputStream empresaRead;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa = new FileInputStream ("laclinica11.dat");
+					empresa = new FileInputStream ("laclinica15.dat");
 					empresaRead = new ObjectInputStream(empresa);
 					Clinica temp = (Clinica)empresaRead.readObject();
 					Clinica.setClinica(temp);
@@ -50,7 +50,7 @@ public class Login extends JFrame {
 			
 				} catch (FileNotFoundException e) {
 					try {
-						empresa2 = new  FileOutputStream("laclinica11.dat");
+						empresa2 = new  FileOutputStream("laclinica15.dat");
 						empresaWrite = new ObjectOutputStream(empresa2);
 						User aux = new User("Administrador", "Admin", "Admin",null);
 						Clinica.getInstance().regUser(aux);
