@@ -31,6 +31,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RegConsulta extends JDialog {
 
@@ -57,6 +59,7 @@ public class RegConsulta extends JDialog {
 	private JPanel PanEnf;
 	private JTextField txtDoctor;
 	private Doctor miDoc=null;
+	private JButton btnHistorial;
 
 	/**
 	 * Launch the application.
@@ -98,6 +101,7 @@ public class RegConsulta extends JDialog {
 					encontrado = true;
 					JOptionPane.showMessageDialog(null, "Paciente encontrado", "Pacientes", JOptionPane.INFORMATION_MESSAGE);
 					loadPaciente(pac);
+					btnHistorial.setEnabled(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Paciente no encontrado", "Pacientes", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -314,6 +318,17 @@ public class RegConsulta extends JDialog {
 				        }
 				    }
 				});
+				
+				btnHistorial = new JButton("Ver Historial");
+				btnHistorial.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						PacienteHistorial ph= new PacienteHistorial(pac);
+						ph.setModal(true);
+						ph.setVisible(true);
+					}
+				});
+				btnHistorial.setEnabled(false);
+				buttonPane.add(btnHistorial);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -452,6 +467,7 @@ public class RegConsulta extends JDialog {
 		rdbVacuna.setSelected(false);
 		panelVac.setVisible(false);
 		PanEnf.setVisible(false);
+		btnHistorial.setEnabled(false);
 		
 	}
 }

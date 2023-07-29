@@ -33,13 +33,14 @@ public class ListarEnf extends JDialog {
 	private JButton btnUpdate;
 	private JButton btnEliminar;
 	private Enfermedad selected=null;
+	private static boolean esAdmin=false;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ListarEnf dialog = new ListarEnf();
+			ListarEnf dialog = new ListarEnf(esAdmin);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -50,7 +51,8 @@ public class ListarEnf extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarEnf() {
+	public ListarEnf(boolean valido) {
+		esAdmin=valido;
 		setResizable(false);
 		setTitle("Listado Enfermedades");
 		setBounds(100, 100, 685, 458);
@@ -73,17 +75,21 @@ public class ListarEnf extends JDialog {
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int index=table.getSelectedRow();
-						if (index>=0) {
-							btnEliminar.setEnabled(true);
-							btnUpdate.setEnabled(true);
-							selected = Clinica.getInstance().buscarEnfermedadByCode(table.getValueAt(index,0).toString());
+						if (esAdmin==true)
+						{
+							int index=table.getSelectedRow();
+							if (index>=0) {
+								btnEliminar.setEnabled(true);
+								btnUpdate.setEnabled(true);
+								selected = Clinica.getInstance().buscarEnfermedadByCode(table.getValueAt(index,0).toString());
+							
+						}
 							
 						}
 					}
 				});
 				modelo= new DefaultTableModel();
-				String[] headers = {"Codigo", "Nombre","Estátus"};
+				String[] headers = {"Codigo", "Nombre","Estátus","Descripción"};
 				modelo.setColumnIdentifiers(headers);
 				table.setModel(modelo);
 				scrollPane.setViewportView(table);
@@ -161,6 +167,7 @@ public class ListarEnf extends JDialog {
 			row[0]=enf.getCodigo();
 			row[1]=enf.getNombre();
 			row[2]=enf.getStatus();
+			row[3]=enf.getDescripcion();
 			modelo.addRow(row);	
 		}	
 		

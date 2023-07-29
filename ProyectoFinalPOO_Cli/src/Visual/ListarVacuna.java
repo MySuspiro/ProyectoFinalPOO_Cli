@@ -28,13 +28,14 @@ public class ListarVacuna extends JDialog {
 	private Vacuna selected = null;
 	private JButton btnUpdate;
 	private JButton btnEliminar;
+	private static boolean esAdmin=false;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ListarVacuna dialog = new ListarVacuna();
+			ListarVacuna dialog = new ListarVacuna(esAdmin);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -45,7 +46,8 @@ public class ListarVacuna extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarVacuna() {
+	public ListarVacuna(boolean valido) {
+		esAdmin=valido;
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -60,11 +62,15 @@ public class ListarVacuna extends JDialog {
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int index = table.getSelectedRow();
-						if (index >= 0) {
-							btnEliminar.setEnabled(true);
-							btnUpdate.setEnabled(true);
-							selected = Clinica.getInstance().buscarVacunaByCod(table.getValueAt(index,0).toString());
+						if(esAdmin==true)
+						{
+							int index = table.getSelectedRow();
+							if (index >= 0) {
+								btnEliminar.setEnabled(true);
+								btnUpdate.setEnabled(true);
+								selected = Clinica.getInstance().buscarVacunaByCod(table.getValueAt(index,0).toString());
+							}
+							
 						}
 					}
 				});

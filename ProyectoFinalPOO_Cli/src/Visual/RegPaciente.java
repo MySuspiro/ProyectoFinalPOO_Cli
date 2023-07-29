@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
+
 import logico.Clinica;
 import logico.Doctor;
 import logico.Historial;
@@ -40,6 +42,8 @@ public class RegPaciente extends JDialog {
 	private JTextField txtTelefono;
 	private JTextField txtSeguro;
 	private JTextField txtCorreoE;
+	private boolean esAdmin=false;
+	private JButton okButton;
 
 	/**
 	 * Launch the application.
@@ -48,7 +52,8 @@ public class RegPaciente extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegPaciente(Paciente paciente) {
+	public RegPaciente(Paciente paciente,boolean valido) {
+		esAdmin=valido;
 		miPaciente=paciente;
 		setResizable(false);
 		if (miPaciente!=null) 
@@ -212,7 +217,7 @@ public class RegPaciente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registrar");
+				okButton = new JButton("Registrar");
 				if (miPaciente!=null) {
 
 					okButton.setText("Modificar");
@@ -321,7 +326,7 @@ public class RegPaciente extends JDialog {
 	}
 	
 	private void loadPaciente() {
-		if (miPaciente!=null) {
+		if (miPaciente!=null && esAdmin==true) {
 			txtCodigo.setText(miPaciente.getCodigo());
 			txtCedula.setText(miPaciente.getCedula());
 			txtNombre.setText(miPaciente.getNombre());
@@ -338,6 +343,34 @@ public class RegPaciente extends JDialog {
 			}
 			txtDireccion.setText(miPaciente.getDir());
 			
+			
+		}
+		else if (miPaciente!=null && esAdmin==false) 
+		{
+			txtCedula.setEditable(false);
+			txtNombre.setEditable(false);
+			txtTelefono.setEditable(false);
+			txtSeguro.setEditable(false);
+			txtCorreoE.setEditable(false);
+			txtDireccion.setEditable(false);
+			cbSexo.setEnabled(false);
+			okButton.setEnabled(false);
+			
+			txtCodigo.setText(miPaciente.getCodigo());
+			txtCedula.setText(miPaciente.getCedula());
+			txtNombre.setText(miPaciente.getNombre());
+			txtTelefono.setText(miPaciente.getTelefono());
+			txtSeguro.setText(miPaciente.getSeguro());
+			txtCorreoE.setText(miPaciente.getCorreoElectronico());
+			char sexo=miPaciente.getSexo();
+			if (sexo=='F')
+			{
+				cbSexo.setSelectedIndex(0);
+			}
+			else {
+				cbSexo.setSelectedIndex(1);
+			}
+			txtDireccion.setText(miPaciente.getDir());
 			
 		}
 		

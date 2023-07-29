@@ -28,28 +28,26 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTextArea;
 
-public class PacienteHistorial2 extends JDialog {
+public class PacienteHistorial extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private JTextField txtCedula;
 	private Object[] row;
 	private DefaultTableModel modelo;
 	private Object[] row2;
 	private DefaultTableModel modelo2;
-	private JButton btnBuscar;
 	private Historial historial = null;
-	private Paciente paciente = null;
 	private JTextField txtCodigo;
 	private JTextField txtPaciente;
 	private JTable tablevac;
+	private static Paciente miPac=null;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			PacienteHistorial2 dialog = new PacienteHistorial2();
+			PacienteHistorial dialog = new PacienteHistorial(miPac);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -60,10 +58,11 @@ public class PacienteHistorial2 extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PacienteHistorial2() {
+	public PacienteHistorial(Paciente paciente) {
+		miPac=paciente;
 		setTitle("Historial de un Paciente");
 		setResizable(false);
-		setBounds(100, 100, 686, 697);
+		setBounds(100, 100, 686, 646);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -75,7 +74,7 @@ public class PacienteHistorial2 extends JDialog {
 			panel.setLayout(null);
 			{
 				JPanel panelTabla = new JPanel();
-				panelTabla.setBounds(12, 108, 650, 310);
+				panelTabla.setBounds(12, 71, 650, 310);
 				panel.add(panelTabla);
 				panelTabla.setLayout(new BorderLayout(0, 0));
 				{
@@ -93,66 +92,37 @@ public class PacienteHistorial2 extends JDialog {
 				}
 			}
 			{
-				txtCedula = new JTextField();
-				txtCedula.setBounds(139, 27, 400, 22);
-				panel.add(txtCedula);
-				txtCedula.setColumns(10);
-			}
-			{
-				JLabel lblNewLabel = new JLabel("Escriba la C\u00E9dula:");
-				lblNewLabel.setBounds(22, 30, 159, 16);
-				panel.add(lblNewLabel);
-			}
-			{
-				btnBuscar = new JButton("Buscar");
-				btnBuscar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (!txtCedula.getText().isEmpty())
-						{
-							Paciente pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedula.getText());
-							/*String nombreBuscado = txtCedula.getText();
-							System.out.println("cedula: " + txtCedula.getText());
-							loadConsultas(nombreBuscado);*/	
-							loadConsultas(pac);
-						}
-						
-					}
-				});
-				btnBuscar.setBounds(556, 26, 97, 25);
-				panel.add(btnBuscar);
-			}
-			{
 				JLabel label = new JLabel("C\u00F3digo Historial:");
-				label.setBounds(19, 66, 97, 16);
+				label.setBounds(12, 27, 97, 16);
 				panel.add(label);
 			}
 			{
 				txtCodigo = new JTextField();
 				txtCodigo.setEditable(false);
 				txtCodigo.setColumns(10);
-				txtCodigo.setBounds(135, 63, 77, 22);
+				txtCodigo.setBounds(128, 24, 77, 22);
 				panel.add(txtCodigo);
 			}
 			{
 				JLabel label = new JLabel("Nombre Paciente:");
-				label.setBounds(231, 66, 122, 16);
+				label.setBounds(224, 27, 122, 16);
 				panel.add(label);
 			}
 			{
 				txtPaciente = new JTextField();
 				txtPaciente.setEditable(false);
 				txtPaciente.setColumns(10);
-				txtPaciente.setBounds(372, 63, 281, 22);
+				txtPaciente.setBounds(365, 24, 281, 22);
 				panel.add(txtPaciente);
 			}
 			{
 				JLabel lblVacunas = new JLabel("Vacunas:");
-				lblVacunas.setBounds(12, 431, 97, 16);
+				lblVacunas.setBounds(12, 394, 97, 16);
 				panel.add(lblVacunas);
 			}
 			
 			JPanel panel_1 = new JPanel();
-			panel_1.setBounds(12, 460, 650, 129);
+			panel_1.setBounds(12, 423, 650, 129);
 			panel.add(panel_1);
 			panel_1.setLayout(new BorderLayout(0, 0));
 			
@@ -182,9 +152,9 @@ public class PacienteHistorial2 extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadConsultas(miPac);
 	}
 	
-	//private void loadConsultas(String clienteBuscado) {
 	private void loadConsultas(Paciente clienteBuscado) {
 
 		modelo.setRowCount(0);
@@ -202,12 +172,12 @@ public class PacienteHistorial2 extends JDialog {
 			 boolean coincidencia=false;
 			 ArrayList<Consulta> misConsultas = historial.getMisConsultas();
 			 ArrayList<Vacuna> misVacunas = historial.getMisVacunas();
-			 paciente=(Paciente) Clinica.getInstance().buscarPersonaByCedula(txtCedula.getText());
-		     txtPaciente.setText(paciente.getNombre());
-		     txtCodigo.setText(historial.getCodigo());
+			 //paciente=(Paciente) Clinica.getInstance().buscarPersonaByCedula(txtCedula.getText());
+		     txtPaciente.setText(clienteBuscado.getNombre());
+		     txtCodigo.setText(clienteBuscado.getCodigo());
 
 			 for (Consulta consulta : misConsultas) {
-			        if (consulta.getPaciente().getCedula().equals(paciente.getCedula())) {
+			        if (consulta.getPaciente().getCedula().equals(clienteBuscado.getCedula())) {
 						row[0]=consulta.getFechaConsulta();
 						row[1]=consulta.getDiagnostico();
 						if (consulta.getEnfermedad()!=null)

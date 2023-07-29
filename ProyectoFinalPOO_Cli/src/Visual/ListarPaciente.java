@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Clinica;
+import logico.Consulta;
 import logico.Doctor;
 import logico.Paciente;
 import logico.Persona;
@@ -34,13 +35,14 @@ public class ListarPaciente extends JDialog {
 	private JButton btnUpdate;
 	private JButton btnEliminar;
 	private Paciente selected=null;
+	private static boolean esAdmin=false;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ListarPaciente dialog = new ListarPaciente();
+			ListarPaciente dialog = new ListarPaciente(esAdmin);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -51,7 +53,9 @@ public class ListarPaciente extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarPaciente() {
+	public ListarPaciente(boolean valido) {
+		esAdmin=valido;
+
 		setResizable(false);
 		setTitle("Listado Pacientes");
 		setBounds(100, 100, 685, 458);
@@ -76,7 +80,10 @@ public class ListarPaciente extends JDialog {
 					public void mouseClicked(MouseEvent e) {
 						int index=table.getSelectedRow();
 						if (index>=0) {
-							btnEliminar.setEnabled(true);
+							if (esAdmin==true)
+							{
+								btnEliminar.setEnabled(true);
+							}
 							btnUpdate.setEnabled(true);
 							selected = (Paciente) Clinica.getInstance().buscarPersonaByCodigo(table.getValueAt(index,0).toString());
 							
@@ -97,11 +104,31 @@ public class ListarPaciente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnUpdate = new JButton("Actualizar");
+				
+				if (esAdmin==true)
+				{
+					btnUpdate.setText("Actualizar");
+				}
+				else 
+				{
+					btnUpdate.setText("Vizualizar");	
+				}
 				btnUpdate.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-							RegPaciente update= new RegPaciente(selected);
+						if(esAdmin==true)
+						{
+							RegPaciente update= new RegPaciente(selected,true);
+							update.setModal(true);
+							update.setVisible(true);	
+						}
+						else
+						{
+							RegPaciente update= new RegPaciente(selected,false);
 							update.setModal(true);
 							update.setVisible(true);
+							
+						}
+
 							//nuevo
 							btnEliminar.setEnabled(false);
 							btnUpdate.setEnabled(false);
@@ -120,13 +147,17 @@ public class ListarPaciente extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if (selected!=null) {
 							int option = JOptionPane.showConfirmDialog(null, "Está seguro(a) que desea eliminar el Paciente con código: "+ selected.getCodigo(), "Confirmación", JOptionPane.OK_CANCEL_OPTION);
-							if (option== JOptionPane.OK_OPTION  ) {
+							if (option== JOptionPane.OK_OPTION && verificarPaciente()==true  ) {
 
 									Clinica.getInstance().eliminarPersona(selected);
 									btnEliminar.setEnabled(false);
 									btnUpdate.setEnabled(false);
 									loadPacientes();
 
+							}else
+							{
+								 JOptionPane.showMessageDialog(null, "No se puede eliminar, el paciente tiene consultas registradas.", "Error", JOptionPane.ERROR_MESSAGE);
+								
 							}
 						}
 					}
@@ -164,6 +195,18 @@ public class ListarPaciente extends JDialog {
 			}
 		}	
 		
+	}
+	
+	public boolean verificarPaciente()
+	{
+		for (Consulta consulta: Clinica.getInstance().getMisConsultas()) {
+			if (selected.equals(consulta.getPaciente()))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 

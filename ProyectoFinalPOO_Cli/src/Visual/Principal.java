@@ -228,9 +228,16 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Listar");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarPaciente listPaciente= new ListarPaciente();
-				listPaciente.setModal(true);
-				listPaciente.setVisible(true);
+
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Administrador") ){
+					ListarPaciente listPaciente= new ListarPaciente(true);
+					listPaciente.setModal(true);
+					listPaciente.setVisible(true);
+				}else {
+					ListarPaciente listPaciente= new ListarPaciente(false);
+					listPaciente.setModal(true);
+					listPaciente.setVisible(true);
+				}
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem);
@@ -245,16 +252,6 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_1);
-
-		JMenuItem mntmNewMenuItem_13 = new JMenuItem("Registrar(prueba)");
-		mntmNewMenuItem_13.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				RegPaciente rp= new RegPaciente(null);
-				rp.setModal(true);
-				rp.setVisible(true);
-			}
-		});
-		mnNewMenu_2.add(mntmNewMenuItem_13);
 
 		JMenu mnNewMenu = new JMenu("Doctor");
 		if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Empleado") ){
@@ -292,9 +289,16 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Listar");
 		mntmNewMenuItem_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarEnf listEnf= new ListarEnf();
-				listEnf.setModal(true);
-				listEnf.setVisible(true);
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Administrador") ){
+					//Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					ListarEnf listEnf= new ListarEnf(true);
+					listEnf.setModal(true);
+					listEnf.setVisible(true);
+				}else {
+					ListarEnf listEnf= new ListarEnf(false);
+					listEnf.setModal(true);
+					listEnf.setVisible(true);
+				}
 			}
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_10);
@@ -305,22 +309,20 @@ public class Principal extends JFrame {
 		}
 		menuBar.add(mnNewMenu_5);
 
-		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Registrar");
-		mntmNewMenuItem_11.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				RegVacuna aux = new RegVacuna(null);
-				aux.setModal(true);
-				aux.setVisible(true);
-			}
-		});
-		mnNewMenu_5.add(mntmNewMenuItem_11);
-
 		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Listar");
 		mntmNewMenuItem_12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarVacuna aux = new ListarVacuna();
-				aux.setModal(true);
-				aux.setVisible(true);
+				
+				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Administrador") ){
+					//Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					ListarVacuna aux = new ListarVacuna(true);
+					aux.setModal(true);
+					aux.setVisible(true);
+				}else {
+					ListarVacuna aux = new ListarVacuna(false);
+					aux.setModal(true);
+					aux.setVisible(true);
+				}
 			}
 		});
 		mnNewMenu_5.add(mntmNewMenuItem_12);
@@ -348,7 +350,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Listar");
 		mntmNewMenuItem_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarEnf listEnf= new ListarEnf();
+				ListarEnf listEnf= new ListarEnf(true);
 				listEnf.setModal(true);
 				listEnf.setVisible(true);
 			}
@@ -371,7 +373,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Listar");
 		mntmNewMenuItem_18.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarVacuna regDoc= new ListarVacuna();
+				ListarVacuna regDoc= new ListarVacuna(true);
 				regDoc.setModal(true);
 				regDoc.setVisible(true);
 			}
