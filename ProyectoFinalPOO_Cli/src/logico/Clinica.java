@@ -633,7 +633,7 @@ public class Clinica implements Serializable{
 	public String getcodPers() {
 		String mayor = "1000";
 		String codigo = null;
-		for (Historial aux : misHistoriales) {
+		for (Persona aux : misPersonas) {
 			codigo = extractNumber(aux.getCodigo());
 			if(codigo.compareTo(mayor) > 0) {
 				mayor = codigo;

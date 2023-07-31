@@ -32,6 +32,8 @@ import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 public class RegConsulta2 extends JDialog {
@@ -97,12 +99,26 @@ public class RegConsulta2 extends JDialog {
 		txtCedPaciente.setBounds(94, 25, 295, 22);
 		panel.add(txtCedPaciente);
 		txtCedPaciente.setColumns(10);
+		txtCedPaciente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+	            char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+	            	e.consume();
+	            }
+			}
+		});
 		
 		JButton btnNewButton = new JButton("Buscar");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
+				pac = null;
+				try {
+					pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 				if(pac != null) {
 					encontrado = true;
 					JOptionPane.showMessageDialog(null, "Paciente encontrado", "Pacientes", JOptionPane.INFORMATION_MESSAGE);
@@ -161,11 +177,29 @@ public class RegConsulta2 extends JDialog {
 		txtTel = new JTextField();
 		txtTel.setBounds(291, 97, 196, 22);
 		panel.add(txtTel);
+		txtNom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+	            char c = e.getKeyChar();
+			    if (!Character.isDigit(c) && c != '-' && c != '(' && c != ')') {
+	            	e.consume();
+	            }
+			}
+		});
 		txtTel.setColumns(10);
 		
 		txtNom = new JTextField();
 		txtNom.setBounds(47, 97, 196, 22);
 		panel.add(txtNom);
+		txtNom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+	            char c = e.getKeyChar();
+	            if (!Character.isLetter(c)&& c != ' ') {
+	            	e.consume();
+	            }
+			}
+		});
 		txtNom.setColumns(10);
 		
 		txtDir = new JTextArea();
@@ -175,6 +209,15 @@ public class RegConsulta2 extends JDialog {
 		txtSeguro = new JTextField();
 		txtSeguro.setBounds(291, 165, 196, 22);
 		panel.add(txtSeguro);
+		txtSeguro.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+	            char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+	            	e.consume();
+	            }
+			}
+		});
 		txtSeguro.setColumns(10);
 		
 		txtEmail = new JTextField();
@@ -407,21 +450,26 @@ public class RegConsulta2 extends JDialog {
 	    paciente.setCorreoElectronico(txtEmail.getText());
 	    paciente.setSeguro(txtSeguro.getText());
 	    paciente.setSexo(rdbHombre.isSelected() ? 'H' : 'M');
+	    if(vac != null) {
+	    	try {
+				paciente.getHist().addMisVacunas(vac);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+	    }
+	    if(enf != null) {
+	    	try {
+		    	if(status.equalsIgnoreCase("Enfermo")) {
+					paciente.getHist().addMisEnfermedades(enf);
+		    	} else if (status.equalsIgnoreCase("Sano")) {
+					paciente.getHist().eliminarMisEnfermedades(enf);
+		    	}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+	    }
 	    Clinica.getInstance().modificarPersona(paciente);
-	    try {
-			paciente.getHist().addMisVacunas(vac);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	    try {
-	    	if(status.equalsIgnoreCase("Enfermo")) {
-				paciente.getHist().addMisEnfermedades(enf);
-	    	} else if (status.equalsIgnoreCase("Sano")) {
-				paciente.getHist().eliminarMisEnfermedades(enf);
-	    	}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 	    
 	}
 
@@ -430,41 +478,45 @@ public class RegConsulta2 extends JDialog {
 	    Doctor doctor = (Doctor) Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
 	    Enfermedad enfermedad = null;
 	    Vacuna vacuna = null;
+	    if(encontrado || !verificarCedulaRepetida(txtCedPaciente.getText())) {
+	    	if (rdbEnf.isSelected() || rdbSano.isSelected()) {
+		        enfermedad = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+		    }
 
-	    if (rdbEnf.isSelected() || rdbSano.isSelected()) {
-	        enfermedad = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+		    if (rdbVacuna.isSelected()) {
+		        vacuna = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
+		    }
+
+		    String status = "Investigando";
+
+		    if (enfermedad != null) {
+		        if (rdbEnf.isSelected()) {
+		            status = "Enfermo";
+		            paciente.getHist().addMisEnfermedades(enfermedad);
+		        } else if (rdbSano.isSelected()) {
+		            status = "Sano";
+		            paciente.getHist().eliminarMisEnfermedades(enfermedad);
+		        }
+		    }
+
+		    Consulta consulta = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enfermedad, paciente, doctor, status, vacuna);
+
+		    int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+		    if (option == JOptionPane.OK_OPTION) {
+		        paciente.getHist().addMisConsultas(consulta);
+		    }
+
+	        updatePatient(paciente, vacuna, enfermedad, status);
+		    Clinica.getInstance().agregarConsulta(consulta);
+
+		    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
+
+		    Clean();
+
+	    }else {
+		    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 	    }
-
-	    if (rdbVacuna.isSelected()) {
-	        vacuna = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
-	    }
-
-	    String status = "Investigando";
-
-	    if (enfermedad != null) {
-	        if (rdbEnf.isSelected()) {
-	            status = "Enfermo";
-	            paciente.getHist().addMisEnfermedades(enfermedad);
-	        } else if (rdbSano.isSelected()) {
-	            status = "Sano";
-	            paciente.getHist().eliminarMisEnfermedades(enfermedad);
-	        }
-	    }
-
-	    Consulta consulta = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enfermedad, paciente, doctor, status, vacuna);
-
-	    int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
-	    if (option == JOptionPane.OK_OPTION) {
-	        paciente.getHist().addMisConsultas(consulta);
-	    }
-
-        updatePatient(paciente, vacuna, enfermedad, status);
-	    Clinica.getInstance().agregarConsulta(consulta);
-
-	    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
-
-	    Clean();
-	}
+	    	}
 	
 	private void Clean() {
 		txtCedPaciente.setText("");
@@ -489,5 +541,16 @@ public class RegConsulta2 extends JDialog {
 		PanEnf.setVisible(false);
 		btnHistorial.setEnabled(false);
 		
+	}
+	
+	public boolean verificarCedulaRepetida(String cedula) {
+	    for (Persona persona : Clinica.getInstance().getMisPersonas()) {
+	        if (persona.getCedula().equals(txtCedPaciente.getText())) {
+	        	return true;
+	        }else {
+	        	return false;
+	        }
+	    }
+	    return true; // The cedula is not repeated.
 	}
 }

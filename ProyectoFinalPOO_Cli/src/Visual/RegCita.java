@@ -51,7 +51,7 @@ public class RegCita extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegCita(CitaMedica cit, Doctor doc) {
+	public RegCita(CitaMedica cit, final Doctor doc) {
 		miCita = cit;
 		Midoc=doc;
 		setResizable(false);

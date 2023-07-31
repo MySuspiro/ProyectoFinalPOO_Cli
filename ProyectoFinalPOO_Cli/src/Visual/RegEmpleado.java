@@ -408,7 +408,9 @@ public class RegEmpleado extends JDialog {
 			}
 			txtDireccion.setText(miEmp.getDir());
 			
-			
+			txtUsername.setEditable(false);
+			txtConfirm.setEditable(false);
+			txtContrasena.setEditable(false);
 		}
 		
 	}

@@ -44,7 +44,7 @@ public class RegDoctor extends JDialog {
 	private JTextField txtConfirm;
 	private JTextField txtCorreoE;
 	private JPanel panelUser;
-	private JLabel lblUsuario;
+	private User miUser=null;
 
 	/**
 	 * Launch the application.
@@ -76,7 +76,7 @@ public class RegDoctor extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
-				lblUsuario = new JLabel("Usuario:");
+				JLabel lblUsuario = new JLabel("Usuario:");
 				lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				lblUsuario.setBounds(23, 398, 97, 16);
 				panel.add(lblUsuario);
@@ -284,7 +284,7 @@ public class RegDoctor extends JDialog {
 
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(verificarCedulaRepetida()==true) {
+					if(verificarCedulaRepetida()==true) {
 						
 						
 						if (miDoctor==null)
@@ -321,7 +321,7 @@ public class RegDoctor extends JDialog {
 								}
 								else
 								{
-									JOptionPane.showMessageDialog(null,"Ha ocurrido un error, verifique cedula no repetida, username y claves");
+									JOptionPane.showMessageDialog(null,"Ha ocurrido un error, verifique cedula, username y claves");
 								}
 							    
 							}
@@ -333,7 +333,22 @@ public class RegDoctor extends JDialog {
 						
 						}else
 						{
-							panelUser.setVisible(false);
+						    
+							for (User user : Clinica.getInstance().getMisUsers()) {
+							    if (user != null && user.getPersona() != null && miDoctor != null) {
+							        if (user.getPersona().getCodigo().equalsIgnoreCase(miDoctor.getCodigo())) {
+							            if (verificarContrasena()) {
+							                user.setPass(txtContrasena.getText());
+							                user.setUserName(txtUsername.getText());
+							                miUser = user;
+							            } else {
+							                JOptionPane.showMessageDialog(null, "Las claves no son iguales");
+							            }
+							        }
+							    }
+							}
+
+							
 							miDoctor.setDir(txtDireccion.getText());
 							miDoctor.setNombre(txtNombre.getText());
 							miDoctor.setCedula(txtCedula.getText());
@@ -351,15 +366,16 @@ public class RegDoctor extends JDialog {
 							sexo='M';
 							}
 							miDoctor.setSexo(sexo);
-							if (checkFields2()==true)
+							if (checkFields()==true && verificarUserRepetido()==true)
 							{
 							Clinica.getInstance().modificarPersona(miDoctor);
+							Clinica.getInstance().modificarUser(miUser);
 							dispose();
 							ListarDoctor.loadDoctores();
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(null,"Todos los campos deben estar llenos");
+								JOptionPane.showMessageDialog(null,"Todos los campos deben estar llenos/No pueden haber usuarios repetidos");
 								
 							}
 						}
@@ -391,9 +407,6 @@ public class RegDoctor extends JDialog {
 	
 	private void loadDoctor() {
 		if (miDoctor!=null) {
-			
-			panelUser.setVisible(false);
-			lblUsuario.setVisible(false);
 			txtCodigo.setText(miDoctor.getCodigo());
 			txtCedula.setText(miDoctor.getCedula());
 			txtNombre.setText(miDoctor.getNombre());
@@ -410,6 +423,35 @@ public class RegDoctor extends JDialog {
 			}
 			txtDireccion.setText(miDoctor.getDir());
 			
+			for (User user : Clinica.getInstance().getMisUsers()) {
+			    System.out.println("Current User: " + user);
+
+			    if (user != null) {
+			        System.out.println("User's Persona: " + user.getPersona());
+
+			        if (user.getPersona() != null && miDoctor != null) {
+			            if (user.getPersona().getCodigo().equalsIgnoreCase(miDoctor.getCodigo())) {
+			                txtUsername.setText(user.getUserName());
+			                txtContrasena.setText(user.getPass());
+			                txtConfirm.setText(user.getPass());
+			            }
+			        } else {
+			            System.out.println("Either user.getPersona() or miDoctor is null.");
+			        }
+			    } else {
+			        System.out.println("User is null.");
+			    }
+			}
+
+			
+		   /* for (User user : Clinica.getInstance().getMisUsers()) {
+		        if (user.getPersona().getCodigo().equalsIgnoreCase(miDoctor.getCodigo())) {
+		        	txtUsername.setText(user.getUserName());
+		        	txtContrasena.setText(user.getPass());
+		        	txtConfirm.setText(user.getPass());
+   
+		        }
+		    }*/
 			
 		}
 		
@@ -444,19 +486,6 @@ public class RegDoctor extends JDialog {
 
 	}
 	
-	private boolean checkFields2() {
-		
-		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtTelefono.getText().equals("") || txtEspecialidad.getText().equals("") || txtCorreoE.getText().equals("") || cbSexo.getSelectedIndex()==-1)
-		{
-			return false;
-			
-		}
-		else 
-		{
-			return true;
-		}
-
-	}
 	
 	public boolean verificarCedulaRepetida() {
 	    for (Persona persona : Clinica.getInstance().getMisPersonas()) {
@@ -474,14 +503,20 @@ public class RegDoctor extends JDialog {
 
 	
 	public boolean verificarUserRepetido() {
-		
 	    for (User user : Clinica.getInstance().getMisUsers()) {
 	        if (user.getUserName().equals(txtUsername.getText())) {
-	            return false;//se repite 
+	            // Check if the username belongs to the same doctor being modified
+	            if (miDoctor != null && user.getPersona().getCodigo().equalsIgnoreCase(miDoctor.getCodigo())) {
+	                return true; // The username is the same as the doctor being modified, so it's not repeated.
+	            } else {
+	                return false; // The username is repeated and belongs to a different doctor.
+	            }
 	        }
 	    }
-	    return true; //no se repite
+	    return true; // The username is not repeated.
 	}
+
+	
 	
 	public boolean verificarContrasena() {
 		if (txtContrasena.getText().equals(txtConfirm.getText()))
