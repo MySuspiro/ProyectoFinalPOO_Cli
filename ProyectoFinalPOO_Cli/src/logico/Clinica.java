@@ -224,6 +224,31 @@ public class Clinica implements Serializable{
 		return aux;
 	}
 	
+	public void eliminarUser(logico.User selected) {
+		misUsers.remove(selected);
+	}
+	
+	public void modificarUser(User miUser) {
+		int index = buscarIndexUserByPersona(miUser);
+		if(misUsers != null) {
+			misUsers.set(index,miUser);	
+		}
+	}
+	
+	private int buscarIndexUserByPersona(User miUser) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i=0;
+		while (!encontrado && i<misUsers.size()) {
+			if(misUsers.get(i).equals(miUser)){
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
+	
 	public void eliminarPersona(logico.Persona selected) {
 		misPersonas.remove(selected);
 	}

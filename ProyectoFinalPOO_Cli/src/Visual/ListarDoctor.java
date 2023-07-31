@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.CitaMedica;
 import logico.Clinica;
 import logico.Consulta;
 import logico.Doctor;
@@ -123,16 +124,22 @@ public class ListarDoctor extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (selected!=null) {
+						if (selected!=null && verificarDoc(selected)==true) {
 							int option = JOptionPane.showConfirmDialog(null, "Está seguro(a) que desea eliminar el Cliente con código: "+ selected.getCodigo(), "Confirmación", JOptionPane.OK_CANCEL_OPTION);
 							if (option== JOptionPane.OK_OPTION  ) {
 
 									Clinica.getInstance().eliminarPersona(selected);
+									//Clinica.getInstance().eliminarUser(selected);
 									btnEliminar.setEnabled(false);
 									btnUpdate.setEnabled(false);
 									loadDoctores();
 
 							}
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Error: El doctor tiene Citas y Consultas registradas.", "Agenda", JOptionPane.ERROR_MESSAGE);
+							
 						}
 					}
 				});
@@ -173,18 +180,10 @@ public class ListarDoctor extends JDialog {
 	}
 	
 	
-	//verificar que no existan consultas con el doctor y que no existan usuarios con el doctor
+	//verificar que no existan consultas con el doctor o citas
 	
-	/*public boolean verificarDoc(Doctor doc) {
+	public boolean verificarDoc(Doctor doc) {
 		
-		
-		for (User user: Clinica.getInstance().getMisUsers()) {
-			if(user.getPersona().getCodigo().equalsIgnoreCase(doc.getCodigo()))
-			{
-				return false;
-				
-			}
-		}
 		
 		for (Consulta consul: Clinica.getInstance().getMisConsultas()) {
 			if(consul.getDoctor().getCodigo().equalsIgnoreCase(doc.getCodigo()))
@@ -194,9 +193,19 @@ public class ListarDoctor extends JDialog {
 			}
 		}
 		
+		for (CitaMedica cita: Clinica.getInstance().getMisCitas()) {
+			if(cita.getDoctor().getCodigo().equalsIgnoreCase(doc.getCodigo()))
+			{
+				return false;
+				
+			}
+		}
+	
 		return true;
 		
-	}*/
+	}
+	
+	
 
 
 }

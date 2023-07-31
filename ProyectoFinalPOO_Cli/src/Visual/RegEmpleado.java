@@ -291,7 +291,7 @@ public class RegEmpleado extends JDialog {
 						{
 							if (checkFields()==true){
 								
-								if(verificarCedulaRepetida()==true/* && verificarUserRepetido()==true */&& verificarContrasena()==true) {
+								if(verificarCedulaRepetida()==true && verificarUserRepetido()==true && verificarContrasena()==true) {
 							
 						
 						
@@ -352,7 +352,7 @@ public class RegEmpleado extends JDialog {
 							sexo='M';
 							}
 							miEmp.setSexo(sexo);
-							if (checkFields()==true)
+							if (checkFields2()==true)
 							{
 							Clinica.getInstance().modificarPersona(miEmp);
 							dispose();
@@ -442,6 +442,20 @@ public class RegEmpleado extends JDialog {
 
 	}
 	
+	private boolean checkFields2() {
+		
+		if (txtNombre.getText().equals("") || txtCedula.getText().equals("") || txtDireccion.getText().equals("") || txtTelefono.getText().equals("") || txtPuestoLaboral.getText().equals("") || txtCorreoE.getText().equals("") || cbSexo.getSelectedIndex()==-1)
+		{
+			return false;
+			
+		}
+		else 
+		{
+			return true;
+		}
+
+	}
+	
 	public boolean verificarCedulaRepetida() {
 		
 	    for (Persona persona : Clinica.getInstance().getMisPersonas()) {
@@ -452,7 +466,7 @@ public class RegEmpleado extends JDialog {
 	    return true; //no se repite
 	}
 	
-	/*public boolean verificarUserRepetido() {
+	public boolean verificarUserRepetido() {
 		
 	    for (User user : Clinica.getInstance().getMisUsers()) {
 	        if (user.getUserName().equals(txtUsername.getText())) {
@@ -460,7 +474,7 @@ public class RegEmpleado extends JDialog {
 	        }
 	    }
 	    return true; //no se repite
-	}*/
+	}
 	
 	public boolean verificarContrasena() {
 		if (txtContrasena.getText().equals(txtConfirm.getText()))

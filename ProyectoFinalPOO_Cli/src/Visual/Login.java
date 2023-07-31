@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import logico.Clinica;
@@ -29,6 +30,7 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -41,7 +43,7 @@ public class Login extends JFrame {
 				ObjectInputStream empresaRead;
 				ObjectOutputStream empresaWrite;
 				try {
-					empresa = new FileInputStream ("laclinica15.dat");
+					empresa = new FileInputStream ("laclinica17.dat");
 					empresaRead = new ObjectInputStream(empresa);
 					Clinica temp = (Clinica)empresaRead.readObject();
 					Clinica.setClinica(temp);
@@ -50,7 +52,7 @@ public class Login extends JFrame {
 			
 				} catch (FileNotFoundException e) {
 					try {
-						empresa2 = new  FileOutputStream("laclinica15.dat");
+						empresa2 = new  FileOutputStream("laclinica17.dat");
 						empresaWrite = new ObjectOutputStream(empresa2);
 						User aux = new User("Administrador", "Admin", "Admin",null);
 						Clinica.getInstance().regUser(aux);
@@ -83,50 +85,56 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 273, 271);
-		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-		
-		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(98, 20, 48, 14);
-		panel.add(lblUsuario);
-		
-		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setBounds(87, 94, 70, 14);
-		panel.add(lblContrasea);
-		
-		textField = new JTextField();
-		textField.setBounds(42, 54, 160, 20);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(42, 128, 160, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(Clinica.getInstance().confirmLogin(textField.getText(),textField_1.getText())){
-					Principal frame = new Principal();
-					dispose();
-					frame.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null,"Chekee el Usuario / Contraseña e intente otra vez!","LogIn", JOptionPane.INFORMATION_MESSAGE);
-				}
-				
-			}
-		});
-		btnLogin.setBounds(78, 168, 89, 23);
-		panel.add(btnLogin);
-	}
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 273, 271);
+        setLocationRelativeTo(null);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new BorderLayout(0, 0));
+        setContentPane(contentPane);
+
+        JPanel panel = new JPanel();
+        contentPane.add(panel, BorderLayout.CENTER);
+        panel.setLayout(null);
+
+        JLabel lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setBounds(98, 20, 48, 14);
+        panel.add(lblUsuario);
+
+        JLabel lblContrasea = new JLabel("Contraseña:");
+        lblContrasea.setBounds(87, 94, 70, 14);
+        panel.add(lblContrasea);
+
+        textField = new JTextField();
+        textField.setBounds(42, 54, 160, 20);
+        panel.add(textField);
+        textField.setColumns(10);
+
+        passwordField = new JPasswordField();
+        passwordField.setBounds(42, 128, 160, 20);
+        panel.add(passwordField);
+
+        JButton btnLogin = new JButton("Login");
+        btnLogin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Obtener el usuario y contraseña ingresados
+                String username = textField.getText();
+                char[] passwordChars = passwordField.getPassword();
+                String password = new String(passwordChars);
+
+                if (Clinica.getInstance().confirmLogin(username, password)) {
+                    Principal frame = new Principal();
+                    dispose();
+                    frame.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Chequee el Usuario / Contraseña e intente otra vez!", "LogIn", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                // Limpiar la contraseña almacenada
+                passwordField.setText("");
+            }
+        });
+        btnLogin.setBounds(78, 168, 89, 23);
+        panel.add(btnLogin);
+    }
 }
