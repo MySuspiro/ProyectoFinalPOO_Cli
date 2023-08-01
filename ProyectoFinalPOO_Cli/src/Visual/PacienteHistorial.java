@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -61,6 +62,7 @@ public class PacienteHistorial extends JDialog {
 	public PacienteHistorial(Paciente paciente) {
 		miPac=paciente;
 		setTitle("Historial de un Paciente");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("historial.png"));
 		setResizable(false);
 		setBounds(100, 100, 686, 646);
 		setLocationRelativeTo(null);

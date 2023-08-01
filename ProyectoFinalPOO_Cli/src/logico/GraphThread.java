@@ -17,7 +17,6 @@ public class GraphThread extends Thread {
 							Principal.UpdateGraphs();
 						}
 					} catch (Exception e) {
-						System.out.println("ese if ta raro miop");
 					}					
 					Thread.sleep(2000);
 				}

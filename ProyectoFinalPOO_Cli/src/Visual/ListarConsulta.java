@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -51,6 +52,7 @@ public class ListarConsulta extends JDialog {
 	public ListarConsulta() {
 		setResizable(false);
 		setTitle("Listado Consultas");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("listado.png"));
 		setBounds(100, 100, 1298, 579);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

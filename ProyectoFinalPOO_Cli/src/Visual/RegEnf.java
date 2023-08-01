@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -44,6 +45,7 @@ public class RegEnf extends JDialog {
 	public RegEnf(Enfermedad enf) {
 		miEnf=enf;
 		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("enfermedades.png"));
 		if (miEnf!=null) 
 		{
 			setTitle("Modificar Enfermedad");

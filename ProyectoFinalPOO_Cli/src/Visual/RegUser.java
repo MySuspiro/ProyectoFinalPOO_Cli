@@ -3,6 +3,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -49,6 +50,7 @@ public class RegUser extends JDialog {
 	 */
 	public RegUser() {
 		setTitle("Crear Administrador");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		setBounds(100, 100, 450, 247);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

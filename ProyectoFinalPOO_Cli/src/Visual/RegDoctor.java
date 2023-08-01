@@ -25,6 +25,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
@@ -55,6 +57,7 @@ public class RegDoctor extends JDialog {
 	 */
 	public RegDoctor(Doctor doctor) {
 		miDoctor=doctor;
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		setResizable(false);
 		if (miDoctor!=null) 
 		{

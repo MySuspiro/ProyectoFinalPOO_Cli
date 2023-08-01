@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -55,6 +56,7 @@ public class RegPaciente extends JDialog {
 	public RegPaciente(Paciente paciente,boolean valido) {
 		esAdmin=valido;
 		miPaciente=paciente;
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		setResizable(false);
 		if (miPaciente!=null) 
 		{

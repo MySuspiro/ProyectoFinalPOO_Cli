@@ -19,6 +19,7 @@ public class AgendaSemanal2 extends JDialog {
 
     public AgendaSemanal2(Doctor doctor) {
         this.doctor = doctor;
+		setIconImage(Toolkit.getDefaultToolkit().getImage("calendario.png"));
         calendar = Calendar.getInstance();
 
         

@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -53,6 +54,7 @@ public class ListarCita2 extends JDialog {
 		miDoc=doc;
 		setResizable(false);
 		setTitle("Listado Citas");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("listado.png"));
 		setBounds(100, 100, 685, 458);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -70,6 +71,7 @@ public class RegConsulta extends JDialog {
 	 */
 	public RegConsulta(Doctor doctor) {
 		miDoc=doctor;
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		setBounds(100, 100, 580, 701);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

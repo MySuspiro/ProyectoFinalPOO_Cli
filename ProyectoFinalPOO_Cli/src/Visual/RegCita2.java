@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,7 @@ public class RegCita2 extends JDialog {
 	 */
 	public RegCita2(CitaMedica cit) {
 		miCita = cit;
+		setIconImage(Toolkit.getDefaultToolkit().getImage("cita.png"));
 		setResizable(false);
 		if(miCita == null) {
 			setTitle("Registro de Cita");

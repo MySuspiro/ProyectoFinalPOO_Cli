@@ -26,6 +26,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
@@ -56,6 +58,7 @@ public class RegEmpleado extends JDialog {
 	public RegEmpleado(Empleado emp) {
 		miEmp=emp;
 		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		if (miEmp!=null) 
 		{
 			setTitle("Modificar Empleado");

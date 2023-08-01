@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -80,6 +81,7 @@ public class RegConsulta2 extends JDialog {
 	public RegConsulta2() {
 		setBounds(100, 100, 580, 701);
 		setLocationRelativeTo(null);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -177,7 +179,7 @@ public class RegConsulta2 extends JDialog {
 		txtTel = new JTextField();
 		txtTel.setBounds(291, 97, 196, 22);
 		panel.add(txtTel);
-		txtNom.addKeyListener(new KeyAdapter() {
+		txtTel.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 	            char c = e.getKeyChar();
@@ -475,7 +477,8 @@ public class RegConsulta2 extends JDialog {
 
 
 	private void registerConsulta(Paciente paciente) {
-	    Doctor doctor = (Doctor) Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
+	    Doctor doctor = null;
+	    doctor = (Doctor)Clinica.getInstance().buscarPersonaByNom(cmbDoc.getSelectedItem().toString());
 	    Enfermedad enfermedad = null;
 	    Vacuna vacuna = null;
 	    if(encontrado || !verificarCedulaRepetida(txtCedPaciente.getText())) {
@@ -540,6 +543,7 @@ public class RegConsulta2 extends JDialog {
 		panelVac.setVisible(false);
 		PanEnf.setVisible(false);
 		btnHistorial.setEnabled(false);
+		pac = null;
 		
 	}
 	

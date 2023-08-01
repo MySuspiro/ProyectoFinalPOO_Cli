@@ -20,6 +20,7 @@ public class AgendaSemanal extends JDialog {
 
     public AgendaSemanal() {
         calendar = Calendar.getInstance();
+		setIconImage(Toolkit.getDefaultToolkit().getImage("calendario.png"));
 
         setTitle("Agenda Semanal");
         setSize(833, 718);

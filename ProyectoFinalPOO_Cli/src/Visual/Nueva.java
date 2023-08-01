@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -46,6 +47,7 @@ public class Nueva extends JFrame {
 	 * Create the frame.
 	 */
 	public Nueva() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("hospital.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		

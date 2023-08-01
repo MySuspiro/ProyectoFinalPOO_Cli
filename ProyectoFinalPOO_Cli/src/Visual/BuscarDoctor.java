@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -54,6 +55,7 @@ public class BuscarDoctor extends JDialog {
 	 */
 	public BuscarDoctor() {
 		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("editar.png"));
 		setTitle("Seleccionar Doctor");
 		setBounds(100, 100, 542, 340);
 		//setLocationRelativeTo(null); 

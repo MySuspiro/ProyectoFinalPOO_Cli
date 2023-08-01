@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -44,6 +45,7 @@ public class RegVacuna extends JDialog {
 	 */
 	public RegVacuna(Vacuna vac) {
 		miVacuna = vac;
+		setIconImage(Toolkit.getDefaultToolkit().getImage("vacunas.png"));
 		if(miVacuna != null) {
 			setTitle("Modificar Vacuna");
 		}else {
