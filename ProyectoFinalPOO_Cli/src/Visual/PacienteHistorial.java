@@ -91,7 +91,7 @@ public class PacienteHistorial extends JDialog {
 					{
 						table = new JTable();
 						modelo= new DefaultTableModel();
-						String[] headers = {"Fecha", "Diagnostico", "Enfermedad"};
+						String[] headers = {"Fecha", "Diagnostico", "Enfermedad","Estado"};
 						modelo.setColumnIdentifiers(headers);
 						table.setModel(modelo);
 						scrollPane.setViewportView(table);
@@ -227,7 +227,15 @@ public class PacienteHistorial extends JDialog {
 
 					}else
 					{
-						row[2]=" ";
+						row[2]="-";
+					}
+					if (consulta.getStatus()!=null)
+					{
+						row[3]=consulta.getStatus();
+
+					}else
+					{
+						row[3]="-";
 					}
 					modelo.addRow(row);
 					coincidencia=true;
@@ -245,9 +253,9 @@ public class PacienteHistorial extends JDialog {
 				}
 				else
 				{
-					row2[0]=" ";
-					row2[1]=" ";
-					row2[2]=" ";
+					row2[0]="-";
+					row2[1]="-";
+					row2[2]="-";
 					modelo2.addRow(row2);
 
 				}
