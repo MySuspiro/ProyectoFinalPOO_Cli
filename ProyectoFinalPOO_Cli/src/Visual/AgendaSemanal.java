@@ -42,7 +42,7 @@ public class AgendaSemanal extends JDialog {
         JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        // Agregar botones para cambiar de semana
+      
         JButton btnSemanaAnterior = new JButton("Semana Anterior");
         JButton btnSemanaSiguiente = new JButton("Semana Siguiente");
         JPanel buttonPanel = new JPanel();
@@ -53,7 +53,7 @@ public class AgendaSemanal extends JDialog {
         btnSemanaAnterior.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                calendar.add(Calendar.WEEK_OF_YEAR, -1); // Restar una semana
+                calendar.add(Calendar.WEEK_OF_YEAR, -1); 
                 actualizarAgenda();
             }
         });
@@ -61,7 +61,7 @@ public class AgendaSemanal extends JDialog {
         btnSemanaSiguiente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                calendar.add(Calendar.WEEK_OF_YEAR, 1); // Sumar una semana
+                calendar.add(Calendar.WEEK_OF_YEAR, 1); 
                 actualizarAgenda();
             }
         });
@@ -83,7 +83,7 @@ public class AgendaSemanal extends JDialog {
             }
         }
 
-     // Recorrer la lista de citas médicas y guardarlas en la matriz
+     
         ArrayList<String>[][] citas = new ArrayList[model.getRowCount()][model.getColumnCount()];
         for (int i = 0; i < model.getRowCount(); i++) {
             for (int j = 0; j < model.getColumnCount(); j++) {
@@ -92,7 +92,7 @@ public class AgendaSemanal extends JDialog {
         }
 
 
-        // Recorrer la lista de citas médicas y guardarlas en la matriz
+      
         for (CitaMedica cita : Clinica.getInstance().getMisCitas()) {
             Calendar calCita = Calendar.getInstance();
             calCita.setTime(cita.getFecha());
@@ -128,7 +128,6 @@ public class AgendaSemanal extends JDialog {
                         pacienteInfo += citaInfo + "<br>";
                     }
                     pacienteInfo += "</html>";
-                    // Usar un renderizador personalizado para mostrar el contenido en la celda
                     table.getColumnModel().getColumn(j).setCellRenderer(new MultiLineTableCellRenderer());
                     model.setValueAt(pacienteInfo, i, j);
                 }
@@ -138,7 +137,6 @@ public class AgendaSemanal extends JDialog {
 
     }
 
-    // Renderizador personalizado para permitir el desplazamiento vertical
     private class MultiLineTableCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

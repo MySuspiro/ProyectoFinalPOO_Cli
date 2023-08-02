@@ -93,14 +93,14 @@ public class AgendaSemanal3 extends JDialog {
         int ano = calendar.get(Calendar.YEAR);
         setTitle("Agenda Semanal - Semana del " + obtenerFechaInicioSemana(numeroSemana, ano) + " al " + obtenerFechaFinSemana(numeroSemana, ano));
 
-        // Limpiar la tabla antes de agregar nuevas citas médicas
+      
         for (int i = 0; i < model.getRowCount(); i++) {
             for (int j = 1; j < model.getColumnCount(); j++) {
                 model.setValueAt("", i, j);
             }
         }
 
-        // Recorrer la lista de citas médicas y mostrar los datos en la tabla
+        
         for (CitaMedica cita : Clinica.getInstance().getMisCitas()) {
             Doctor doctor = cita.getDoctor();
             if (doctor != null && doctor.getCedula().equalsIgnoreCase(cedulaBusqueda)) {
@@ -121,7 +121,7 @@ public class AgendaSemanal3 extends JDialog {
                     if (fila != -1) {
                         int diaSemana = obtenerDiaSemana(cita.getFecha()) - 1;
                         String pacienteInfo = "<html>" + cita.getNomPaciente() + "<br>" + cita.getCedPaciente() + "</html>";
-                        model.setValueAt(pacienteInfo, fila, diaSemana); // Sumar 1 para saltar la columna de la hora
+                        model.setValueAt(pacienteInfo, fila, diaSemana); 
                     }
                 }
             }

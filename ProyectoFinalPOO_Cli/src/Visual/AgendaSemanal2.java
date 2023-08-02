@@ -45,7 +45,7 @@ public class AgendaSemanal2 extends JDialog {
         JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        // Agregar botones para cambiar de semana
+       
         JButton btnSemanaAnterior = new JButton("Semana Anterior");
         JButton btnSemanaSiguiente = new JButton("Semana Siguiente");
         JPanel buttonPanel = new JPanel();
@@ -81,14 +81,14 @@ public class AgendaSemanal2 extends JDialog {
         int ano = calendar.get(Calendar.YEAR);
         setTitle("Agenda Semanal - Semana del " + obtenerFechaInicioSemana(numeroSemana, ano) + " al " + obtenerFechaFinSemana(numeroSemana, ano));
 
-        // Limpiar la tabla antes de agregar nuevas citas médicas
+        // Limpiar 
         for (int i = 0; i < model.getRowCount(); i++) {
             for (int j = 1; j < model.getColumnCount(); j++) {
                 model.setValueAt("", i, j);
             }
         }
 
-        // Recorrer la lista de citas médicas y mostrar los datos en la tabla
+       
         for (CitaMedica cita : Clinica.getInstance().getMisCitas()) {
             if (cita.getDoctor().getCedula().equalsIgnoreCase(doctor.getCedula())) {
                 // Verificar si la cita está en la semana actual
