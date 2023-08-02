@@ -106,7 +106,44 @@ public class RegCita extends JDialog {
 		                }
 
 						//System.out.println("toy aqui1" );
-						if(doc != null && miCita == null && doctorTieneCita(doc,fech,cbxHora.getSelectedItem().toString())==false) {
+		                
+		                //NUEVO
+		                
+			             
+		                String horaSeleccionada = cbxHora.getSelectedItem().toString();
+		                String[] partesHora = horaSeleccionada.split(" : ");
+		                int hora = Integer.parseInt(partesHora[0]);
+		                int minutos = Integer.parseInt(partesHora[1]);
+
+		                // Establecer la hora seleccionada en la fecha
+		                Calendar calendario = Calendar.getInstance();
+		                calendario.setTime(fech);
+		                calendario.set(Calendar.HOUR_OF_DAY, hora);
+		                calendario.set(Calendar.MINUTE, minutos);
+
+		                // Obtener la fecha actual 
+		                Calendar calendarioActual = Calendar.getInstance();
+		                calendarioActual.set(Calendar.HOUR_OF_DAY, 0);
+		                calendarioActual.set(Calendar.MINUTE, 0);
+		                calendarioActual.set(Calendar.SECOND, 0);
+		                calendarioActual.set(Calendar.MILLISECOND, 0);
+
+		                // Comparar la fecha y hora seleccionadas con la fecha y hora actual
+		                Date fechaHoraSeleccionada = calendario.getTime();
+		                Date fechaActual = calendarioActual.getTime();
+		                if (fechaHoraSeleccionada.before(fechaActual)) {
+		                    JOptionPane.showMessageDialog(null, "No se puede agendar una cita en una fecha y hora anterior a la actual.", "Error", JOptionPane.ERROR_MESSAGE);
+		                    return;
+		                }
+		                
+		                //
+		                
+		                
+		                if (doc != null && miCita == null && doctorTieneCita(doc, fech, cbxHora.getSelectedItem().toString()) == false
+		                	    && cbxHora.getSelectedIndex() != 0
+		                	    && !txtNomPaciente.getText().isEmpty() 
+		                	    && !txtCedPaciente.getText().isEmpty() 
+		                	) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							
@@ -136,7 +173,7 @@ public class RegCita extends JDialog {
 							dispose();
 							ListarCita.loadCitas();
 						}else {
-						    // doctorTieneCita(selected, fech, cbxHora.getSelectedItem().toString()) returns true
+						    
 						    JOptionPane.showMessageDialog(null, "Error: El doctor ya tiene una cita para esa fecha y hora.", "Agenda", JOptionPane.ERROR_MESSAGE);
 						}
 					}
@@ -288,7 +325,7 @@ public class RegCita extends JDialog {
 	            Calendar calendarCitaFecha = Calendar.getInstance();
 	            calendarCitaFecha.setTime(citaFecha);
 
-	            // Compare day, month, and year of the dates
+	          
 	            if (calendarCitaFecha.get(Calendar.YEAR) == calendarFecha.get(Calendar.YEAR)
 	                && calendarCitaFecha.get(Calendar.MONTH) == calendarFecha.get(Calendar.MONTH)
 	                && calendarCitaFecha.get(Calendar.DAY_OF_MONTH) == calendarFecha.get(Calendar.DAY_OF_MONTH)

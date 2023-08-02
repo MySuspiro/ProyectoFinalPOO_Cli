@@ -493,15 +493,14 @@ public class RegDoctor extends JDialog {
 	public boolean verificarCedulaRepetida() {
 	    for (Persona persona : Clinica.getInstance().getMisPersonas()) {
 	        if (persona.getCedula().equals(txtCedula.getText())) {
-	            // Check if the cedula belongs to the same doctor being modified
 	            if (miDoctor != null && persona.getCodigo().equalsIgnoreCase(miDoctor.getCodigo())) {
-	                return true; // The cedula is the same as the doctor being modified, so it's not repeated.
+	                return true; // la cedula del que se ta modificando
 	            } else {
-	                return false; // The cedula is repeated and belongs to a different person.
+	                return false; // se repite
 	            }
 	        }
 	    }
-	    return true; // The cedula is not repeated.
+	    return true; // no se repite
 	}
 
 	
@@ -510,13 +509,13 @@ public class RegDoctor extends JDialog {
 	        if (user.getUserName().equals(txtUsername.getText())) {
 	            // Check if the username belongs to the same doctor being modified
 	            if (miDoctor != null && user.getPersona().getCodigo().equalsIgnoreCase(miDoctor.getCodigo())) {
-	                return true; // The username is the same as the doctor being modified, so it's not repeated.
+	                return true; // es el doctor que se ta modificanto.
 	            } else {
-	                return false; // The username is repeated and belongs to a different doctor.
+	                return false; // se repite el username y es de otro user
 	            }
 	        }
 	    }
-	    return true; // The username is not repeated.
+	    return true; // no se repite
 	}
 
 	
