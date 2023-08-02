@@ -510,6 +510,7 @@ public class RegConsulta2 extends JDialog {
 
 		    if (rdbVacuna.isSelected()) {
 		        vacuna = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
+		        paciente.getHist().addMisVacunas(vacuna);
 		    }
 
 		    String status = "Investigando";
