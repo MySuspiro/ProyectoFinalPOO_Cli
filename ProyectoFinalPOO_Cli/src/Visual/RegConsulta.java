@@ -71,7 +71,7 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	
+
 
 	/**
 	 * Create the dialog.
@@ -85,17 +85,17 @@ public class RegConsulta extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(12, 13, 538, 413);
 		contentPanel.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Cedula:");
 		lblNewLabel.setBounds(25, 28, 44, 16);
 		panel.add(lblNewLabel);
-		
+
 		txtCedPaciente = new JTextField();
 		txtCedPaciente.setBounds(94, 25, 295, 22);
 		panel.add(txtCedPaciente);
@@ -103,13 +103,13 @@ public class RegConsulta extends JDialog {
 		txtCedPaciente.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-	            char c = e.getKeyChar();
-                if (!Character.isDigit(c)) {
-	            	e.consume();
-	            }
+				char c = e.getKeyChar();
+				if (!Character.isDigit(c)) {
+					e.consume();
+				}
 			}
 		});
-		
+
 		JButton btnNewButton = new JButton("Buscar");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -125,7 +125,7 @@ public class RegConsulta extends JDialog {
 					JOptionPane.showMessageDialog(null, "Paciente encontrado", "Pacientes", JOptionPane.INFORMATION_MESSAGE);
 					loadPaciente(pac);
 					btnHistorial.setEnabled(true);
-					
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Paciente no encontrado", "Pacientes", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -133,29 +133,29 @@ public class RegConsulta extends JDialog {
 		});
 		btnNewButton.setBounds(414, 24, 97, 25);
 		panel.add(btnNewButton);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Nombre");
 		lblNewLabel_1.setBounds(47, 63, 56, 16);
 		panel.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Direccion:");
 		lblNewLabel_2.setBounds(47, 291, 78, 16);
 		panel.add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Telefono:");
 		lblNewLabel_3.setBounds(291, 63, 78, 16);
 		panel.add(lblNewLabel_3);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Email:");
 		lblNewLabel_4.setBounds(47, 139, 56, 16);
 		panel.add(lblNewLabel_4);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Sexo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(291, 215, 196, 85);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
-		
+
 		rdbHombre = new JRadioButton("Hombre");
 		rdbHombre.addMouseListener(new MouseAdapter() {
 			@Override
@@ -166,88 +166,88 @@ public class RegConsulta extends JDialog {
 		});
 		rdbHombre.setBounds(38, 11, 73, 25);
 		panel_1.add(rdbHombre);
-		
+
 		rdbMujer = new JRadioButton("Mujer");
 		rdbMujer.setBounds(38, 47, 61, 25);
 		panel_1.add(rdbMujer);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Seguro:");
 		lblNewLabel_5.setBounds(291, 139, 56, 16);
 		panel.add(lblNewLabel_5);
-		
+
 		txtTel = new JTextField();
 		txtTel.setBounds(291, 98, 196, 22);
 		panel.add(txtTel);
 		txtTel.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-	            char c = e.getKeyChar();
-			    if (!Character.isDigit(c) && c != '-' && c != '(' && c != ')') {
-	            	e.consume();
-	            }
+				char c = e.getKeyChar();
+				if (!Character.isDigit(c) && c != '-' && c != '(' && c != ')') {
+					e.consume();
+				}
 			}
 		});
 		txtTel.setColumns(10);
-		
+
 		txtNom = new JTextField();
 		txtNom.setBounds(47, 98, 196, 22);
 		panel.add(txtNom);
 		txtNom.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-	            char c = e.getKeyChar();
-	            if (!Character.isLetter(c)&& c != ' ') {
-	            	e.consume();
-	            }
+				char c = e.getKeyChar();
+				if (!Character.isLetter(c)&& c != ' ') {
+					e.consume();
+				}
 			}
 		});
 		txtNom.setColumns(10);
-		
+
 		txtDir = new JTextArea();
 		txtDir.setBounds(47, 326, 196, 65);
 		panel.add(txtDir);
-		
+
 		txtSeguro = new JTextField();
 		txtSeguro.setBounds(291, 174, 196, 22);
 		panel.add(txtSeguro);
 		txtSeguro.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-	            char c = e.getKeyChar();
-                if (!Character.isDigit(c)) {
-	            	e.consume();
-	            }
+				char c = e.getKeyChar();
+				if (!Character.isDigit(c)) {
+					e.consume();
+				}
 			}
 		});
 		txtSeguro.setColumns(10);
-		
+
 		txtEmail = new JTextField();
 		txtEmail.setBounds(47, 174, 196, 22);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("Altura: (cm)");
 		lblNewLabel_8.setBounds(291, 326, 78, 16);
 		panel.add(lblNewLabel_8);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("Peso: (lb)");
 		lblNewLabel_10.setBounds(291, 375, 78, 16);
 		panel.add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_11 = new JLabel("Tipo de Sangre:");
 		lblNewLabel_11.setBounds(47, 215, 196, 16);
 		panel.add(lblNewLabel_11);
-		
+
 		spnAlt = new JSpinner();
 		spnAlt.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(5)));
 		spnAlt.setBounds(413, 323, 78, 22);
 		panel.add(spnAlt);
-		
+
 		spnPes = new JSpinner();
 		spnPes.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(5)));
 		spnPes.setBounds(413, 372, 78, 22);
 		panel.add(spnPes);
-		
+
 		cmbSangre = new JComboBox<>();
 		cmbSangre.setBounds(47, 250, 196, 22);
 		panel.add(cmbSangre);
@@ -259,63 +259,63 @@ public class RegConsulta extends JDialog {
 		cmbSangre.addItem("A-");
 		cmbSangre.addItem("B+");
 		cmbSangre.addItem("B-");
-		
-		
+
+
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Consulta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBounds(12, 439, 538, 278);
 		contentPanel.add(panel_2);
 		panel_2.setLayout(null);
-		
+
 		PanEnf = new JPanel();
 		PanEnf.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Enfermo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		PanEnf.setBounds(36, 89, 226, 74);
 		panel_2.add(PanEnf);
 		PanEnf.setLayout(null);
 		PanEnf.setVisible(false);
-		
+
 		cmbEnf = new JComboBox<>();
 		cmbEnf.setBounds(14, 27, 196, 22);
 		PanEnf.add(cmbEnf);
 		cmbEnf.addItem("<Seleccione>");
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Codigo:");
 		lblNewLabel_6.setBounds(50, 17, 56, 16);
 		panel_2.add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Doctor:");
 		lblNewLabel_7.setBounds(292, 17, 56, 16);
 		panel_2.add(lblNewLabel_7);
-		
+
 		txtDoctor = new JTextField();
 		txtDoctor.setEditable(false);
 		txtDoctor.setText(miDoc.getNombre());
 		txtDoctor.setBounds(292, 50, 196, 22);
 		panel_2.add(txtDoctor);
 		txtDoctor.setColumns(10);
-		
+
 		txtCodigoCons = new JTextField();
 		txtCodigoCons.setEditable(false);
 		txtCodigoCons.setColumns(10);
 		txtCodigoCons.setBounds(50, 50, 196, 22);
 		panel_2.add(txtCodigoCons);
 		txtCodigoCons.setText("C-"+Clinica.getInstance().getcodCons());
-		
+
 		JLabel lblNewLabel_9 = new JLabel("Diagnostico:");
 		lblNewLabel_9.setBounds(50, 165, 120, 16);
 		panel_2.add(lblNewLabel_9);
-		
+
 		txtDiag = new JTextArea();
 		txtDiag.setBounds(50, 194, 438, 64);
 		panel_2.add(txtDiag);
-		
+
 		panelVac = new JPanel();
 		panelVac.setBorder(new TitledBorder(null, "Vacuna", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelVac.setBounds(274, 89, 226, 74);
 		panel_2.add(panelVac);
 		panelVac.setLayout(null);
 		panelVac.setVisible(false);
-		
+
 		cmbVac = new JComboBox<>();
 		cmbVac.setBounds(18, 27, 196, 22);
 		panelVac.add(cmbVac);
@@ -325,11 +325,11 @@ public class RegConsulta extends JDialog {
 				cmbVac.addItem(aux.getNombre());
 			}	
 		}
-		
+
 		rdbVacuna = new JRadioButton("Vacunado");
 		rdbVacuna.setBounds(292, 121, 196, 25);
 		panel_2.add(rdbVacuna);
-		
+
 		rdbEnf = new JRadioButton("Esta Enfermo");
 		rdbEnf.addMouseListener(new MouseAdapter() {
 			@Override
@@ -349,7 +349,7 @@ public class RegConsulta extends JDialog {
 		});
 		rdbEnf.setBounds(50, 85, 127, 25);
 		panel_2.add(rdbEnf);
-		
+
 		rdbSano = new JRadioButton("Esta Sano");
 		rdbSano.addMouseListener(new MouseAdapter() {
 			@Override
@@ -357,21 +357,19 @@ public class RegConsulta extends JDialog {
 				rdbSano.setVisible(false);
 				rdbEnf.setVisible(false);
 				PanEnf.setVisible(true);
-				pac = (Paciente)Clinica.getInstance().buscarPersonaByCodigo(txtCedPaciente.getText());
+				pac = (Paciente)Clinica.getInstance().buscarPersonaByCedula(txtCedPaciente.getText());
 				cmbEnf.removeAllItems();
 				cmbVac.setSelectedIndex(0);
 				cmbEnf.addItem("<Selected>");
 				try {
 					for (Enfermedad aux : pac.getHist().getMisEnfermedades()){
-						if(aux != null) {
-							cmbEnf.addItem(aux.getNombre());
-						}
+						cmbEnf.addItem(aux.getNombre());
 					}
 
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
-							}
+			}
 		});
 		rdbSano.setBounds(50, 121, 127, 25);
 		panel_2.add(rdbSano);
@@ -390,21 +388,21 @@ public class RegConsulta extends JDialog {
 			{
 				JButton okButton = new JButton("Registrar");
 				okButton.addMouseListener(new MouseAdapter() {
-				    @Override
-				    public void mouseClicked(MouseEvent e) {
-				        String cedula = txtCedPaciente.getText();
-				        Paciente paciente = searchOrCreatePatient(cedula);
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						String cedula = txtCedPaciente.getText();
+						Paciente paciente = searchOrCreatePatient(cedula);
 
-				        if (paciente != null) {
-				            // If patient exists, update their information
-				            registerConsulta(paciente);
+						if (paciente != null) {
+							// If patient exists, update their information
+							registerConsulta(paciente);
 
-				        } else {
-				            JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
-				        }
-				    }
+						} else {
+							JOptionPane.showMessageDialog(null, "Consulta No Pudo Ser Registrada", "Consulta Fallida", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
 				});
-				
+
 				btnHistorial = new JButton("Ver Historial");
 				btnHistorial.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -427,7 +425,7 @@ public class RegConsulta extends JDialog {
 						dispose();
 					}
 				});
-				
+
 				JButton btnNewButton_1 = new JButton("Undo Consulta");
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -441,21 +439,8 @@ public class RegConsulta extends JDialog {
 		}
 	}
 
-	protected void PacUpdate() {
-		pac.setNombre(txtNom.getText());
-		pac.setDir(txtDir.getText());
-		pac.setTelefono(txtTel.getText());
-		pac.setCorreoElectronico(txtEmail.getText());
-		pac.setSeguro(txtSeguro.getText());
-		if(rdbHombre.isSelected()) {
-			pac.setSexo('H');
-		} else {
-			pac.setSexo('M');
-		}
-		Clinica.getInstance().modificarPersona(pac);
-	}
 	
-	
+
 
 	protected void loadPaciente(Paciente paci) {
 		txtCedPaciente.setText(paci.getCedula());
@@ -476,96 +461,78 @@ public class RegConsulta extends JDialog {
 		spnAlt.setValue(paci.getAltura());
 		spnPes.setValue(paci.getPeso());
 		cmbSangre.setSelectedItem(paci.getTipoSangre());
-		
+
 	}
 	private Paciente searchOrCreatePatient(String cedula) {
-	    Paciente paciente = (Paciente) Clinica.getInstance().buscarPersonaByCedula(cedula);
+		Paciente paciente = (Paciente) Clinica.getInstance().buscarPersonaByCedula(cedula);
 
-	    if (paciente == null) {
-	        char sex = rdbHombre.isSelected() ? 'H' : 'M';
-	        paciente = new Paciente(cedula, txtNom.getText(), txtDir.getText(), "P-" + Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText(), (int)spnPes.getValue(), (int)spnAlt.getValue(), cmbSangre.getSelectedItem().toString());
-	        Clinica.getInstance().agregarPersona(paciente);
-	    }
+		if (paciente == null) {
+			char sex = rdbHombre.isSelected() ? 'H' : 'M';
+			paciente = new Paciente(cedula, txtNom.getText(), txtDir.getText(), "P-" + Clinica.getInstance().getcodPers(), txtTel.getText(), sex, txtEmail.getText(), txtSeguro.getText(), (int)spnPes.getValue(), (int)spnAlt.getValue(), cmbSangre.getSelectedItem().toString());
+			Clinica.getInstance().agregarPersona(paciente);
+		}
 
-	    return paciente;
+		return paciente;
 	}
 
-	private void updatePatient(Paciente paciente, Vacuna vac, Enfermedad enf, String status) {
-	    paciente.setNombre(txtNom.getText());
-	    paciente.setDir(txtDir.getText());
-	    paciente.setTelefono(txtTel.getText());
-	    paciente.setCorreoElectronico(txtEmail.getText());
-	    paciente.setSeguro(txtSeguro.getText());
-	    paciente.setSexo(rdbHombre.isSelected() ? 'H' : 'M');
-	    if(vac != null) {
-	    	try {
-				paciente.getHist().addMisVacunas(vac);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-	    }
-	    if(enf != null) {
-	    	try {
-		    	if(status.equalsIgnoreCase("Enfermo")) {
-					paciente.getHist().addMisEnfermedades(enf);
-		    	} else if (status.equalsIgnoreCase("Sano")) {
-					paciente.getHist().eliminarMisEnfermedades(enf);
-		    	}
-			} catch (Exception e) {
-			}
-	    }
-	    paciente.setAltura((int)spnAlt.getValue());
+	private void updatePatient(Paciente paciente) {
+		paciente.setNombre(txtNom.getText());
+		paciente.setDir(txtDir.getText());
+		paciente.setTelefono(txtTel.getText());
+		paciente.setCorreoElectronico(txtEmail.getText());
+		paciente.setSeguro(txtSeguro.getText());
+		paciente.setSexo(rdbHombre.isSelected() ? 'H' : 'M');
+		paciente.setAltura((int)spnAlt.getValue());
 		paciente.setPeso((int)spnPes.getValue());
 		paciente.setTipoSangre(cmbSangre.getSelectedItem().toString());
-	    Clinica.getInstance().modificarPersona(paciente);
+		Clinica.getInstance().modificarPersona(paciente);
 	}
 
 
 	private void registerConsulta(Paciente paciente) {
-	    Doctor doctor = miDoc;
-	    Enfermedad enfermedad = null;
-	    Vacuna vacuna = null;
-	    if(encontrado || !verificarCedulaRepetida(txtCedPaciente.getText()) && doctor != null) {
-	    	if (rdbEnf.isSelected() || rdbSano.isSelected()) {
-		        enfermedad = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
-		    }
+		Doctor doctor = miDoc;
+		Enfermedad enfermedad = null;
+		Vacuna vacuna = null;
+		if(encontrado || !verificarCedulaRepetida(txtCedPaciente.getText()) && doctor != null) {
+			if (rdbEnf.isSelected() || rdbSano.isSelected()) {
+				enfermedad = Clinica.getInstance().buscarEnfermedadByNom(cmbEnf.getSelectedItem().toString());
+			}
 
-		    if (rdbVacuna.isSelected()) {
-		        vacuna = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
-		    }
+			if (rdbVacuna.isSelected()) {
+				vacuna = Clinica.getInstance().buscarVacunaByNom(cmbVac.getSelectedItem().toString());
+			}
 
-		    String status = "Investigando";
+			String status = "Investigando";
 
-		    if (enfermedad != null) {
-		        if (rdbEnf.isSelected()) {
-		            status = "Enfermo";
-		            paciente.getHist().addMisEnfermedades(enfermedad);
-		        } else if (rdbSano.isSelected()) {
-		            status = "Sano";
-		            paciente.getHist().eliminarMisEnfermedades(enfermedad);
-		        }
-		    }
+			if (enfermedad != null) {
+				if (rdbEnf.isSelected()) {
+					status = "Enfermo";
+					paciente.getHist().addMisEnfermedades(enfermedad);
+				} else if (rdbSano.isSelected()) {
+					status = "Sano";
+					paciente.getHist().eliminarMisEnfermedades(enfermedad);
+				}
+			}
 
-		    Consulta consulta = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enfermedad, paciente,miDoc, status, vacuna);
+			Consulta consulta = new Consulta(txtCodigoCons.getText(), txtDiag.getText(), enfermedad, paciente,miDoc, status, vacuna);
 
-		    int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
-		    if (option == JOptionPane.OK_OPTION) {
-		        paciente.getHist().addMisConsultas(consulta);
-		    }
+			int option = JOptionPane.showConfirmDialog(null, "Desea agregar la consulta al historial del paciente?", "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+			if (option == JOptionPane.OK_OPTION) {
+				paciente.getHist().addMisConsultas(consulta);
+			}
 
-	        updatePatient(paciente, vacuna, enfermedad, status);
-		    Clinica.getInstance().agregarConsulta(consulta);
+			updatePatient(paciente);
+			Clinica.getInstance().agregarConsulta(consulta);
 
-		    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
 
-		    Clean();
+			Clean();
 
-	    }else {
-		    JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
-	    }
-	    	}
-	
+		}else {
+			JOptionPane.showMessageDialog(null, "Consulta Registrada Exitosamente", "Consulta", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
 	private void Clean() {
 		txtCedPaciente.setText("");
 		txtCodigoCons.setText("C-"+Clinica.getInstance().getcodCons());
@@ -589,9 +556,9 @@ public class RegConsulta extends JDialog {
 		PanEnf.setVisible(false);
 		btnHistorial.setEnabled(false);
 		pac = null;
-		
+
 	}
-	
+
 	private void cleanConsu() {
 		txtDiag.setText("");
 		txtDoctor.setText(miDoc.getNombre());
@@ -606,16 +573,16 @@ public class RegConsulta extends JDialog {
 		PanEnf.setVisible(false);
 		btnHistorial.setEnabled(false);
 	}
-	
+
 	public boolean verificarCedulaRepetida(String cedula) {
-	    for (Persona persona : Clinica.getInstance().getMisPersonas()) {
-	        if (persona.getCedula().equals(txtCedPaciente.getText())) {
-	        	return true;
-	        }else {
-	        	return false;
-	        }
-	    }
-	    return true; // The cedula is not repeated.
+		for (Persona persona : Clinica.getInstance().getMisPersonas()) {
+			if (persona.getCedula().equals(txtCedPaciente.getText())) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		return true; // The cedula is not repeated.
 	}
 }
 
