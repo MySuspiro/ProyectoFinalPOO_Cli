@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
 import org.jfree.chart.ChartFactory;
@@ -459,13 +460,19 @@ public class Principal extends JFrame {
 						}
 						SalidaSocket.flush();
 						System.out.println("Respaldo enviado correctamente.");
+						JOptionPane.showMessageDialog(null, "Respaldo enviado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
 					} catch (IOException eo) {
 						System.out.println("Error al enviar el respaldo: " + eo.getMessage());
+						JOptionPane.showMessageDialog(null, "Error al enviar el respaldo: " + eo.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (UnknownHostException uhe) {
 					System.out.println("No se puede acceder al servidor.");
+					JOptionPane.showMessageDialog(null, "No se puede acceder al servidor", "Error", JOptionPane.ERROR_MESSAGE);
 				} catch (IOException ioe) {
 					System.out.println("Comunicación rechazada.");
+					JOptionPane.showMessageDialog(null, "Comunicación rechazada.", "Error", JOptionPane.ERROR_MESSAGE);
+					
 				} finally {
 					try {
 						if (sfd != null) sfd.close();

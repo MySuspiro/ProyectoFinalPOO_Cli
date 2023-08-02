@@ -131,7 +131,28 @@ public class ListarDoctor extends JDialog {
 							if (option== JOptionPane.OK_OPTION  ) {
 
 									Clinica.getInstance().eliminarPersona(selected);
-									//Clinica.getInstance().eliminarUser(selected);
+									
+									//NUEVO
+									for (User user : Clinica.getInstance().getMisUsers()) {
+									    System.out.println("Current User: " + user);
+
+									    if (user != null) {
+									        System.out.println("User's Persona: " + user.getPersona());
+
+									        if (user.getPersona() != null && selected != null) {
+									            if (user.getPersona().getCodigo().equalsIgnoreCase(selected.getCodigo())) {
+									            	Clinica.getInstance().eliminarUser(user);
+									            }
+									        } else {
+									            System.out.println("Either user.getPersona() or miDoctor is null.");
+									        }
+									    } else {
+									        System.out.println("User is null.");
+									    }
+									}
+
+									//
+									
 									btnEliminar.setEnabled(false);
 									btnUpdate.setEnabled(false);
 									loadDoctores();
