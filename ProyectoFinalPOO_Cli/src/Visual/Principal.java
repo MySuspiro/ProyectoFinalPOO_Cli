@@ -25,6 +25,7 @@ import javafx.scene.chart.NumberAxis;
 import logico.Clinica;
 import logico.Doctor;
 import logico.Enfermedad;
+import logico.Persona;
 import logico.Vacuna;
 
 import java.awt.FlowLayout;
@@ -73,6 +74,9 @@ public class Principal extends JFrame {
 	private static JFreeChart chartVac;
 	private ChartPanel chartVacPanel;
 	private static DefaultCategoryDataset datasetVac;
+	private static JFreeChart chartDoc;
+	private ChartPanel chartDocPanel;
+	private static DefaultCategoryDataset datasetDoc;
 
 
 
@@ -189,8 +193,8 @@ public class Principal extends JFrame {
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Clinica.getLoginUser().getTipo().equalsIgnoreCase("Doctor") ){
-					Doctor doc=Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
-					RegConsulta regConsul= new RegConsulta(doc);
+					Doctor doc = Clinica.getInstance().buscarDoctorByUser(Clinica.getLoginUser().getPersona().getCodigo());
+					RegConsulta2 regConsul= new RegConsulta2();
 					regConsul.setModal(true);
 					regConsul.setVisible(true);
 				}else {
@@ -497,6 +501,7 @@ public class Principal extends JFrame {
 		initVac();
 		initEnfV();
 		initEnf();
+		initCitaXDoc();
 	}
 
 	public void initVac() {
@@ -518,7 +523,7 @@ public class Principal extends JFrame {
 	    // Mostrar Grafico
 	    chartVacPanel = new ChartPanel(chartVac);
 	    getContentPane().add(chartVacPanel);
-	    chartVacPanel.setBounds(119, 470, 778, 471);
+	    chartVacPanel.setBounds(12, 470, 877, 471);
 	}
 
 	
@@ -540,7 +545,7 @@ public class Principal extends JFrame {
 		// Mostrar Grafico
 		chartEnfVPanel = new ChartPanel(chartEnfV);
 		getContentPane().add(chartEnfVPanel);
-		chartEnfVPanel.setBounds(1016, 470, 778, 471);
+		chartEnfVPanel.setBounds(12, 13, 877, 444);
 	}
 	
 	public void initEnf() {
@@ -559,8 +564,30 @@ public class Principal extends JFrame {
 		// Mostrar Grafico
 		chartEnfPanel = new ChartPanel(chartEnf);
 		getContentPane().add(chartEnfPanel);
-		chartEnfPanel.setBounds(632, 13, 650, 408);
+		chartEnfPanel.setBounds(1025, 13, 877, 444);
 	}
+	
+	public void initCitaXDoc() {
+		// Fuente de Datos
+		datasetDoc = new DefaultCategoryDataset();
+		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
+			if(aux instanceof Doctor) {
+				datasetDoc.setValue(Clinica.getInstance().CantCitasXDoc((Doctor)aux), "", aux.getNombre());
+			}
+		}
+
+		// Creando el Grafico
+		chartDoc = ChartFactory.createBarChart3D("Doctores X Citas", "Doctores", "Cantidad de Citas",
+				datasetDoc, PlotOrientation.VERTICAL, false, false, false);
+		
+		
+		// Mostrar Grafico
+		chartDocPanel = new ChartPanel(chartDoc);
+		getContentPane().add(chartDocPanel);
+		chartDocPanel.setBounds(1025, 470, 877, 471);
+	}
+	
+	
 
 	// Método para actualizar el gráfico con nuevos datos
 	public static void UpdateGraphs() {
@@ -590,6 +617,16 @@ public class Principal extends JFrame {
 		datasetEnf.setValue("Pacientes Sanos", Clinica.getInstance().CantPacientes()-CantEnf);
 		// Actualizar datos del gráfico
 		chartEnfPanel.repaint();
+		
+		// Actualizar datos del gráfico
+		datasetDoc.clear();
+		for (Persona aux : Clinica.getInstance().getMisPersonas()) {
+			if(aux instanceof Doctor) {
+				datasetDoc.setValue(Clinica.getInstance().CantCitasXDoc((Doctor)aux), "", aux.getNombre());
+			}
+		}
+		chartDoc.getCategoryPlot().setDataset(datasetDoc);
+
 		
 	}
 }

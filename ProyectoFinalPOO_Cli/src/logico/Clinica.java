@@ -549,6 +549,21 @@ public class Clinica implements Serializable{
 		return count;
 	}
 	
+	public int CantCitasXDoc(Doctor doc) {
+		int count = 0;
+		try {
+			for (CitaMedica aux : misCitas) {
+				if(aux.getDoctor().getNombre().equalsIgnoreCase(doc.getNombre())) {
+					count++;
+				}
+			}
+		} catch (Exception e) {
+		
+		}
+		
+		return count;
+	}
+	
 
 	public String getcodHist() {
 		String mayor = "1000";

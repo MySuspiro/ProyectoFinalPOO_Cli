@@ -44,6 +44,8 @@ public class PacienteHistorial2 extends JDialog {
 	private JTextField txtCodigo;
 	private JTextField txtPaciente;
 	private JTable tablevac;
+	private JTextField txtTipoSangre;
+	private JTextField txtObesi;
 
 	/**
 	 * Launch the application.
@@ -117,7 +119,7 @@ public class PacienteHistorial2 extends JDialog {
 							loadConsultas(nombreBuscado);*/	
 							loadConsultas(pac);
 						}
-						
+
 					}
 				});
 				btnBuscar.setBounds(556, 26, 97, 25);
@@ -152,22 +154,42 @@ public class PacienteHistorial2 extends JDialog {
 				lblVacunas.setBounds(12, 431, 97, 16);
 				panel.add(lblVacunas);
 			}
-			
+
 			JPanel panel_1 = new JPanel();
-			panel_1.setBounds(12, 460, 650, 129);
+			panel_1.setBounds(12, 460, 412, 148);
 			panel.add(panel_1);
 			panel_1.setLayout(new BorderLayout(0, 0));
-			
+
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panel_1.add(scrollPane, BorderLayout.CENTER);
-			
+
 			tablevac = new JTable();
 			modelo2= new DefaultTableModel();
 			String[] headers2 = {"Nombre", "Descripción", "Enfermedad"};
 			modelo2.setColumnIdentifiers(headers2);
 			tablevac.setModel(modelo2);
 			scrollPane.setViewportView(tablevac);
+
+			txtTipoSangre = new JTextField();
+			txtTipoSangre.setEditable(false);
+			txtTipoSangre.setBounds(472, 493, 161, 22);
+			panel.add(txtTipoSangre);
+			txtTipoSangre.setColumns(10);
+
+			JLabel lblNewLabel_1 = new JLabel("IMC:");
+			lblNewLabel_1.setBounds(472, 553, 161, 16);
+			panel.add(lblNewLabel_1);
+
+			JLabel lblNewLabel_2 = new JLabel("Tipo de Sangre:");
+			lblNewLabel_2.setBounds(472, 460, 161, 16);
+			panel.add(lblNewLabel_2);
+
+			txtObesi = new JTextField();
+			txtObesi.setEditable(false);
+			txtObesi.setBounds(472, 586, 161, 22);
+			panel.add(txtObesi);
+			txtObesi.setColumns(10);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -185,7 +207,7 @@ public class PacienteHistorial2 extends JDialog {
 			}
 		}
 	}
-	
+
 	//private void loadConsultas(String clienteBuscado) {
 	private void loadConsultas(Paciente clienteBuscado) {
 
@@ -197,66 +219,80 @@ public class PacienteHistorial2 extends JDialog {
 		//historial = Clinica.getInstance().buscarHistorialByCedula(txtCedula.getText());
 		//System.out.println("Valor de historial: " + historial.getCodigo());
 		//JOptionPane.showMessageDialog(null, "Llegue aqui", "Error", JOptionPane.ERROR_MESSAGE);
-		
+
 		if (historial!=null) 
 		{
 			//JOptionPane.showMessageDialog(null, "Encontre Historial", "Error", JOptionPane.ERROR_MESSAGE);
-			 boolean coincidencia=false;
-			 ArrayList<Consulta> misConsultas = historial.getMisConsultas();
-			 ArrayList<Vacuna> misVacunas = historial.getMisVacunas();
-			 paciente=(Paciente) Clinica.getInstance().buscarPersonaByCedula(txtCedula.getText());
-		     txtPaciente.setText(paciente.getNombre());
-		     txtCodigo.setText(historial.getCodigo());
+			boolean coincidencia=false;
+			ArrayList<Consulta> misConsultas = historial.getMisConsultas();
+			ArrayList<Vacuna> misVacunas = historial.getMisVacunas();
+			paciente=(Paciente) Clinica.getInstance().buscarPersonaByCedula(txtCedula.getText());
+			txtPaciente.setText(paciente.getNombre());
+			txtCodigo.setText(historial.getCodigo());
+			txtTipoSangre.setText(paciente.getTipoSangre());
+			float obesi = 0;
+			txtObesi.setText("");
+			obesi = ((float)clienteBuscado.getPeso()/2.205f)/(float)(Math.pow((float)clienteBuscado.getAltura()/100f, 2));
+			if(obesi<18.50) {
+				txtObesi.setText("Bajo peso"); 
+			} else if(obesi<24.9) {
+				txtObesi.setText("Normal"); 
+			}else if(obesi<29.9) {
+				txtObesi.setText("Sobrepeso"); 
+			}else {
+				txtObesi.setText("Obesidad"); 
+			}
 
-			 for (Consulta consulta : misConsultas) {
-			        if (consulta.getPaciente().getCedula().equals(paciente.getCedula())) {
-						row[0]=consulta.getFechaConsulta();
-						row[1]=consulta.getDiagnostico();
-						if (consulta.getEnfermedad()!=null)
-						{
-							row[2]=consulta.getEnfermedad().getNombre();
-							
-						}else
-						{
-							row[2]=" ";
-						}
-			            modelo.addRow(row);
-			            coincidencia=true;
-			        }
-			    }
-			 
-			 for (Vacuna vacuna : misVacunas) {
-				 if (vacuna!=null)
-				 {
-						row2[0]=vacuna.getNombre();
-						row2[1]=vacuna.getDescripcion();
-						row2[2]=vacuna.getEnf().getNombre();
-			            modelo2.addRow(row2);
-					 
-				 }
-				 else
-				 {
-						row2[0]=" ";
-						row2[1]=" ";
-						row2[2]=" ";
-			            modelo2.addRow(row2);
-					 
-				 }
 
-			            coincidencia=true;
-			        
-			        }
-			    
-			    if(!coincidencia)
-			    {
-			    	 JOptionPane.showMessageDialog(null, "No existe Historial", "Error", JOptionPane.ERROR_MESSAGE);
-			    }
-			    
-			
+			for (Consulta consulta : misConsultas) {
+				if (consulta.getPaciente().getCedula().equals(paciente.getCedula())) {
+					row[0]=consulta.getFechaConsulta();
+					row[1]=consulta.getDiagnostico();
+					if (consulta.getEnfermedad()!=null)
+					{
+						row[2]=consulta.getEnfermedad().getNombre();
+
+					}else
+					{
+						row[2]=" ";
+					}
+					modelo.addRow(row);
+					coincidencia=true;
+				}
+			}
+
+			for (Vacuna vacuna : misVacunas) {
+				if (vacuna!=null)
+				{
+					row2[0]=vacuna.getNombre();
+					row2[1]=vacuna.getDescripcion();
+					row2[2]=vacuna.getEnf().getNombre();
+					modelo2.addRow(row2);
+
+				}
+				else
+				{
+					row2[0]=" ";
+					row2[1]=" ";
+					row2[2]=" ";
+					modelo2.addRow(row2);
+
+				}
+
+				coincidencia=true;
+
+			}
+
+			if(!coincidencia)
+			{
+				JOptionPane.showMessageDialog(null, "No existe Historial", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+
+
 		}
-     else {
-        JOptionPane.showMessageDialog(null, "No existe Historial", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-			
+		else {
+			JOptionPane.showMessageDialog(null, "No existe Historial", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+
 	}
 }

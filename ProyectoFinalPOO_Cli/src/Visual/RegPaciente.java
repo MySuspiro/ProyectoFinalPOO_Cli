@@ -249,10 +249,10 @@ public class RegPaciente extends JDialog {
 									sexo='M';
 									}
 									
-									Paciente paciente = new Paciente(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtCorreoE.getText(),txtSeguro.getText());
-									Clinica.getInstance().agregarPersona(paciente);
+									//Paciente paciente = new Paciente(txtCedula.getText(),txtNombre.getText(),txtDireccion.getText(),txtCodigo.getText(),txtTelefono.getText(),sexo,txtCorreoE.getText(),txtSeguro.getText());
+									//Clinica.getInstance().agregarPersona(paciente);
 									Historial hist = new Historial(txtCedula.getText());
-									paciente.setHist(hist);
+									//paciente.setHist(hist);
 									Clinica.getInstance().agregarHistorial(hist);
 									JOptionPane.showMessageDialog(null,"Operación satisfactoria","Registro", JOptionPane.INFORMATION_MESSAGE);
 									//dispose();
