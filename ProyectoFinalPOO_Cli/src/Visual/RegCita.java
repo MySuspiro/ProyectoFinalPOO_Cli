@@ -139,7 +139,7 @@ public class RegCita extends JDialog {
 		                //
 		                
 		                
-		                if (doc != null && miCita == null && doctorTieneCita(doc, fech, cbxHora.getSelectedItem().toString()) == false
+		                if (doc != null && miCita == null && doctorTieneCita(doc, fech, cbxHora.getSelectedItem().toString(),miCita) == false
 		                	    && cbxHora.getSelectedIndex() != 0
 		                	    && !txtNomPaciente.getText().isEmpty() 
 		                	    && !txtCedPaciente.getText().isEmpty() 
@@ -149,7 +149,7 @@ public class RegCita extends JDialog {
 							
 							JOptionPane.showMessageDialog(null, "Cita Agendada Exitosamente", "Agenda", JOptionPane.INFORMATION_MESSAGE);
 							Clean();
-						} else if ( miCita != null && doctorTieneCita(doc,fech,cbxHora.getSelectedItem().toString())==false) {
+						} else if ( miCita != null && doctorTieneCita(doc,fech,cbxHora.getSelectedItem().toString(),miCita)==false) {
 							System.out.println("toy aqui" );
 							
 							miCita.setNomPaciente(txtNomPaciente.getText());
@@ -315,7 +315,7 @@ public class RegCita extends JDialog {
 	    }
 	}
 	
-	public boolean doctorTieneCita(Doctor doctor, Date fecha, String hora) {
+	/*public boolean doctorTieneCita(Doctor doctor, Date fecha, String hora) {
 	    Calendar calendarFecha = Calendar.getInstance();
 	    calendarFecha.setTime(fecha);
 
@@ -336,6 +336,31 @@ public class RegCita extends JDialog {
 	    }
 
 	    return false; // El doctor no tiene una cita en el mismo día y hora
+	}*/
+	
+	public boolean doctorTieneCita(Doctor doctor, Date fecha, String hora, CitaMedica citaModificar) {
+	    Calendar calendarFecha = Calendar.getInstance();
+	    calendarFecha.setTime(fecha);
+
+	    for (CitaMedica cita : Clinica.getInstance().getMisCitas()) {
+	        // Excluir la cita que se está modificando de la comparación
+	        if (cita != citaModificar && cita.getDoctor().equals(doctor)) {
+	            Date citaFecha = cita.getFecha();
+	            Calendar calendarCitaFecha = Calendar.getInstance();
+	            calendarCitaFecha.setTime(citaFecha);
+
+	           
+	            if (calendarCitaFecha.get(Calendar.YEAR) == calendarFecha.get(Calendar.YEAR)
+	                && calendarCitaFecha.get(Calendar.MONTH) == calendarFecha.get(Calendar.MONTH)
+	                && calendarCitaFecha.get(Calendar.DAY_OF_MONTH) == calendarFecha.get(Calendar.DAY_OF_MONTH)
+	                && cita.getHora().equals(hora)) {
+	                return true; // El doctor ya tiene una cita en el mismo día y hora
+	            }
+	        }
+	    }
+
+	    return false; // El doctor no tiene una cita en el mismo día y hora
 	}
+
 
 }
