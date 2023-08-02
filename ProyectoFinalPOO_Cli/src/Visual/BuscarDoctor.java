@@ -166,7 +166,7 @@ public class BuscarDoctor extends JDialog {
 	    
 	    if(!coincidencia)
 	    {
-	    	JOptionPane.showMessageDialog(null, "Paciente no encontrado", "Pacientes", JOptionPane.INFORMATION_MESSAGE);
+	    	JOptionPane.showMessageDialog(null, "Doctor no encontrado", "Doctores", JOptionPane.INFORMATION_MESSAGE);
 	    		
 	    }
 	}

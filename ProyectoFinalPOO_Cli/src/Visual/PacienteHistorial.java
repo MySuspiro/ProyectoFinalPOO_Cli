@@ -189,7 +189,7 @@ public class PacienteHistorial extends JDialog {
 		modelo2.setRowCount(0);
 		row2= new Object[table.getColumnCount()];
 		historial = clienteBuscado.getHist();
-		txtTipoSangre.setText(" ");
+		txtTipoSangre.setText(clienteBuscado.getTipoSangre());
 		float obesi = 0;
 		txtObesi.setText("");
 		//peso (kg) / [estatura (m)]2
