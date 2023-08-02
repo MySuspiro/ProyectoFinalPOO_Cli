@@ -106,9 +106,40 @@ public class RegCita3 extends JDialog {
 			                   
 			                }
 			                
+			                //NUEVO
+			                
+			             
+			                String horaSeleccionada = cbxHora.getSelectedItem().toString();
+			                String[] partesHora = horaSeleccionada.split(" : ");
+			                int hora = Integer.parseInt(partesHora[0]);
+			                int minutos = Integer.parseInt(partesHora[1]);
+
+			                // Establecer la hora seleccionada en la fecha
+			                Calendar calendario = Calendar.getInstance();
+			                calendario.setTime(fech);
+			                calendario.set(Calendar.HOUR_OF_DAY, hora);
+			                calendario.set(Calendar.MINUTE, minutos);
+
+			                // Obtener la fecha actual 
+			                Calendar calendarioActual = Calendar.getInstance();
+			                calendarioActual.set(Calendar.HOUR_OF_DAY, 0);
+			                calendarioActual.set(Calendar.MINUTE, 0);
+			                calendarioActual.set(Calendar.SECOND, 0);
+			                calendarioActual.set(Calendar.MILLISECOND, 0);
+
+			                // Comparar la fecha y hora seleccionadas con la fecha y hora actual
+			                Date fechaHoraSeleccionada = calendario.getTime();
+			                Date fechaActual = calendarioActual.getTime();
+			                if (fechaHoraSeleccionada.before(fechaActual)) {
+			                    JOptionPane.showMessageDialog(null, "No se puede agendar una cita en una fecha y hora anterior a la actual.", "Error", JOptionPane.ERROR_MESSAGE);
+			                    return;
+			                }
+			                
+			                //
+			                
 
 						System.out.println("toy aqui1" );
-						if(selected !=null && miCita == null && doctorTieneCita(selected,fech,cbxHora.getSelectedItem().toString())==false) {
+						if(selected !=null && miCita == null && doctorTieneCita(selected,fech,cbxHora.getSelectedItem().toString())==false ) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(),selected, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							

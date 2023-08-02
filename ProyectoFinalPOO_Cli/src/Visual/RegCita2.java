@@ -94,7 +94,7 @@ public class RegCita2 extends JDialog {
 						    System.out.println("Doctor is null.");
 						}
 						System.out.println("toy aqui1" );
-						if(cbxDoc.getSelectedIndex() != 0 && miCita == null) {
+						if(cbxDoc.getSelectedIndex() != 0 && miCita == null && cbxHora.getSelectedIndex()!=0 && !txtNomPaciente.getText().isEmpty() && !txtCedPaciente.getText().isEmpty()) {
 							CitaMedica cita = new CitaMedica(txtCod.getText(), txtCedPaciente.getText(), txtNomPaciente.getText(), doc, cbxHora.getSelectedItem().toString(), fech);
 							Clinica.getInstance().agregarCita(cita);
 							
